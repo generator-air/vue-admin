@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import App from './App.vue'
+import $vue from 'vue'
+import $app from '@/App.vue'
 
-Vue.config.productionTip = false
+$vue.config.productionTip = false
 
-new Vue({
-  render: h => h(App),
+new $vue({
+  render: h => h($app),
 }).$mount('#app')
