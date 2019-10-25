@@ -1,8 +1,12 @@
-import $vue from 'vue'
-import $app from '@/App.vue'
+import $vue from 'vue';
+import $ElementUI from 'element-ui';
+import $App from '@/App.vue';
+import 'element-ui/lib/theme-chalk/index.css';
 
-$vue.config.productionTip = false
+
+$vue.use($ElementUI);
 
 new $vue({
-  render: h => h($app),
-}).$mount('#app')
+  el: '#app',
+  render: h => h($App)
+});
