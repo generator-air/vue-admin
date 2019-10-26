@@ -1,4 +1,4 @@
-import * as $emonitor from '@tencent/emonitor'
+import * as $emonitor from '@tencent/emonitor';
 
 const install = function (Vue) {
 	Object.defineProperties(Vue.prototype, {
@@ -28,42 +28,42 @@ const install = function (Vue) {
 								sampling: 1 // 默认采样率 可根据实际情况调整
 							},
 							logs: {
-							baseUrl: bossInfo.flowlog,
+								baseUrl: bossInfo.flowlog,
 							},
 						});
 						setTimeout(()=> {
 							// 慢日志上报
 							if (!isTimingReported) {
-							const _resources = $emonitor.getRcTiming();
-							try {
-								if (nativeToString.call(_resources) === '[object Array]') {
-								const _resourcesLen = _resources.length;
-								const _jsonEntries = [];
-								for (let _i = 0; _i < _resourcesLen; _i++) {
-									_jsonEntries.push(
-									_resources[_i].starttime +
-										'|' +
-										_resources[_i].duration +
-										'|' +
-										_resources[_i].name
-									);
-								}
-								emonitorIns
-									.config({
-									baseUrl: bossInfo.slowlog
-									})
-									.send(
-									{
-										json_entries: JSON.stringify(_jsonEntries)
-									},
-									true
-									);
-								emonitorIns.config({
-									baseUrl: bossInfo.error
-								});
-								}
-							} catch (err) {
-								console.warn('emonitorIns send', err);
+								const _resources = $emonitor.getRcTiming();
+								try {
+									if (nativeToString.call(_resources) === '[object Array]') {
+										const _resourcesLen = _resources.length;
+										const _jsonEntries = [];
+										for (let _i = 0; _i < _resourcesLen; _i++) {
+											_jsonEntries.push(
+											_resources[_i].starttime +
+												'|' +
+												_resources[_i].duration +
+												'|' +
+												_resources[_i].name
+											);
+										}
+										emonitorIns
+											.config({
+												baseUrl: bossInfo.slowlog
+											})
+											.send(
+											{
+												json_entries: JSON.stringify(_jsonEntries)
+											},
+											true
+										);
+										emonitorIns.config({
+											baseUrl: bossInfo.error
+										});
+									}
+								} catch (err) {
+									console.warn('emonitorIns send', err);
 								}
 							}
 						}, _MAXTIMEOUT);
@@ -72,17 +72,17 @@ const install = function (Vue) {
 							() => {
 							setTimeout(()=> {
 								if (!isTimingReported) {
-									emonitorIns
-									.config({
-										baseUrl: bossInfo.page
-									})
-									.send($emonitor.getPfTiming());
-									emonitorIns.config({
-										baseUrl: bossInfo.error
-									});
-									isTimingReported = true;
-								}
-							}, 0);
+										emonitorIns
+										.config({
+											baseUrl: bossInfo.page
+										})
+										.send($emonitor.getPfTiming());
+										emonitorIns.config({
+											baseUrl: bossInfo.error
+										});
+										isTimingReported = true;
+									}
+								}, 0);
 							},
 							false
 						);
