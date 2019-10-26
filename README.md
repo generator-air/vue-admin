@@ -31,4 +31,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 日志模块
 
-See [Configuration emonitor]https://git.code.oa.com/news/emonitor
+See [emonitor](https://git.code.oa.com/news/emonitor)
