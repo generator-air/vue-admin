@@ -58,9 +58,6 @@
     "walk-sync": "1.0.1",
     "yorkie": "2.0.0"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
   "lint-staged": {
     "*.js": [
       "vue-cli-service lint",

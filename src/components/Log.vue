@@ -39,7 +39,8 @@ export default {
 			const emonitorIns = $emonitor.create({
 				baseUrl: bossInfo.error,
 				name: '项目英文名称',
-				onBeforeSend: function() {
+				onBeforeSend: data => {
+					console.log(data);
 				},
 				cgi: {
 					baseUrl: bossInfo.cgi,
@@ -81,7 +82,7 @@ export default {
 					});
 					}
 				} catch (err) {
-					//console.warn('emonitorIns send', err);
+					console.warn('emonitorIns send', err);
 					}
 				}
 			}, _MAXTIMEOUT);
