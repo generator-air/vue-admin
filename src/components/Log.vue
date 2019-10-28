@@ -25,7 +25,8 @@ export default {
 	},
 	methods: {
 		init(){
-			this.$log.normalReport(0,'CLIENT|reqId=xxx| xxx');
+			this.$log.slowReport();
+			this.$log.loadReport();
 		}
 	},
 	created() {

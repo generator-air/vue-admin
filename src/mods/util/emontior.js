@@ -17,7 +17,7 @@ const install = function (Vue) {
 				const nativeToString = Object.prototype.toString;
 				const emonitorIns = $emonitor.create({
 					baseUrl: bossInfo.error,
-					name: '项目英文名称',
+					name: 'vue-admin',
 					onBeforeSend: data => {
 						// 在数据上报前调用 可以用作数据过滤
 						// (1)仅有return false 不上报数据；(2)当返回object对象，支持修改's_path', 's_traceid', 's_guid', 'hc_pgv_pvid', 's_omgid';
