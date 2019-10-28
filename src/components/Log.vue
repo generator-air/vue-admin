@@ -5,7 +5,6 @@
 
 <script>
 
-import { setTimeout } from 'timers';
 
 export default {
 	components: {

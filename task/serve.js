@@ -1,6 +1,5 @@
 const $gulp = require('gulp');
 const $execa = require('execa');
-const $sporeMock = require('spore-mock');
 
 // =================
 // serve

@@ -4,10 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "gulp",
-    "upload": "gulp upload",
-    "build": "vue-cli-service build",
-    "lint": "gulp tool-eslintfix && vue-cli-service lint",
-    "postinstall": "gulp tool-eslintfix"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "@tencent/emonitor": "^2.4.2",

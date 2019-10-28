@@ -1,1 +1,1 @@
-appconfig = {"apiUrl":"https://tmock.qq.com/mock/271"}
+appconfig = "https://pes.dayuw.cn/api/admin"
