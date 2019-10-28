@@ -22,7 +22,11 @@
     "eslint-loader": "^3.0.2",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-vue": "^5.0.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
     "pre-commit": "^1.2.2",
+    "pug": "^2.0.4",
+    "pug-plain-loader": "^1.0.0",
     "vue-template-compiler": "^2.6.10"
   },
   "postcss": {
