@@ -35,11 +35,18 @@ npm run dev --env --{param}
 yarn dev --env --{param}
 ```
 
+##### 接口调试模式
+
+配置文件：config.json
+
 param:
 
-mock:mock模式
-production:线上环境
-development:debug模式
+mock : mock模式
+
+production : 线上环境
+
+development : debug模式
+
 
 
 #### 2.启动原理
