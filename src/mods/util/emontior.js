@@ -52,8 +52,9 @@ const install = function (Vue) {
 						// 日志级别，啄木鸟官方实例是用string类型，但是他们的数据表设计有误，表里面是bigint类型，如果上报string
 						emonitorIns.log({level, message});
 					},
-					// 慢日志上报&&页面错误上报
-					slowReport: () => {
+					
+					init: () => {
+						// 慢日志上报&&页面错误上报
 						setTimeout(()=> {
 							if (!isTimingReported) {
 								const _resources = $emonitor.getRcTiming();
@@ -86,9 +87,8 @@ const install = function (Vue) {
 								}
 							}
 						}, _MAXTIMEOUT);
-					},
-					// 页面质量上报&&页面错误上报
-					loadReport:() => {
+
+						// 页面质量上报&&页面错误上报
 						window.addEventListener('load',() => {
 							setTimeout(()=> {
 								if (!isTimingReported) {
@@ -98,13 +98,12 @@ const install = function (Vue) {
 									emonitorIns.config({baseUrl: bossInfo.error});
 									isTimingReported = true;
 								}}, 0);
-							},false);
-						}
-					};
+						},false);
+					}
 				}
 			}
 		}
-	);
+	});
 };
 
 export default {

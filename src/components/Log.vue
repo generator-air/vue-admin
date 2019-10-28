@@ -25,9 +25,11 @@ export default {
 	},
 	methods: {
 		init(){
-			console.log($prop.domain);
-			this.$log.slowReport();
-			this.$log.loadReport();
+			console.log('当前请求域名',$prop.domain);
+			// 页面上报
+			this.$log.init();
+			// 流水日志上报
+			this.$log.normalReport(0, 'CLIENT|reqId=xxx| xxx')
 		}
 	},
 	created() {
