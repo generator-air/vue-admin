@@ -5,6 +5,7 @@
 
 <script>
 
+import $prop from '@/mods/model/prop';
 
 export default {
 	components: {
@@ -24,6 +25,7 @@ export default {
 	},
 	methods: {
 		init(){
+			console.log($prop.domain);
 			this.$log.slowReport();
 			this.$log.loadReport();
 		}

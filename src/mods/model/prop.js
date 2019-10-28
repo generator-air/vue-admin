@@ -1,1 +1,1 @@
-appconfig = "https://pes.dayuw.cn/api/admin"
+const prop={};prop.domain="https://tmock.qq.com/mock/271";export default prop;

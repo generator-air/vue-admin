@@ -30,9 +30,10 @@ $gulp.task('constants', function() {
 	let myConfig = require('./config.json');
 	//取出对应的配置信息
 	let envConfig = myConfig[options.env];
-	let conConfig = 'appconfig = ' + JSON.stringify(envConfig);
+	let conConfig = JSON.stringify(envConfig);
 	//生成config.js文件
-	return string_src("./src/mods/model/prop.js", conConfig).pipe($gulp.dest('./'))
+	const content = `const prop={};prop.domain=${conConfig};export default prop;`;
+	return string_src("./src/mods/model/prop.js", content).pipe($gulp.dest('./'))
 });
 
 // =================
