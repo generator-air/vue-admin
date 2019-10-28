@@ -32,7 +32,7 @@ $gulp.task('constants', function() {
 	let envConfig = myConfig[options.env];
 	let conConfig = JSON.stringify(envConfig);
 	//生成config.js文件
-	const content = `const prop={};prop.domain=${conConfig};export default prop;`;
+	const content = `const prop={};\rprop.domain=${conConfig};\rexport default prop;`;
 	return string_src("./src/mods/model/prop.js", content).pipe($gulp.dest('./'))
 });
 
