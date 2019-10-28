@@ -1,0 +1,11 @@
+{
+  "mock": {
+    "apiUrl": "https://tmock.qq.com/mock/271"
+  },
+  "production": {
+    "apiUrl": "https://pes.dayuw.cn/api/admin"
+  },
+  "development": {
+    "apiUrl": "http://localhost:8092"
+  }
+}

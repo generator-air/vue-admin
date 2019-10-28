@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "gulp",
+    "upload": "gulp upload",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "gulp tool-eslintfix && vue-cli-service lint",
+    "postinstall": "gulp tool-eslintfix"
   },
   "dependencies": {
     "@tencent/emonitor": "^2.4.2",
@@ -26,7 +28,9 @@
     "vue-quill-editor": "3.0.6",
     "vue-router": "3.0.5",
     "vuedraggable": "2.20.0",
-    "vuex": "3.0.1"
+    "vuex": "3.0.1",
+    "gulp-util": "3.0.8",
+    "minimist": "^1.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
