@@ -1,18 +1,6 @@
 const $gulp = require('gulp');
-const minimist =  require('minimist');
+const $execa = require('execa');
 const gutil = require('gulp-util');
-
-require('./task/serve');
-
-//默认development环境
-const knowOptions = {
-	string: 'env',
-	default: {
-		env: process.env.NODE_ENV || 'mock'
-	}
-};
-
-const options = minimist(process.argv.slice(2), knowOptions);
 
 //生成filename文件，存入string内容
 string_src=(filename, string) => {
@@ -25,24 +13,52 @@ string_src=(filename, string) => {
 	return src
 }
 
-$gulp.task('constants', function() {
-  //读入config.json文件
+//存入不同的联调模式
+switchMode = mode =>{
+	//读入config.json文件
 	let myConfig = require('./config.json');
 	//取出对应的配置信息
-	let envConfig = myConfig[options.env];
+	let envConfig = myConfig[mode];
 	let conConfig = JSON.stringify(envConfig);
 	//生成config.js文件
 	const content = `const prop={};\rprop.domain=${conConfig};\rexport default prop;`;
 	return string_src("./src/mods/model/prop.js", content).pipe($gulp.dest('./'))
-});
+}
 
 // =================
 // common tasks
 // =================
 
-$gulp.task('serve', $gulp.series(
-	'constants',
-	'serve-dev'
+$gulp.task('mock', ()=>{return switchMode('mock')});
+$gulp.task('development', ()=>{return switchMode('development')});
+$gulp.task('production', ()=>{return switchMode('production')});
+
+
+$gulp.task('serve', done => {
+	$execa('vue-cli-service', [
+		'serve'
+	], {
+		stdio: 'inherit'
+	});
+	done();
+});
+
+//mock环境
+$gulp.task('mock', $gulp.series(
+	'mock',
+	'serve'
+));
+
+//开发环境
+$gulp.task('dev', $gulp.series(
+	'development',
+	'serve'
+));
+
+//正式环境
+$gulp.task('prod', $gulp.series(
+	'production',
+	'serve'
 ));
 
 $gulp.task('default', $gulp.series('serve'));
