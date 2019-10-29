@@ -1,1 +1,1 @@
-const prop = {};prop.domain = "http://localhost:8092";export default prop;
+const prop = {};prop.domain = "http://localhost:8092";prop.port = 8090;module.exports = prop;

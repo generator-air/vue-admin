@@ -10,19 +10,13 @@ import $prop from '@/mods/model/prop';
 export default {
 	components: {
 	},
-	
 	watch: {
 		$route() {
 			this.init();
 		}
 	},
-	computed: {
-	},
-	data() {
-		return {
-		
-		};
-	},
+	computed: {},
+	data() {return {}},
 	methods: {
 		init(){
 			console.log('当前请求域名',$prop.domain);
@@ -35,8 +29,6 @@ export default {
 	created() {
 		this.init();
 	},
-	mounted() {
-
-	}
+	mounted() {}
 };
 </script>

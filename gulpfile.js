@@ -21,7 +21,7 @@ switchMode = mode =>{
 	let envConfig = myConfig[mode];
 	let conConfig = JSON.stringify(envConfig);
 	//生成config.js文件
-	const content = `const prop = {};\rprop.domain = ${conConfig};\rexport default prop;`;
+	const content = `const prop = {};\rprop.domain = ${conConfig};\rprop.port = 8090;\rmodule.exports = prop;`;
 	return string_src("./src/mods/model/prop.js", content).pipe($gulp.dest('./'))
 }
 
