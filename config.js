@@ -37,6 +37,16 @@ config.production="https://www.xxx.com/api/admin";
 config.development="http://localhost:8092";
 
 
+//cdn上传配置
+config.uploadConfig = {
+	AppId: '1256737511',
+	SecretId: 'AKID02ub8UafZJsHZQDqLfomfT6YpyxlRwIU',
+	SecretKey: 'AAyc8TcaQEwUs570iFbmneJn6EF5lGb4',
+	Bucket: 'qlink',
+	Region: 'ap-chengdu',
+	prefix: config.uploadUrl
+};
+
 // 反向代理配置
 config.proxy = {
 	'/api':  

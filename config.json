@@ -1,5 +1,0 @@
-{
-  "mock": "https://tmock.qq.com/mock/271",
-  "production": "https://pes.dayuw.cn/api/admin",
-  "development": "http://localhost:8092"
-}

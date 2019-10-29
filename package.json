@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "gulp dev",
+    "upload":"gulp upload",
     "mock": "gulp mock",
     "prod": "gulp prod",
     "build": "vue-cli-service build",
