@@ -1,13 +1,14 @@
 const $gulp = require('gulp');
 const $execa = require('execa');
-const gutil = require('gulp-util');
+const $config = require('./config');
+const $gutil = require('gulp-util');
 
 //生成filename文件，存入string内容
 string_src=(filename, string) => {
 	let src = require('stream').Readable({ objectMode: true })
 	src._read = function () 
 	{
-		this.push(new gutil.File({ cwd: "", base: "", path: filename, contents: new Buffer(string) }))
+		this.push(new $gutil.File({ cwd: "", base: "", path: filename, contents: new Buffer(string) }))
 		this.push(null);
 	}	
 	return src
@@ -15,23 +16,18 @@ string_src=(filename, string) => {
 
 //存入不同的联调模式
 switchMode = mode =>{
-	//读入config.json文件
-	let myConfig = require('./config.json');
-	//取出对应的配置信息
-	let envConfig = myConfig[mode];
-	let conConfig = JSON.stringify(envConfig);
-	//生成config.js文件
-	const content = `const prop = {};\rprop.domain = ${conConfig};\rprop.port = 8090;\rmodule.exports = prop;`;
-	return string_src("./src/mods/model/prop.js", content).pipe($gulp.dest('./'))
+	//生成prop.js文件
+	const content = `const env = {};\renv.domain = "${mode}";\rmodule.exports = env;`;
+	return string_src("./src/mods/model/env.js", content).pipe($gulp.dest('./'))
 }
 
 // =================
 // common tasks
 // =================
 
-$gulp.task('mock', ()=>{return switchMode('mock')});
-$gulp.task('development', ()=>{return switchMode('development')});
-$gulp.task('production', ()=>{return switchMode('production')});
+$gulp.task('mock', ()=>{return switchMode($config.mock)});
+$gulp.task('development', ()=>{return switchMode($config.development)});
+$gulp.task('production', ()=>{return switchMode($config.production)});
 
 
 $gulp.task('serve', done => {

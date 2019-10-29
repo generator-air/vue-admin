@@ -77,7 +77,7 @@ config.json
 ##### 导出api
 
 ```bash
-src/mods/model/prop.js
+src/mods/model/env.js
 ```
 
 #### 2.启动原理
