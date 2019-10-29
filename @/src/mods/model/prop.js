@@ -1,1 +1,0 @@
-const prop={};prop.domain="https://pes.dayuw.cn/api/admin";export default prop;
