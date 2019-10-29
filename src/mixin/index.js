@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Icon from '@/components/SvgIcon'
 
 const requireContext = require.context('@/mixin', false, /\.js$/i)
 requireContext.keys().forEach(mix => {
@@ -7,3 +8,5 @@ requireContext.keys().forEach(mix => {
 	}
 	Vue.use(requireContext(mix).default)
 })
+
+Vue.component('svg-icon', Icon)

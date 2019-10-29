@@ -14,8 +14,7 @@ el-menu.p-navSide(
 			:index="menu.title"
 		)
 			template(slot="title")
-				svg.icon(:aria-hidden="true")
-					use(:xlink:href="'#' + menu.icon")
+				svg-icon(:name="menu.icon")
 				span.title {{menu.title}}
 			el-menu-item(
 				v-for="item in menu.subnav"
