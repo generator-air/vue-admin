@@ -68,15 +68,8 @@ npm run prod
 yarn prod
 ```
 
-##### 配置文件
-
-``bash
-config.json
+##### 导出配置文件
 ```
-
-##### 导出api
-
-```bash
 src/mods/model/env.js
 ```
 
