@@ -8,14 +8,14 @@
 import Log from '@/components/Log.vue'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
     Log
   }
 }
 </script>
 
-<style>
+<style lang="less">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

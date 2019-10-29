@@ -1,1 +1,1 @@
-const prop={};prop.domain="https://pes.dayuw.cn/api/admin";export default prop;
+const prop = {};prop.domain = "http://localhost:8092";export default prop;
