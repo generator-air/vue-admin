@@ -68,7 +68,13 @@ npm run prod
 yarn prod
 ```
 
-##### 生成的接口路由配置
+##### 配置文件
+
+``bash
+config.json
+```
+
+##### 导出api
 
 ```bash
 src/mods/model/prop.js
