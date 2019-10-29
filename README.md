@@ -35,6 +35,10 @@ yarn lint
 
 本项目默认开启 pug 和 less，在写 vue 组件时可以使用 pug 编写 HTML 模板，使用 less 编写 css。
 
+本项目默认开启了 vuex 与 hash 路由。
+
+想要改变网站图标，修改`public/favicon.ico`文件。
+
 ### Eslint相关
 
 Eslint 规则主要参考了 PCG 代码规范中的 JavaScript 规范部分，略有修改。
