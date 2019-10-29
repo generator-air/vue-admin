@@ -21,7 +21,7 @@
 						) {{bread}}
 					h3 {{$route.name}}
 				router-view.l-route
-				v-copyright
+			v-copyright
 </template>
 
 <script>
@@ -126,13 +126,16 @@ html {
 	box-sizing: border-box;
 	border-top: 60px solid transparent;
 	position: relative;
-	padding: 0 20px 20px;
+	padding: 0 20px;
 }
 .body-content {
 	position: relative;
 	width: 100%;
 	min-height: 100%;
 	overflow: auto;
+	margin-bottom: -200px;
+	padding-bottom: 200px;
+	box-sizing: border-box;
 }
 .l-bread {
 	background-color: #fff;

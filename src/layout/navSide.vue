@@ -43,10 +43,10 @@ const routeList = [
 		subnav: [
 			{
 				title: '子菜单1',
-				url: '/about'
+				url: '/home'
 			}, {
 				title: '子菜单2',
-				url: '/submenu'
+				url: '/about'
 			}
 		]
 	},
@@ -56,7 +56,7 @@ const routeList = [
 		subnav: [
 			{
 				title: '子菜单3',
-				url: '/submenu2'
+				url: '/submenu'
 			}
 		]
 	}
