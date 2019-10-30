@@ -10,7 +10,8 @@ const request = options => {
 		method: 'get',
 		responseType: 'text',
 		// 是否自定义错误处理流程
-		customError: false
+		customError: false,
+		withCredentials: true
 	}, options);
 	logger.info('conf:', conf);
 
