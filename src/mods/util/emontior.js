@@ -2,7 +2,7 @@ import * as $emonitor from '@tencent/emonitor'
 
 const install = function (Vue) {
 	Object.defineProperties(Vue.prototype, {
-		$log: {
+		$emonitor: {
 			get() {
 				const bossInfo = {
 					page: 'https://btrace.qq.com/kvcollect?BossId=6529&Pwd=1714580587',  // 页面质量上报
@@ -51,6 +51,7 @@ const install = function (Vue) {
 					normalReport: (level, message) => {
 						// 日志级别，啄木鸟官方实例是用string类型，但是他们的数据表设计有误，表里面是bigint类型，如果上报string
 						emonitorIns.log({level, message});
+						console.error(level, message);
 					},
 
 					init: () => {

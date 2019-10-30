@@ -26,9 +26,9 @@ export default {
 		init() {
 			console.log('当前请求域名', $env.domain);
 			// 页面上报
-			this.$log.init();
+			this.$emonitor.init();
 			// 流水日志上报
-			this.$log.normalReport(0, 'CLIENT|reqId=xxx| xxx')
+			setTimeout(() => { this.$emonitor.normalReport(0, 'CLIENT|reqId=123|123') }, 3000);
 		}
 	},
 	created() {
