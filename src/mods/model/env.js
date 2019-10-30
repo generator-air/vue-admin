@@ -1,1 +1,1 @@
-const env = {};env.domain = "http://localhost:8090";module.exports = env;
+const env = {};env.domain = "https://tmock.qq.com/mock/271";module.exports = env;

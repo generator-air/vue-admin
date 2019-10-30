@@ -19,8 +19,9 @@ export default {
 	computed: {},
 	data() { return {} },
 	methods: {
-		async request(){
+		async request() {
 			let rs = await $apiMobile.list();
+			console.log(rs)
 		},
 		init() {
 			console.log('当前请求域名', $env.domain);
