@@ -1,12 +1,13 @@
 import $vue from 'vue';
 import $ElementUI from 'element-ui';
 import $App from '@/App.vue';
-import $Log from '@/mods/util/emontior';
+import $Emontior from '@/mods/util/emontior';
 
 import 'element-ui/lib/theme-chalk/index.css';
 
 $vue.use($ElementUI);
-$vue.use($Log);
+// 使用emontior
+$vue.use($Emontior);
 
 new $vue({
   el: '#app',
