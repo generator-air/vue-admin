@@ -43,18 +43,18 @@ const install = function (Vue) {
 				});
 				return {
 					/**
+					* 手动调用啄木鸟sdk实例上报
+					* 错误日志只要通过 console.error 打印的话,就可以自动上报了，这里主要是手动进行流水日志上报
 					* @param {Object} options
 					* @param {Number} options.level 日志级别，建议按这几个级别区分：debug:0, info: 1, warn: 2, error: 3;
 					* 这里啄木鸟官方实例是用string类型如'info'，但是他们的数据表设计有误，表里面是bigint类型，如果上报string类型，会导致根据日志级别过滤日志时有问题
 					* @param {String} options.log 日志内容
 					*/
-					normalReport: (level, message) => {
+					report: (level, message) => {
 						// 日志级别，啄木鸟官方实例是用string类型，但是他们的数据表设计有误，表里面是bigint类型，如果上报string
 						emonitorIns.log({level, message});
-						console.error(level, message);
-						console.log(level, message);
 					},
-
+					// sdk初始化
 					init: () => {
 						// 慢日志上报&&页面错误上报
 						setTimeout(()=> {
