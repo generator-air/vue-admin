@@ -6,6 +6,7 @@
 <script>
 
 import $env from '@/mods/model/env';
+import $apiMobile from '@/mods/io/mobile';
 
 export default {
 	components: {
@@ -18,6 +19,9 @@ export default {
 	computed: {},
 	data() { return {} },
 	methods: {
+		async request(){
+			let rs = await $apiMobile.list();
+		},
 		init() {
 			console.log('当前请求域名', $env.domain);
 			// 页面上报
@@ -29,6 +33,8 @@ export default {
 	created() {
 		this.init();
 	},
-	mounted() {}
+	mounted() {
+		this.request();
+	}
 };
 </script>

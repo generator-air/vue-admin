@@ -32,7 +32,7 @@ config.mockServerPort = 8091;
 
 config.mock="https://tmock.qq.com/mock/271";
 
-config.production="https://www.xxx.com/api/admin";
+config.production="https://pes.dayuw.cn/api/admin";
 
 config.development="http://localhost:"+config.devServerPort;
 

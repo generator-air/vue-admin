@@ -1,1 +1,1 @@
-const env = {};env.domain = "https://www.xxx.com/api/admin";module.exports = env;
+const env = {};env.domain = "http://localhost:8090";module.exports = env;
