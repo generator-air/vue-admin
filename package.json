@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "gulp dev",
-    "upload":"gulp upload",
     "mock": "gulp mock",
     "prod": "gulp prod",
-    "build": "vue-cli-service build",
+    "build-dev": "gulp build-dev",
+    "build-mock": "gulp build-mock",
+    "build-prod": "gulp build-prod",
+    "upload": "gulp upload",
     "lint": "vue-cli-service lint",
     "test": "vue-cli-service test"
   },

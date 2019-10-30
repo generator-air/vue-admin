@@ -5,12 +5,12 @@ const install = function (Vue) {
 		$log: {
 			get() {
 				const bossInfo = {
-					page: 'https://btrace.qq.com/kvcollect?BossId=6529&Pwd=1714580587', //页面质量上报
-					error: 'https://btrace.qq.com/kvcollect?BossId=6527&Pwd=1102151080', // 页面错误上报
-					slowlog: 'https://btrace.qq.com/kvcollect?BossId=6523&Pwd=1202531240', //慢日志上报
-					cgi: 'https://btrace.qq.com/kvcollect?BossId=6528&Pwd=96045012', // cgi上报
-					resource: 'https://btrace.qq.com/kvcollect?BossId=6958&Pwd=1123576360', // 素材质量上报
-					flowlog: '//btrace.qq.com/kvcollect?BossId=6526&Pwd=878966364', // 流水日志上报,
+					page: 'https://btrace.qq.com/kvcollect?BossId=6529&Pwd=1714580587',  // 页面质量上报
+					error: 'https://btrace.qq.com/kvcollect?BossId=6527&Pwd=1102151080',  // 页面错误上报
+					slowlog: 'https://btrace.qq.com/kvcollect?BossId=6523&Pwd=1202531240',  // 慢日志上报
+					cgi: 'https://btrace.qq.com/kvcollect?BossId=6528&Pwd=96045012',  // cgi上报
+					resource: 'https://btrace.qq.com/kvcollect?BossId=6958&Pwd=1123576360',  // 素材质量上报
+					flowlog: '//btrace.qq.com/kvcollect?BossId=6526&Pwd=878966364',  // 流水日志上报,
 				};
 				let isTimingReported = false;
 				const _MAXTIMEOUT = 10000;
@@ -44,15 +44,15 @@ const install = function (Vue) {
 				return {
 					/**
 					* @param {Object} options
-					* @param {Number} options.level 日志级别，建议按这几个级别区分：debug:0, info: 1, warn: 2, error: 3; 
+					* @param {Number} options.level 日志级别，建议按这几个级别区分：debug:0, info: 1, warn: 2, error: 3;
 					* 这里啄木鸟官方实例是用string类型如'info'，但是他们的数据表设计有误，表里面是bigint类型，如果上报string类型，会导致根据日志级别过滤日志时有问题
 					* @param {String} options.log 日志内容
 					*/
-					normalReport: (level, message) => { 
+					normalReport: (level, message) => {
 						// 日志级别，啄木鸟官方实例是用string类型，但是他们的数据表设计有误，表里面是bigint类型，如果上报string
 						emonitorIns.log({level, message});
 					},
-					
+
 					init: () => {
 						// 慢日志上报&&页面错误上报
 						setTimeout(()=> {
@@ -76,7 +76,7 @@ const install = function (Vue) {
 											baseUrl: bossInfo.slowlog
 										}).send({
 											json_entries: JSON.stringify(_jsonEntries)
-										},true);
+										}, true);
 										// 页面错误日志上报
 										emonitorIns.config({
 											baseUrl: bossInfo.error
@@ -89,7 +89,7 @@ const install = function (Vue) {
 						}, _MAXTIMEOUT);
 
 						// 页面质量上报&&页面错误上报
-						window.addEventListener('load',() => {
+						window.addEventListener('load', () => {
 							setTimeout(()=> {
 								if (!isTimingReported) {
 									// 页面质量上报
@@ -97,8 +97,8 @@ const install = function (Vue) {
 									// 页面错误日志上报
 									emonitorIns.config({baseUrl: bossInfo.error});
 									isTimingReported = true;
-								}}, 0);
-						},false);
+								} }, 0);
+						}, false);
 					}
 				}
 			}

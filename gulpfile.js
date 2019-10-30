@@ -6,20 +6,20 @@ const $qcloudUpload = require('gulp-qcloud-cos-upload');
 
 const $config = require('./config');
 
-//生成filename文件，存入string内容
-string_src=(filename, string) => {
-	let src = require('stream').Readable({ objectMode: true })
-	src._read = function () 
+// 生成filename文件，存入string内容
+string_src = (filename, string) => {
+	let src = require('stream').Readable({objectMode: true})
+	src._read = function ()
 	{
-		this.push(new $gulpUtil.File({ cwd: "", base: "", path: filename, contents: new Buffer(string) }))
+		this.push(new $gulpUtil.File({cwd: "", base: "", path: filename, contents: new Buffer(string)}))
 		this.push(null);
-	}	
+	}
 	return src
 }
 
-//存入不同的联调模式
+// 存入不同的联调模式
 switchMode = mode =>{
-	//生成prop.js文件
+	// 生成prop.js文件
 	const content = `const env = {};\renv.domain = "${mode}";\rmodule.exports = env;`;
 	return string_src("./src/mods/model/env.js", content).pipe($gulp.dest('./'))
 }
@@ -51,9 +51,19 @@ $gulp.task('upload', () => $gulp.src([
 // common tasks
 // =================
 
-$gulp.task('mock', ()=>{return switchMode($config.mock)});
-$gulp.task('development', ()=>{return switchMode($config.development)});
-$gulp.task('production', ()=>{return switchMode($config.production)});
+$gulp.task('mock', ()=>{ return switchMode($config.mock) });
+$gulp.task('development', ()=>{ return switchMode($config.development) });
+$gulp.task('production', ()=>{ return switchMode($config.production) });
+
+
+$gulp.task('build', done => {
+	$execa('vue-cli-service', [
+		'build'
+	], {
+		stdio: 'inherit'
+	});
+	done();
+});
 
 
 $gulp.task('serve', done => {
@@ -65,19 +75,39 @@ $gulp.task('serve', done => {
 	done();
 });
 
-//mock环境
-$gulp.task('mock', $gulp.series(
-	'mock',
-	'serve'
+// build 开发环境
+$gulp.task('build-dev', $gulp.series(
+	'development',
+	'build'
 ));
 
-//开发环境
+// build mock环境
+$gulp.task('build-mock', $gulp.series(
+	'mock',
+	'build'
+));
+
+// build 正式环境
+$gulp.task('build-prod', $gulp.series(
+	'production',
+	'build'
+));
+
+
+// serve 开发环境
 $gulp.task('dev', $gulp.series(
 	'development',
 	'serve'
 ));
 
-//正式环境
+// serve mock环境
+$gulp.task('mock', $gulp.series(
+	'mock',
+	'serve'
+));
+
+
+// serve 正式环境
 $gulp.task('prod', $gulp.series(
 	'production',
 	'serve'

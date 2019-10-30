@@ -34,7 +34,7 @@ config.mock="https://tmock.qq.com/mock/271";
 
 config.production="https://www.xxx.com/api/admin";
 
-config.development="http://localhost:8092";
+config.development="http://localhost:"+config.devServerPort;
 
 
 //cdn上传配置

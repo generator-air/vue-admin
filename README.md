@@ -1,12 +1,11 @@
 # vue-admin
 
 ## 项目安装
+
+yarn命令也可以，这里示例用npm
+
 ```
 npm install
-```
-或
-```bash
-yarn install
 ```
 
 ### 编译
@@ -14,58 +13,51 @@ yarn install
 ```bash
 npm run build
 ```
-或
-```bash
-yarn run build
-```
 
 ### 测试
 
 ```bash
 npm run test
 ```
-或
-```bash
-yarn run test
-```
 
 ### lint检查
 ```bash
 npm run lint
 ```
-或
-```bash
-yarn run lint
-```
 ## 项目启动
 
 #### 1.切换联调环境
 
-##### mock环境
-```bash
-npm run mock 
-```
-或
-```bash
-yarn mock
-```
 
-##### 开发环境
+##### dev 开发环境
 ```bash
 npm run dev
 ```
-或
+
+##### dev mock环境
 ```bash
-yarn dev
+npm run mock
 ```
 
-##### 正式环境
+##### dev 正式环境
 ```bash
 npm run prod
 ```
-或
+
+
+##### build 开发环境
 ```bash
-yarn prod
+npm run build-dev
+```
+
+##### build mock环境
+```bash
+npm run build-mock
+```
+
+##### build 正式环境
+```bash
+npm run build-prod
 ```
 
 ##### 导出配置文件
@@ -73,7 +65,17 @@ yarn prod
 src/mods/model/env.js
 ```
 
-#### 2.启动原理
+
+#### 2.CDN打包上传
+
+先执行build
+
+```bash
+npm run build-{联调环境参数}
+npm run upload
+```
+
+#### 3.启动原理
 执行gulp默认指令。详见gulpfile.js
 vue-cli-service：用于开发（端口号：8090）
 > vue-cli官网：
