@@ -3,8 +3,9 @@ const $execa = require('execa');
 const $gulpUtil = require('gulp-util');
 const $gulpConfirm = require('gulp-confirm');
 const $qcloudUpload = require('gulp-qcloud-cos-upload');
-
+const $del = require('del');
 const $config = require('./config');
+const $colors = $gulpUtil.colors;
 
 // 生成filename文件，存入string内容
 string_src = (filename, string) => {
@@ -25,6 +26,39 @@ switchMode = mode =>{
 	return string_src("./src/mods/model/env.js", content).pipe($gulp.dest('./'))
 }
 
+$gulp.task('clean-dev', () => $del(['./dist/', './online/']));
+
+// 杀掉正在执行的 server 进程，确保同一时间只有一个开发服务存在
+$gulp.task('tool-kill-running', done => {
+	let getPids = (rs, keyword) => rs.stdout.split(/\n/).filter(
+		str => (str.indexOf(keyword) > 0)
+	).map(str => str.split(/\s+/)[1]);
+
+	let getPromise = name => $execa.shell('ps aux | grep ' + name).then(
+		rs => getPids(rs, 'bin/' + name)
+	).then(pids => {
+		if (!pids.length) {
+			console.info($colors.green('[process check] no working ' + name));
+			return Promise.resolve();
+		}
+		return Promise.all(pids.map(pid => {
+			console.info($colors.yellow('[process check] working ' + name + ' killed:' + pid));
+			return $execa.shell('kill -9 ' + pid, { stdio: 'inherit' });
+		}));
+	});
+
+	if (process.platform.indexOf('win32') >= 0) {
+		done();
+	} else {
+		Promise.all(
+			[
+				'spore-mock'
+			].map(
+				key => getPromise(key)
+			)
+		).then(() => done());
+	}
+});
 
 // =================
 // cdn upload  tasks
@@ -98,12 +132,16 @@ $gulp.task('build-prod', $gulp.series(
 // serve 开发环境
 $gulp.task('dev', $gulp.series(
 	'development',
+	'tool-kill-running',
+	'clean-dev',
 	'serve'
 ));
 
 // serve mock环境
 $gulp.task('mock', $gulp.series(
 	'mock',
+	'tool-kill-running',
+	'clean-dev',
 	'serve'
 ));
 
@@ -111,6 +149,8 @@ $gulp.task('mock', $gulp.series(
 // serve 正式环境
 $gulp.task('prod', $gulp.series(
 	'production',
+	'tool-kill-running',
+	'clean-dev',
 	'serve'
 ));
 
