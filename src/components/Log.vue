@@ -25,7 +25,7 @@ export default {
 		},
 		emonitorReport() {
 			// sdk初始化
-			this.$emonitor.init();
+			// this.$emonitor.init();
 			// 普通异常上报
 			console.error('warn', '异常日志上报');
 			// 流水日志上报

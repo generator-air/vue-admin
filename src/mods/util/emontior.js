@@ -17,7 +17,7 @@ const install = function (Vue) {
 				const nativeToString = Object.prototype.toString;
 				const emonitorIns = $emonitor.create({
 					baseUrl: bossInfo.error,
-					name: 'vue-admin', // 注册项目英文名
+					name: Vue.prototype.project, // 注册项目英文名
 					onBeforeSend: data => {
 						// 在数据上报前调用 可以用作数据过滤
 						// (1)仅有return false 不上报数据；(2)当返回object对象，支持修改's_path', 's_traceid', 's_guid', 'hc_pgv_pvid', 's_omgid';
@@ -41,6 +41,7 @@ const install = function (Vue) {
 						baseUrl: bossInfo.flowlog,
 					},
 				});
+				console.log('当前项目名称:', Vue.prototype.project);
 				return {
 					// sdk初始化
 					init: () => {
