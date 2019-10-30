@@ -11,7 +11,8 @@ module.exports = {
 		resolve: {
 			alias: {
 				'@': resolve('src'),
-				'css': resolve('src/assets/css')
+				'css': resolve('src/assets/css'),
+				'pages': resolve('src/layout/pages')
 			}
 		},
     module: {
