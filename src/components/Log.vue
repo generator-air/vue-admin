@@ -6,7 +6,7 @@
 <script>
 
 import $env from '@/mods/model/env';
-import $apiMobile from '@/mods/io/demo';
+import $axios from 'axios';
 
 export default {
 	components: {
@@ -20,8 +20,7 @@ export default {
 	data() { return {} },
 	methods: {
 		async request() {
-			let rs = await $apiMobile.list();
-			console.log(rs)
+			$axios.get("/api/admin/content/mobiles/").then(res=> console.log(res)).catch(err=>console.log(err));
 		},
 		emonitorReport() {
 			// sdk初始化
