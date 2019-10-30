@@ -1,6 +1,5 @@
 import $request from '@/mods/io/request';
 import $api from '@/mods/model/api';
-import $notify from '@/mods/util/notify';
 
 const Api = {};
 
@@ -11,7 +10,7 @@ Api.list = () => $request({
 }).then(
 	rs => rs.data.list
 ).catch(
-	err => $notify.error(err)
+	err => console.error(err)
 );
 
 export default Api;

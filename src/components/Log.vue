@@ -6,7 +6,7 @@
 <script>
 
 import $env from '@/mods/model/env';
-import $apiMobile from '@/mods/io/mobile';
+import $apiMobile from '@/mods/io/demo';
 
 export default {
 	components: {

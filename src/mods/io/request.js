@@ -1,8 +1,5 @@
 import $axios from 'axios';
 import $bus from '@/mods/mixin/bus';
-import $logger from '@/mods/util/logger';
-
-let logger = $logger('io/request');
 
 const request = options => {
 	let conf = Object.assign({
@@ -13,7 +10,6 @@ const request = options => {
 		customError: false,
 		withCredentials: true
 	}, options);
-	logger.info('conf:', conf);
 
 	$bus.emit('progress-start');
 
@@ -21,7 +17,6 @@ const request = options => {
 
 	let pm = $axios(conf).then(xhr => {
 		$bus.emit('progress-end');
-		logger.info('xhr:', xhr);
 		if (xhr) {
 			if (xhr.data) {
 				let rs = xhr.data;
@@ -38,7 +33,6 @@ const request = options => {
 		return Promise.reject(new Error(`${netErrMsg}(未取得xhr对象)`));
 	}).catch(err => {
 		$bus.emit('progress-fail');
-		logger.info('err:', err.response);
 		let msg = '';
 		let statusMsg = netErrMsg;
 		// 登录认证失败，返回403，走catch
