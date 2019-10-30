@@ -30,14 +30,14 @@ config.devServerPort = 8090;
 config.mockServerPort = 8091;
 
 
-config.mock="https://tmock.qq.com/mock/271";
+config.mock = "https://tmock.qq.com/mock/271";
 
-config.production="https://pes.dayuw.cn/api/admin";
+config.production = "https://pes.dayuw.cn/api/admin";
 
-config.development="http://localhost:"+config.devServerPort;
+config.development = "http://localhost:" + config.devServerPort;
 
 
-//cdn上传配置
+// cdn上传配置
 config.uploadConfig = {
 	AppId: '1256737511',
 	SecretId: 'AKID02ub8UafZJsHZQDqLfomfT6YpyxlRwIU',
@@ -49,15 +49,11 @@ config.uploadConfig = {
 
 // 反向代理配置
 config.proxy = {
-	'/api':  
-	{
-		target: config.production, //【注】tmock的请求可以拿到结果，不属于未知请求，因此不会走代理。
+	'/api': {
+		target: config.production, // 【注】tmock的请求可以拿到结果，不属于未知请求，因此不会走代理。
 		ws: true,
 		changeOrigin: true,
-		pathRewrite:
-		{ 
-			'/api': ''
-		},
+		pathRewrite: {'/api': ''},
 		logLevel: 'debug'
 	}
 }
@@ -65,9 +61,9 @@ config.proxy = {
 const proxyTable = config.proxy;
 
 Object.keys(proxyTable).forEach(context => {
-	const options = proxyTable[context]
+	let options = proxyTable[context]
 	if (typeof options === 'string') {
-		options = { target: options }
+		options = {target: options}
 	}
 	$app.use($proxyMiddleware(context, options))
 })

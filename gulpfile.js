@@ -8,6 +8,7 @@ const $config = require('./config');
 
 // 生成filename文件，存入string内容
 string_src = (filename, string) => {
+	// eslint-disable-next-line new-cap
 	let src = require('stream').Readable({objectMode: true})
 	src._read = function ()
 	{
