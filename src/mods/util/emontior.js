@@ -52,6 +52,7 @@ const install = function (Vue) {
 						// 日志级别，啄木鸟官方实例是用string类型，但是他们的数据表设计有误，表里面是bigint类型，如果上报string
 						emonitorIns.log({level, message});
 						console.error(level, message);
+						console.log(level, message);
 					},
 
 					init: () => {

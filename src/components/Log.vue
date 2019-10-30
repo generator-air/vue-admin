@@ -28,7 +28,7 @@ export default {
 			// 页面上报
 			this.$emonitor.init();
 			// 流水日志上报
-			setTimeout(() => { this.$emonitor.normalReport(0, 'CLIENT|reqId=123|123') }, 3000);
+			setTimeout(() => { this.$emonitor.normalReport('warn', 'CLIENT|reqId=123|123') }, 3000);
 		}
 	},
 	created() {
