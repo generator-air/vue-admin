@@ -25,8 +25,10 @@ export default {
 		},
 		init() {
 			console.log('当前请求域名', $env.domain);
-			// 页面上报
+			// sdk初始化
 			this.$emonitor.init();
+			// 普通异常上报
+			console.error('warn', '手动流水日志上报')
 			// 流水日志上报
 			this.$emonitor.report('warn', '手动流水日志上报')
 		}

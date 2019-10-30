@@ -17,7 +17,7 @@ const install = function (Vue) {
 				const nativeToString = Object.prototype.toString;
 				const emonitorIns = $emonitor.create({
 					baseUrl: bossInfo.error,
-					name: 'vue-admin',
+					name: 'vue-admin', // 注册项目英文名
 					onBeforeSend: data => {
 						// 在数据上报前调用 可以用作数据过滤
 						// (1)仅有return false 不上报数据；(2)当返回object对象，支持修改's_path', 's_traceid', 's_guid', 'hc_pgv_pvid', 's_omgid';
@@ -42,18 +42,6 @@ const install = function (Vue) {
 					},
 				});
 				return {
-					/**
-					* 手动调用啄木鸟sdk实例上报
-					* 错误日志只要通过 console.error 打印的话,就可以自动上报了，这里主要是手动进行流水日志上报
-					* @param {Object} options
-					* @param {Number} options.level 日志级别，建议按这几个级别区分：debug:0, info: 1, warn: 2, error: 3;
-					* 这里啄木鸟官方实例是用string类型如'info'，但是他们的数据表设计有误，表里面是bigint类型，如果上报string类型，会导致根据日志级别过滤日志时有问题
-					* @param {String} options.log 日志内容
-					*/
-					report: (level, message) => {
-						// 日志级别，啄木鸟官方实例是用string类型，但是他们的数据表设计有误，表里面是bigint类型，如果上报string
-						emonitorIns.log({level, message});
-					},
 					// sdk初始化
 					init: () => {
 						// 慢日志上报&&页面错误上报
@@ -101,7 +89,19 @@ const install = function (Vue) {
 									isTimingReported = true;
 								} }, 0);
 						}, false);
-					}
+					},
+					/**
+					* 手动调用啄木鸟sdk实例上报
+					* 错误日志只要通过 console.error 打印的话,就可以自动上报了，这里主要是手动进行流水日志上报
+					* @param {Object} options
+					* @param {Number} options.level 日志级别，建议按这几个级别区分：debug:0, info: 1, warn: 2, error: 3;
+					* 这里啄木鸟官方实例是用string类型如'info'，但是他们的数据表设计有误，表里面是bigint类型，如果上报string类型，会导致根据日志级别过滤日志时有问题
+					* @param {String} options.log 日志内容
+					*/
+					report: (level, message) => {
+						// 日志级别，啄木鸟官方实例是用string类型，但是他们的数据表设计有误，表里面是bigint类型，如果上报string
+						emonitorIns.log({level, message});
+					},
 				}
 			}
 		}
