@@ -18,7 +18,8 @@ module.exports = {
 	},
 	'parserOptions': {
 		'ecmaVersion': 2018,
-		'sourceType': 'module'
+		'sourceType': 'module',
+		'parser': 'babel-eslint'
 	},
 	'plugins': [
 		'vue'
@@ -32,7 +33,6 @@ module.exports = {
 				'allowFirstLine': false
 			}
 		}],
-		'vue/name-property-casing': ['error', 'PascalCase'],
 		'accessor-pairs': 'off',
 		'array-bracket-newline': 'off',
 		'array-bracket-spacing': 'error',
