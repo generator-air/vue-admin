@@ -18,11 +18,16 @@ module.exports = {
             ]
         }
     },
-    devServer:
-    {
+    devServer: {
         port: $config.devServerPort,
-        // 反向代理示例
-        // 到 http://127.0.0.1:8090/api 的请求，都会转发到$prop.domain/api 
-        proxy: $config.production
+        proxy: {
+            '/api': {
+                target: $config.production, // 【注】tmock的请求可以拿到结果，不属于未知请求，因此不会走代理。
+                ws: true,
+                changeOrigin: true,
+                pathRewrite: {'/api': ''},
+                logLevel: 'debug'
+            }
+        }
     }
 }

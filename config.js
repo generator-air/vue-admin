@@ -1,8 +1,5 @@
 const $urlJoin = require('url-join');
 const $path = require('path');
-const $express = require('express');
-const $app = $express();
-const $proxyMiddleware = require('http-proxy-middleware')
 
 const config = {};
 
@@ -46,26 +43,5 @@ config.uploadConfig = {
 	Region: 'ap-chengdu',
 	prefix: config.uploadUrl
 };
-
-// 反向代理配置
-config.proxy = {
-	'/api': {
-		target: config.production, // 【注】tmock的请求可以拿到结果，不属于未知请求，因此不会走代理。
-		ws: true,
-		changeOrigin: true,
-		pathRewrite: {'/api': ''},
-		logLevel: 'debug'
-	}
-}
-
-const proxyTable = config.proxy;
-
-Object.keys(proxyTable).forEach(context => {
-	let options = proxyTable[context]
-	if (typeof options === 'string') {
-		options = {target: options}
-	}
-	$app.use($proxyMiddleware(context, options))
-})
 
 module.exports = config;
