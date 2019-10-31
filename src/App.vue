@@ -9,6 +9,7 @@
 		v-head.l-header(title="后台管理系统")
 		.l-body
 			.body-content
+				v-log
 				.l-bread
 					el-breadcrumb(
 						separator="/"
@@ -30,13 +31,15 @@ import navHead from '@/layout/navHead'
 import navSide from '@/layout/navSide'
 import copyright from '@/layout/copyright'
 import logo from '@/layout/LOGO'
+import log from '@/components/Log.vue'
 
 export default {
 	components: {
 		'v-head': navHead,
 		'v-side': navSide,
 		'v-copyright': copyright,
-		'v-logo': logo
+		'v-logo': logo,
+		'v-log': log
 	},
 	data () {
 		return {
@@ -57,6 +60,7 @@ export default {
 	}
 }
 </script>
+
 
 <style lang="less">
 @import "~css/color";

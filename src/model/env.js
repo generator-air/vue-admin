@@ -1,0 +1,1 @@
+const env = {};env.domain = "http://localhost:8090";module.exports = env;
