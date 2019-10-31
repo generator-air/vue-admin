@@ -34,14 +34,14 @@ config.production = "https://api.douban.com"; // 线上域名,这里用豆瓣api
 config.development = "http://localhost:" + config.devServerPort;
 
 
-// cdn上传配置
+// cdn上传配置模板
 config.uploadConfig = {
-	AppId: '1256737511',
-	SecretId: 'AKID02ub8UafZJsHZQDqLfomfT6YpyxlRwIU',
-	SecretKey: 'AAyc8TcaQEwUs570iFbmneJn6EF5lGb4',
-	Bucket: 'qlink',
-	Region: 'ap-chengdu',
-	prefix: config.uploadUrl
+	AppId: 'xxx', // 腾讯云cos服务申请到的账号配置
+	SecretId: 'xxx',
+	SecretKey: 'xxx',
+	Bucket: 'xxx',
+	Region: 'xxx',
+	prefix: 'xxx'
 };
 
 module.exports = config;
