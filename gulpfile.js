@@ -10,10 +10,10 @@ const $colors = $gulpUtil.colors;
 // 生成filename文件，存入string内容
 string_src = (filename, string) => {
 	// eslint-disable-next-line new-cap
-	let src = require('stream').Readable({objectMode: true})
+	let src = require('stream').Readable({ objectMode: true })
 	src._read = function ()
 	{
-		this.push(new $gulpUtil.File({cwd: "", base: "", path: filename, contents: new Buffer(string)}))
+		this.push(new $gulpUtil.File({ cwd: "", base: "", path: filename, contents: new Buffer(string) }))
 		this.push(null);
 	}
 	return src
