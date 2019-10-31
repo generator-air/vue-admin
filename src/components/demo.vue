@@ -6,7 +6,6 @@
 <script>
 
 import $env from '@/mods/model/env';
-import $axios from 'axios';
 
 export default {
 	components: {
@@ -20,7 +19,14 @@ export default {
 	data() { return {} },
 	methods: {
 		async request() {
-			$axios.get("/api/admin/content/mobiles/", { withCredentials: true }).then(res=> console.log(res)).catch(err=>console.log(err));
+			// 以下为请求测试环境的get接口测试
+			this.$http.get(this.HOST + '/v2/movie/imdb/tt0111161', {
+				params: {
+					"apikey": "0df993c66c0c636e29ecbb5344252a4a"
+				}
+			}).then((response) => {
+				console.log("get:" + response.data);
+			});
 		},
 		emonitorReport() {
 			// sdk初始化
