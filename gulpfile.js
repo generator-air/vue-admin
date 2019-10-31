@@ -22,8 +22,8 @@ string_src = (filename, string) => {
 // 存入不同的联调模式
 switchMode = mode =>{
 	// 生成prop.js文件
-	const content = `const env = {};\renv.domain = "${mode}";\rmodule.exports = env;`;
-	return string_src("./src/mods/model/env.js", content).pipe($gulp.dest('./'))
+	const content = `// @param:domain 启动后切换环境后生成的域名\rconst env = {};\renv.domain = "${mode}";\rmodule.exports = env;`;
+	return string_src("./src/model/env.js", content).pipe($gulp.dest('./'))
 }
 
 $gulp.task('clean-dev', () => $del(['./dist/', './online/']));

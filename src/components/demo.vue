@@ -5,7 +5,7 @@
 
 <script>
 
-import $env from '@/mods/model/env';
+import $env from '@/model/env';
 
 export default {
 	components: {
