@@ -9,18 +9,16 @@
 		v-head.l-header(title="后台管理系统")
 		.l-body
 			.body-content
-				v-log
+				v-demo
 				.l-bread
 					el-breadcrumb(
 						separator="/"
-						v-if="$route.meta.breadcrumb"
 					)
 						el-breadcrumb-item(
-							v-for="bread in $route.meta.breadcrumb"
 							:key="bread"
 							:to="{ name: bread }"
 						) {{bread}}
-					h3 {{$route.name}}
+					//- h3 {{$route.name}}
 				router-view.l-route
 			v-copyright
 </template>
@@ -31,7 +29,7 @@ import navHead from '@/layout/navHead'
 import navSide from '@/layout/navSide'
 import copyright from '@/layout/copyright'
 import logo from '@/layout/LOGO'
-import log from '@/components/Log.vue'
+import demo from '@/components/demo.vue'
 
 export default {
 	components: {
@@ -39,7 +37,7 @@ export default {
 		'v-side': navSide,
 		'v-copyright': copyright,
 		'v-logo': logo,
-		'v-log': log
+		'v-demo': demo
 	},
 	data () {
 		return {
@@ -70,12 +68,12 @@ html {
 }
 
 .svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-  margin-right: 6px;
+	width: 1em;
+	height: 1em;
+	vertical-align: -0.15em;
+	fill: currentColor;
+	overflow: hidden;
+	margin-right: 6px;
 }
 
 #app{
