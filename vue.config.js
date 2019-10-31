@@ -29,7 +29,7 @@ module.exports = {
 	devServer: {
 			port: $config.devServerPort,
 			proxy: {
-				'/api': {
+				'/': {
 					target: $config.production, // 设置你调用的接口域名和端口号
 					changeOrigin: true,
 					pathRewrite: {
