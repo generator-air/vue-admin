@@ -32,6 +32,7 @@ import navSide from '@/layout/navSide'
 import copyright from '@/layout/copyright'
 import logo from '@/layout/LOGO'
 import demo from '@/components/demo.vue'
+import req from '@/io/request'
 
 export default {
 	components: {
