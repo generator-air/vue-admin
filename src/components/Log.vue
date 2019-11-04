@@ -20,7 +20,7 @@ export default {
 	data() { return {} },
 	methods: {
 		async request() {
-			$axios.get("/api/admin/content/mobiles/", {withCredentials: true}).then(res=> console.log(res)).catch(err=>console.log(err));
+			$axios.get("/api/admin/content/mobiles/", { withCredentials: true }).then(res=> console.log(res)).catch(err=>console.log(err));
 		},
 		emonitorReport() {
 			// sdk初始化

@@ -31,6 +31,7 @@ import navHead from '@/layout/navHead'
 import navSide from '@/layout/navSide'
 import copyright from '@/layout/copyright'
 import logo from '@/layout/LOGO'
+import req from './io/request'
 import log from '@/components/Log.vue'
 
 export default {
@@ -57,6 +58,15 @@ export default {
 		toggleLeftStatus (status) {
 			this.leftStatus = status
 		}
+	},
+	created () {
+		req({
+			url: 'https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final',
+			data: {
+				limit: 20,
+				page: 3
+			}
+		}).then(console.log)
 	}
 }
 </script>
@@ -64,10 +74,6 @@ export default {
 
 <style lang="less">
 @import "~css/color";
-
-html {
-	line-height: 1.15;
-}
 
 .svg-icon {
   width: 1em;

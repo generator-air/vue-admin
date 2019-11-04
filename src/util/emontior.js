@@ -84,9 +84,9 @@ const install = function (Vue) {
 							setTimeout(()=> {
 								if (!isTimingReported) {
 									// 页面质量上报
-									emonitorIns.config({baseUrl: bossInfo.page}).send($emonitor.getPfTiming());
+									emonitorIns.config({ baseUrl: bossInfo.page }).send($emonitor.getPfTiming());
 									// 页面错误日志上报
-									emonitorIns.config({baseUrl: bossInfo.error});
+									emonitorIns.config({ baseUrl: bossInfo.error });
 									isTimingReported = true;
 								} }, 0);
 						}, false);
@@ -101,7 +101,7 @@ const install = function (Vue) {
 					*/
 					report: (level, log) => {
 						// 日志级别，啄木鸟官方实例是用string类型，但是他们的数据表设计有误，表里面是bigint类型，如果上报string
-						emonitorIns.log({level, log});
+						emonitorIns.log({ level, log });
 					},
 				}
 			}
