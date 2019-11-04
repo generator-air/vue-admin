@@ -6,7 +6,7 @@ import $emontior from '@/util/emontior';
 import $request from '@/util/request';
 
 // import $store from './store' // 暂未使用，先注释
-// import $router from './router' // 暂未使用，先注释
+import $router from './router' // 暂未使用，先注释
 
 import 'element-ui/lib/theme-chalk/index.css';
 import './mixin'
@@ -29,6 +29,7 @@ $vue.use($emontior);
 $vue.use($request);
 
 new $vue({
+	router: $router,
   el: '#app',
   render: h => h($app)
 });
