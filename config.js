@@ -15,11 +15,6 @@ config.dist = 'dist';
 config.ignore = 'ignore';
 // 版本库外部引入文件路径
 config.externals = 'externals';
-// cdn部署路径
-config.cdnBase = '//cdn.jia.qq.com';
-// 创建项目后，需要更改这个属性，规则需要遵循前端资源映射规范
-config.uploadUrl = '/2019/vue-admin';
-config.cdnRoot = $urlJoin(config.cdnBase, config.uploadUrl);
 
 // 开发服务端口
 config.devServerPort = 8090;
@@ -34,14 +29,25 @@ config.production = "https://api.douban.com"; // 线上域名,这里用豆瓣api
 config.development = "http://localhost:" + config.devServerPort;
 
 
+// cdn部署路径
+config.cdnBase = '//cdn.xx.yy.com';  // 使用cdn的域名，以//开头，自动匹配站点协议
+config.uploadUrl = '/2019/test-project'; // 上传cdn的路径
+config.cdnRoot = $urlJoin(config.cdnBase, config.uploadUrl);
+
 // cdn上传配置模板
 config.uploadConfig = {
-	AppId: 'xxx', // 腾讯云cos服务申请到的账号配置
-	SecretId: 'xxx',
-	SecretKey: 'xxx',
-	Bucket: 'xxx',
-	Region: 'xxx',
-	prefix: 'xxx'
+	// 在腾讯云申请的 AppId
+	AppId: '',
+	// 配置腾讯云 COS 服务所需的 SecretId
+	SecretId: '',
+	// 配置腾讯云 COS 服务所需的 SecretKey
+	SecretKey: '',
+	// COS服务配置的存储桶名称
+	Bucket: '',
+	// 地域名称
+	Region: '',
+	// 上传cdn的路径。所有文件上传到这个路径下
+	prefix: config.uploadUrl
 };
 
 module.exports = config;
