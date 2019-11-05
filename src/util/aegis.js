@@ -6,7 +6,7 @@ const install = function (Vue) {
 			get() {
 				// sdk初始化
 				const aegis = new Aegis({
-					id: 887, // 在 aegis.ivwe.io 申请到的 id
+					id: 887, // 在 aegis.qq.com 申请到的 id
 				});
 				return {
 					/* 上报普通日志 */
