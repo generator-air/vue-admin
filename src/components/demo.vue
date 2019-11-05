@@ -40,10 +40,15 @@ export default {
 			this.$aegis.logE('aegis异常日志上报');
 			this.$aegis.logI('aegis普通日志上报')
 		},
+		badReport() {
+			this.$bj.logE('badjs异常日志上报');
+			this.$bj.logI('badis普通日志上报')
+		},
 		init() {
 			console.log('当前请求域名', $env.domain);
-			this.emonitorReport();
-			this.ageisReport();
+			// this.emonitorReport();
+			// this.ageisReport();
+			this.badReport();
 		}
 	},
 	created() {
