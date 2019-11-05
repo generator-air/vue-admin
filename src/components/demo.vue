@@ -37,7 +37,8 @@ export default {
 			this.$emonitor.report('warn', 'emonitor流水日志上报');
 		},
 		ageisReport() {
-			this.$aegis.report('aegis异常日志上报');
+			this.$aegis.logE('aegis异常日志上报');
+			this.$aegis.logI('aegis普通日志上报')
 		},
 		init() {
 			console.log('当前请求域名', $env.domain);
