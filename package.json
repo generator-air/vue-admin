@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@tencent/emonitor": "^2.4.2",
+    "aegis-web-sdk": "^0.9.13",
     "axios": "^0.18.0",
     "core-js": "^3.3.2",
     "echarts": "^4.2.1",

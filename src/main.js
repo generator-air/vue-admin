@@ -4,7 +4,7 @@ import $elementUI from 'element-ui';
 import $app from '@/App.vue';
 import $emontior from '@/util/emontior';
 import $request from '@/util/request';
-
+import Aegis  from 'aegis-web-sdk';
 // import $store from './store' // 暂未使用，先注释
 import $router from './router' // 暂未使用，先注释
 
@@ -19,6 +19,12 @@ $vue.prototype.project = 'vue-admin'; // 项目名称
 $vue.prototype.HOST = '/api' // 此处可根据个人习惯设置 此处的‘api’ 跟index.js中的‘api’一致，则所有的请求只需要使用this.HOST即可
 
 $vue.prototype.project = 'vue-admin'; // 项目名称
+
+var aegis = new Aegis({
+  id: 887, // 在 aegis.ivwe.io 申请到的 id
+});
+
+$vue.prototype.$aegis = aegis;
 
 
 $vue.use($elementUI);
