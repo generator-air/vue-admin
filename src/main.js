@@ -5,7 +5,6 @@ import $app from '@/App.vue';
 import $emontior from '@/util/emontior';
 import $request from '@/util/request';
 import $Aegis from '@/util/aegis';
-import $badjs from '@/util/badjs';
 // import $store from './store' // 暂未使用，先注释
 import $router from './router' // 暂未使用，先注释
 
@@ -28,8 +27,6 @@ $vue.use($emontior);
 // 使用Aegis
 $vue.use($Aegis);
 
-// 使用badjs
-$vue.use($badjs);
 // 配置网络请求模块
 $vue.use($request);
 
