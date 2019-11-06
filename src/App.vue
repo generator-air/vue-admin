@@ -13,12 +13,14 @@
 				.l-bread
 					el-breadcrumb(
 						separator="/"
+						v-if="$route.meta.breadcrumb"
 					)
 						el-breadcrumb-item(
+							v-for="bread in $route.meta.breadcrumb"
 							:key="bread"
 							:to="{ name: bread }"
 						) {{bread}}
-					//- h3 {{$route.name}}
+					h3 {{$route.name}}
 				router-view.l-route
 			v-copyright
 </template>
