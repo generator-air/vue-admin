@@ -30,7 +30,7 @@ config.development = "http://localhost:" + config.devServerPort;
 
 
 // cdn部署路径
-config.cdnBase = '//cdn.xx.yy.com';  // 使用cdn的域名，以//开头，自动匹配站点协议
+config.cdnBase = '//cdn.xx.yy.com'; // 使用cdn的域名，以//开头，自动匹配站点协议
 config.uploadUrl = '/2019/test-project'; // 上传cdn的路径
 config.cdnRoot = $urlJoin(config.cdnBase, config.uploadUrl);
 
