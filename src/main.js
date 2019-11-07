@@ -4,7 +4,7 @@ import $elementUI from 'element-ui';
 import $app from '@/App.vue';
 import $emontior from '@/util/emontior';
 import $request from '@/util/request';
-
+import $Aegis from '@/util/aegis';
 // import $store from './store' // 暂未使用，先注释
 import $router from './router' // 暂未使用，先注释
 
@@ -24,6 +24,8 @@ $vue.prototype.project = 'vue-admin'; // 项目名称
 $vue.use($elementUI);
 // 使用emontior
 $vue.use($emontior);
+// 使用Aegis
+$vue.use($Aegis);
 
 // 配置网络请求模块
 $vue.use($request);

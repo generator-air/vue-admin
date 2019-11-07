@@ -11,14 +11,16 @@
 			.body-content
 				v-demo
 				.l-bread
-					el-breadcrumb(
-						separator="/"
+				el-breadcrumb(
+					separator="/"
+					v-if="$route.meta.breadcrumb"
 					)
-						el-breadcrumb-item(
-							:key="bread"
-							:to="{ name: bread }"
-						) {{bread}}
-					//- h3 {{$route.name}}
+					el-breadcrumb-item(
+						v-for="bread in $route.meta.breadcrumb"
+						:key="bread"
+						:to="{ name: bread }"
+					) {{bread}}
+				h3 {{$route.name}}
 				router-view.l-route
 			v-copyright
 </template>
@@ -29,8 +31,8 @@ import navHead from '@/layout/navHead'
 import navSide from '@/layout/navSide'
 import copyright from '@/layout/copyright'
 import logo from '@/layout/LOGO'
-import req from './io/request'
 import demo from '@/components/demo.vue'
+import req from '@/io/request'
 
 export default {
 	components: {
