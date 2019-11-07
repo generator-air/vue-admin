@@ -6,7 +6,7 @@ import $emontior from '@/util/emontior';
 import $request from '@/util/request';
 import $aegis from '@/util/aegis';
 
-import $store from './store';
+import $store from './vuex';
 import $router from './router';
 
 import 'element-ui/lib/theme-chalk/index.css';
