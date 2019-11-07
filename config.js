@@ -22,7 +22,7 @@ config.devServerPort = 8090;
 config.mockServerPort = 8091;
 
 
-config.logReport = false; // 开始日志监控
+config.logReport = false; // 日志监控开关
 
 config.mock = "https://tmock.qq.com/mock/271";
 
