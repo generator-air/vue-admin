@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type from '@/utils/type'
+import type from '@/util/type'
 
 const NET_ERROR_MSG = '请求失败，请检查网络'
 
