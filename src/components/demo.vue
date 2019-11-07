@@ -6,7 +6,7 @@
 <script>
 
 import $env from '@/model/env';
-
+import $config from '../../config';
 export default {
 	components: {
 	},
@@ -42,8 +42,10 @@ export default {
 		},
 		init() {
 			console.log('当前请求域名', $env.domain);
-			this.emonitorReport();
-			this.ageisReport();
+			if ($config.logReport) {
+				this.emonitorReport();
+				this.ageisReport();
+			}
 		}
 	},
 	created() {
