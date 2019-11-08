@@ -12,7 +12,7 @@ import $router from './router';
 import 'element-ui/lib/theme-chalk/index.css';
 import './mixin';
 import './assets/icon';
-import '../node_modules/normalize.css/normalize.css';
+import 'normalize.css';
 
 $vue.prototype.project = 'vue-admin'; // 项目名称
 
