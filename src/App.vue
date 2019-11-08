@@ -141,10 +141,8 @@ export default {
 .body-content {
 	position: relative;
 	width: 100%;
-	min-height: 100%;
+	min-height: calc(100% - 200px);
 	overflow: auto;
-	margin-bottom: -200px;
-	padding-bottom: 200px;
 	box-sizing: border-box;
 }
 .l-bread {
