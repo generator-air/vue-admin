@@ -30,7 +30,7 @@ import { mapState } from 'vuex'
 import navHead from '@/layout/navHead'
 import navSide from '@/layout/navSide'
 import copyright from '@/layout/copyright'
-import logo from '@/layout/LOGO'
+import logo from '@/layout/logo'
 import demo from '@/components/demo.vue'
 import req from '@/io/request'
 
