@@ -52,7 +52,7 @@ $gulp.task('tool-kill-running', done => {
 	} else {
 		Promise.all(
 			[
-				'spore-mock'
+				'spore-mock' // 关闭相同端口号的进程
 			].map(
 				key => getPromise(key)
 			)
