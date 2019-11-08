@@ -1,1 +1,1 @@
-// @param:domain 启动后切换环境后生成的域名const env = {};env.domain = "http://localhost:8090";module.exports = env;
+// @param:domain 启动后切换环境后生成的域名const env = {};env.domain = "https://api.douban.com";module.exports = env;

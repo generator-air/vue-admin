@@ -3,7 +3,6 @@ import $elementUI from 'element-ui';
 
 import $app from '@/App.vue';
 import $emontior from '@/util/emontior';
-import $request from '@/util/request';
 import $aegis from '@/util/aegis';
 
 import $store from './store';
@@ -27,12 +26,10 @@ $vue.use($emontior);
 // 使用Aegis
 $vue.use($aegis);
 
-// 配置网络请求模块
-$vue.use($request);
 
 new $vue({
 	store: $store,
 	router: $router,
-  el: '#app',
-  render: h => h($app)
+	el: '#app',
+	render: h => h($app)
 });
