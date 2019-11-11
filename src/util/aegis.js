@@ -1,4 +1,4 @@
-import Aegis  from 'aegis-web-sdk';
+import Aegis from 'aegis-web-sdk';
 
 const install = function (Vue) {
 	Object.defineProperties(Vue.prototype, {
