@@ -2,7 +2,6 @@ import $vue from 'vue';
 import $elementUI from 'element-ui';
 
 import $app from '@/App.vue';
-import $emontior from '@/util/emontior';
 import $aegis from '@/util/aegis';
 
 import $store from './store';
@@ -21,8 +20,7 @@ $vue.prototype.project = 'vue-admin'; // 项目名称
 
 
 $vue.use($elementUI);
-// 使用emontior
-$vue.use($emontior);
+
 // 使用Aegis
 $vue.use($aegis);
 

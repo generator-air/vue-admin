@@ -140,6 +140,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 日志模块
 
-See [emonitor](https://git.code.oa.com/news/emonitor)
-
 See [km](http://km.oa.com/group/35420/articles/show/400177)

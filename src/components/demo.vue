@@ -28,14 +28,6 @@ export default {
 				console.log("get:" + response.data);
 			});
 		},
-		emonitorReport() {
-			// sdk初始化
-			this.$emonitor.init();
-			// 普通异常上报
-			console.error('warn', 'emonitor异常日志上报');
-			// 流水日志上报
-			this.$emonitor.report('warn', 'emonitor流水日志上报');
-		},
 		ageisReport() {
 			this.$aegis.logE('aegis异常日志上报');
 			this.$aegis.logI('aegis普通日志上报')
@@ -43,7 +35,6 @@ export default {
 		init() {
 			console.log('当前请求域名', $env.domain);
 			if ($config.logReport) {
-				this.emonitorReport();
 				this.ageisReport();
 			}
 		}
