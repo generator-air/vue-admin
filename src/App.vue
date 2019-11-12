@@ -9,7 +9,7 @@
 		v-head.l-header(title="后台管理系统")
 		.l-body
 			.body-content
-				v-demo
+				//- v-demo
 				.l-bread
 					el-breadcrumb(
 						separator="/"
@@ -31,8 +31,8 @@ import navHead from '@/layout/navHead'
 import navSide from '@/layout/navSide'
 import copyright from '@/layout/copyright'
 import logo from '@/layout/logo'
-import demo from '@/components/demo.vue'
-import req from '@/io/request'
+// import demo from '@/components/demo.vue'
+// import req from '@/io/request'
 
 export default {
 	components: {
@@ -40,7 +40,7 @@ export default {
 		'v-side': navSide,
 		'v-copyright': copyright,
 		'v-logo': logo,
-		'v-demo': demo
+		// 'v-demo': demo
 	},
 	data () {
 		return {
@@ -60,13 +60,12 @@ export default {
 		}
 	},
 	created () {
-		req({
-			url: 'https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final',
-			data: {
-				limit: 20,
-				page: 3
-			}
-		}).then(console.log)
+		// https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final
+		this.$setErrorDict({ 404: 123, 200: 200, 302: 302 })
+		this.$get('http://www.baidu.com')
+			.then((e) => {
+				console.log(e)
+			})
 	}
 }
 </script>
