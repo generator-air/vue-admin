@@ -3,7 +3,7 @@ const $execa = require('execa');
 const $gulpUtil = require('gulp-util');
 const $gulpConfirm = require('gulp-confirm');
 const $qcloudUpload = require('gulp-qcloud-cos-upload');
-const $del = require('del');
+// const $del = require('del');
 const $config = require('./config');
 const $colors = $gulpUtil.colors;
 
@@ -23,10 +23,10 @@ string_src = (filename, string) => {
 switchMode = mode =>{
 	// 生成prop.js文件
 	const content = `// @param:domain 启动后切换环境后生成的域名\rconst env = {};\renv.domain = "${mode}";\rmodule.exports = env;`;
-	return string_src("./src/model/env.js", content).pipe($gulp.dest('./'))
+	return string_src('./src/model/env.js', content).pipe($gulp.dest('./'))
 }
 
-$gulp.task('clean-dev', () => $del(['./dist/', './online/']));
+// $gulp.task('clean-dev', () => $del(['./dist/', './online/']));
 
 // 杀掉正在执行的 server 进程，确保同一时间只有一个开发服务存在
 $gulp.task('tool-kill-running', done => {
@@ -52,7 +52,7 @@ $gulp.task('tool-kill-running', done => {
 	} else {
 		Promise.all(
 			[
-				'spore-mock'
+				'spore-mock' // 关闭相同端口号的进程
 			].map(
 				key => getPromise(key)
 			)
@@ -133,7 +133,6 @@ $gulp.task('build-prod', $gulp.series(
 $gulp.task('dev', $gulp.series(
 	'development',
 	'tool-kill-running',
-	'clean-dev',
 	'serve'
 ));
 
@@ -141,7 +140,6 @@ $gulp.task('dev', $gulp.series(
 $gulp.task('mock', $gulp.series(
 	'mock',
 	'tool-kill-running',
-	'clean-dev',
 	'serve'
 ));
 
@@ -150,7 +148,6 @@ $gulp.task('mock', $gulp.series(
 $gulp.task('prod', $gulp.series(
 	'production',
 	'tool-kill-running',
-	'clean-dev',
 	'serve'
 ));
 
