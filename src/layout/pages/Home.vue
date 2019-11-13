@@ -6,11 +6,28 @@
 			| If Element is successfully added to this project, you'll see an
 			code(v-text="'<el-button>'")
 			| below
-		el-button el-button
+		el-button(@click="changeUser") el-button
+		p state of user: {{ userInfo.name }}
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
+
 export default {
-  name: 'App'
+  computed: {
+		...mapState('user', [
+			'userInfo'
+		])
+	},
+	methods: {
+		...mapMutations('user', [
+			'setUserInfo'
+		]),
+		changeUser () {
+			this.setUserInfo({
+				name: 'Adam'
+			})
+		}
+	}
 }
 </script>

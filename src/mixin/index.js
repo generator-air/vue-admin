@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Icon from '@/components/SvgIcon'
+import Icon from '@/components/svgIcon'
 
 const requireContext = require.context('@/mixin', false, /\.js$/i)
 requireContext.keys().forEach(mix => {
