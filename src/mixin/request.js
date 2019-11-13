@@ -4,23 +4,22 @@ import get from 'lodash/get'
 
 let errorDict = {}
 /**
- *  {
-			3000: ‘身份验证不通过’,
-			3001: {
-				action: () => {
-					location.href=“www.baidu.com”
-				},
-				message: ‘登录过期，请重新登录’
-			}
-		}
+ * {
+ * 	403: 'Error happened',
+ *  404: () => jump(),
+ *  203: {
+ * 		3000: 'error code is 3000',
+ * 		4000: () => console.log('error code is 4000')
+ *  }
+ * }
  */
 
-const NET_ERROR_MSG = '请求失败，请检查网络'
+const NET_ERROR_MSG = '请求失败，请检查网络 '
 const URL_FORMAT_ERROR = '请求地址格式错误，请检查'
 const REQUEST_PARAMETER_ERROR = '请求参数错误，请检查'
 const ERROR_CODE_DICT_TYPE_ERROR = '错误码字典的类型必须是Object'
 
-const reject = reason => Promise.reject(new Error(reason))
+const reject = reason => Promise.reject(reason ? new Error(reason) : NET_ERROR_MSG)
 
 const getMethod = opt => {
 	let method = ''
@@ -35,41 +34,43 @@ const getMethod = opt => {
 
 // 检查传入的 option 的 url 是否合法
 const legalUrl = url => {
+	let legal = false
 	if (type(url) !== 'string') {
-		return false
+		legal = false
+	} else {
+		legal = /^https?:\/\//.test(url)
 	}
-	return /^https?:\/\//.test(url)
+	if (legal) {
+		return url
+	} else {
+		throw new Error(URL_FORMAT_ERROR)
+	}
 }
 
-const doWith = sth => {
+const doWith = (sth, spare) => {
 	// 处理多类型数据
+	sth = sth || spare
 	const sthType = type(sth)
 	switch (sthType) {
 		case 'string':
+		case 'number':
 			return sth
 		case 'function':
 			return sth()
-		case 'object':
-			sth.message && console.log(sth.message)
-			if (type(sth.action) === 'function') {
-				sth.action()
-				return sth.message
-			} else {
-				throw new Error('action 的类型应该是 function')
-			}
 		default:
-			return ''
+			return 'TYPE ERROR'
 	}
 }
 
-const useDict = (code, spare) => {
-	const item = errorDict[code]
-	if (type(item) === 'undefined') {
-		// 没有字典内容
-		return doWith(spare)
+const useDict = (status, code, spare) => {
+	let dictMatch = null
+	if (code) {
+		dictMatch = get(errorDict, [status, code])
 	} else {
-		return doWith(item)
+		dictMatch = get(errorDict, [status])
 	}
+	const result = doWith(dictMatch, spare)
+	return result || NET_ERROR_MSG + status
 }
 
 // 需要保证请求的地址为绝对地址（http:// or https://）
@@ -78,12 +79,9 @@ function req (options) {
 	const optType = type(options)
 	if (optType === 'string') {
 		// 直接过来一个 url 地址
-		if (legalUrl(options)) {
-			req = axios(options)
-		} else {
-			throw new Error(URL_FORMAT_ERROR)
-		}
+		req = axios(legalUrl(options))
 	} else if (optType === 'object') {
+		// 参数是个 Obj
 		const requestOption = {
 			method: getMethod(options),
 			data: options.data || {},
@@ -93,10 +91,7 @@ function req (options) {
 			// 是否自定义错误处理流程
 			customError: options.customError || false
 		}
-		// 参数是个 Obj
-		if (!legalUrl(options.url)) {
-			throw new Error(URL_FORMAT_ERROR)
-		}
+		legalUrl(options.url)
 		if (requestOption.method === 'get') {
 			requestOption.params = options.data || {}
 		} else if (requestOption.method === 'post') {
@@ -105,36 +100,32 @@ function req (options) {
 		req = axios(requestOption)
 	} else {
 		// 参数错误(这里是直接return一个reject还是throw一个error比较好？)
-		return reject(REQUEST_PARAMETER_ERROR)
+		throw new Error(REQUEST_PARAMETER_ERROR)
 	}
 	return req.then(res => {
-		const rowData = res.data
+		console.log(JSON.stringify(res, null, 2))
+		const { status, data: rowData } = res
 		// 这里有点不明白 option 配置中的 customError 有什么用，栋哥写的还是 axios 的配置项？
 		if (options.row || options.custom || options.customError) {
 			return rowData
-		} else if (!rowData) {
-			// 优先返回用户定义的错误字典内的信息
-			return reject(useDict([res.status], NET_ERROR_MSG + res.status))
-		} else if (Number(rowData.code) === 0) {
+		}
+		if (!rowData) {
+			return reject(NET_ERROR_MSG + status)
+		}
+		if (status === 200 && Number(rowData.code) === 0) {
 			return rowData.data
-		} else if (rowData.msg) {
-			return reject('请求失败：' + rowData.msg)
-		} else if (rowData.code) {
-			// 优先返回用户定义的错误字典内的信息
-			return reject(useDict([rowData.code], '请求失败：' + rowData.code))
-		} else {
-			return reject(NET_ERROR_MSG)
 		}
+		return reject(useDict(status, rowData.code, '请求失败：' + rowData.msg))
 	}).catch(err => {
-		console.log('test')
-		let error = null
-		const code = Number(get(err, 'response.status'))
-    if (code) {
-			error = doWith(errorDict[code])
-		} else {
-			error = err.msg
+		if (err.response) {
+			// status 为 200 以外的并且带有相应的情况
+			// 如果跨域则不会有响应
+			// 存在响应的时候，响应可以是 JSON，也可以是标签字符串等
+			const status = err.response.status
+			const code = get(err.response, 'data.code')
+			return reject(useDict(status, code, NET_ERROR_MSG + status))
 		}
-		return Promise.reject(error)
+		return Promise.reject(err)
 	})
 }
 

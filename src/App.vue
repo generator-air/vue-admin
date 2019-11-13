@@ -60,10 +60,21 @@ export default {
 	},
 	created () {
 		// https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final
-		this.$setErrorDict({ 404: 123, 200: 200, 302: 302 })
-		this.$get('https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final')
+		// 404 response
+		// https://www.gamersky.com/news/201911/123w7764.shtml
+		this.$setErrorDict({
+			201: {
+				3000: 'test with 3000',
+				4000: () => console.log('do with 201 and 4000')
+			},
+			404: () => console.log('ttttt')
+		})
+		this.$get('https://www.gamersky.com/news/201911/123w7764.shtml')
 			.then((e) => {
-				console.log(e)
+				console.log('ok', e)
+			})
+			.catch(e => {
+				console.log('error', e)
 			})
 	}
 }

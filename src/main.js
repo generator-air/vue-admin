@@ -12,6 +12,8 @@ import './mixin';
 import './assets/icon';
 import 'normalize.css';
 
+$vue.config.productionTip = false
+
 $vue.prototype.project = 'vue-admin'; // 项目名称
 
 $vue.prototype.HOST = '/api'; // 此处可根据个人习惯设置 此处的‘api’ 跟index.js中的‘api’一致，则所有的请求只需要使用this.HOST即可
