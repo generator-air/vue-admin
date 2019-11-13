@@ -67,15 +67,13 @@ export default {
 				3000: 'test with 3000',
 				4000: () => console.log('do with 201 and 4000')
 			},
-			404: () => console.log('ttttt')
+			404: () => console.log('404了！')
 		})
-		this.$get('https://www.gamersky.com/news/201911/123w7764.shtml')
+		this.$get('https://www.baidu.com')
 			.then((e) => {
 				console.log('ok', e)
 			})
-			.catch(e => {
-				console.log('error', e)
-			})
+			.catch(console.error)
 	}
 }
 </script>

@@ -14,12 +14,14 @@ let errorDict = {}
  * }
  */
 
+const NO_RESPONSE = '没有收到响应数据，请检查请求是否跨域和链接是否正确'
 const NET_ERROR_MSG = '请求失败，请检查网络 '
+const DATA_TYPE_ERROR = '返回数据格式错误'
 const URL_FORMAT_ERROR = '请求地址格式错误，请检查'
 const REQUEST_PARAMETER_ERROR = '请求参数错误，请检查'
 const ERROR_CODE_DICT_TYPE_ERROR = '错误码字典的类型必须是Object'
 
-const reject = reason => Promise.reject(reason ? new Error(reason) : NET_ERROR_MSG)
+const reject = reason => Promise.reject(reason || NET_ERROR_MSG)
 
 const getMethod = opt => {
 	let method = ''
@@ -69,8 +71,7 @@ const useDict = (status, code, spare) => {
 	} else {
 		dictMatch = get(errorDict, [status])
 	}
-	const result = doWith(dictMatch, spare)
-	return result || NET_ERROR_MSG + status
+	return doWith(dictMatch, spare) || NET_ERROR_MSG + status
 }
 
 // 需要保证请求的地址为绝对地址（http:// or https://）
@@ -103,7 +104,6 @@ function req (options) {
 		throw new Error(REQUEST_PARAMETER_ERROR)
 	}
 	return req.then(res => {
-		console.log(JSON.stringify(res, null, 2))
 		const { status, data: rowData } = res
 		// 这里有点不明白 option 配置中的 customError 有什么用，栋哥写的还是 axios 的配置项？
 		if (options.row || options.custom || options.customError) {
@@ -115,6 +115,9 @@ function req (options) {
 		if (status === 200 && Number(rowData.code) === 0) {
 			return rowData.data
 		}
+		if (type(rowData !== 'object')) {
+			return reject(DATA_TYPE_ERROR)
+		}
 		return reject(useDict(status, rowData.code, '请求失败：' + rowData.msg))
 	}).catch(err => {
 		if (err.response) {
@@ -125,7 +128,7 @@ function req (options) {
 			const code = get(err.response, 'data.code')
 			return reject(useDict(status, code, NET_ERROR_MSG + status))
 		}
-		return Promise.reject(err)
+		return Promise.reject(NO_RESPONSE)
 	})
 }
 
