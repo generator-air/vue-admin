@@ -62,16 +62,9 @@ export default {
 		// https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final
 		// 404 response
 		// https://www.gamersky.com/news/201911/123w7764.shtml
-		this.$setErrorDict({
-			201: {
-				3000: 'test with 3000',
-				4000: () => console.log('do with 201 and 4000')
-			},
-			404: () => console.log('404了！')
-		})
-		this.$get('https://www.baidu.com')
+		this.get('https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final')
 			.then((e) => {
-				console.log('ok', e)
+				console.log('%c' + JSON.stringify(e, null, 2), 'color:violet')
 			})
 			.catch(console.error)
 	}
