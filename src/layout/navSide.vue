@@ -51,7 +51,7 @@ const routeList = [
 	},
 	{
 		title: '菜单2',
-		icon: 'rili',
+		icon: 'gear',
 		subnav: [
 			{
 				title: '子菜单3',

@@ -4,13 +4,15 @@ import $elementUI from 'element-ui';
 import $app from '@/App.vue';
 import $aegis from '@/util/aegis';
 
-import $store from './store';
+import $store from './vuex';
 import $router from './router';
 
 import 'element-ui/lib/theme-chalk/index.css';
 import './mixin';
 import './assets/icon';
-import '../node_modules/normalize.css/normalize.css';
+import 'normalize.css';
+
+$vue.config.productionTip = false
 
 $vue.prototype.project = 'vue-admin'; // 项目名称
 

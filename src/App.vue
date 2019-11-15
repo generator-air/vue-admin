@@ -30,9 +30,8 @@ import { mapState } from 'vuex'
 import navHead from '@/layout/navHead'
 import navSide from '@/layout/navSide'
 import copyright from '@/layout/copyright'
-import logo from '@/layout/LOGO'
+import logo from '@/layout/logo'
 import demo from '@/components/demo.vue'
-import req from '@/io/request'
 
 export default {
 	components: {
@@ -60,13 +59,21 @@ export default {
 		}
 	},
 	created () {
-		req({
-			url: 'https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final',
-			data: {
-				limit: 20,
-				page: 3
-			}
-		}).then(console.log)
+		// https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final
+		// 404 response
+		// https://www.gamersky.com/news/201911/123w7764.shtml
+		this.$setErrorDict({
+			201: {
+				3000: 'test with 3000',
+				4000: () => console.log('do with 201 and 4000')
+			},
+			404: () => console.log('404了！')
+		})
+		this.$get('https://www.baidu.com')
+			.then((e) => {
+				console.log('ok', e)
+			})
+			.catch(console.error)
 	}
 }
 </script>
@@ -141,10 +148,8 @@ export default {
 .body-content {
 	position: relative;
 	width: 100%;
-	min-height: 100%;
+	min-height: calc(100% - 200px);
 	overflow: auto;
-	margin-bottom: -200px;
-	padding-bottom: 200px;
 	box-sizing: border-box;
 }
 .l-bread {
