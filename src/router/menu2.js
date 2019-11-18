@@ -6,7 +6,7 @@ const routerList = [{
 	component: pages_menu2_edit
 },
 {
-	path: '/menu2/list',
+	path: '/menu2',
 	component: pages_menu2_list
 }]
 

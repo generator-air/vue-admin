@@ -1,5 +1,5 @@
 <template lang="pug">
-	.p-page1-edit page1-edit
+	.p-page1-detail menu1 - page1-detail
 </template>
 
 <script>
@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style lang="less">
-.p-page1-edit {
+.p-page1-detail {
 
 }
 </style>

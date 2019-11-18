@@ -28,19 +28,19 @@ el-menu.p-navSide(
 						span.title {{submenuItem.title}}
 					el-menu-item(
 						v-for="item in submenuItem.submenu"
-						:key="item.namespace || item.url"
-						:index="item.namespace || item.url"
+						:key="item.url"
+						:index="item.url"
 					)
 						span.title(slot="title") {{item.title}}
 				el-menu-item(
 					v-else
-					:key="submenuItem.namespace || submenuItem.url"
-					:index="submenuItem.namespace || submenuItem.url"
+					:key="submenuItem.url"
+					:index="submenuItem.url"
 				)
 					span.title(slot="title") {{submenuItem.title}}
 		el-menu-item(
 			v-if="!menuItem.hidden && !menuItem.submenu"
-			:index="menuItem.namespace || menuItem.url"
+			:index="menuItem.url"
 		)
 			template(slot="title")
 				svg-icon(:name="menuItem.icon")
@@ -49,7 +49,7 @@ el-menu.p-navSide(
 
 <script>
 import { mapState } from 'vuex'
-import { menus, namespace } from '../model/menu'
+import menus from '../model/menu'
 
 // 只支持二级列表
 // 二级列表的汇总菜单不携带链接
@@ -67,15 +67,9 @@ export default {
 			return menus
 		},
 		activeIndex () {
-			let keyType = ''
 			const arr = []
-			if (namespace) {
-				keyType = 'namespace'
-			} else {
-				keyType = 'url'
-			}
 			menus.forEach(menu => {
-				this.getKeyWords(keyType, menu, arr)
+				this.getKeyWords('url', menu, arr)
 			})
 			return arr.filter(item => this.$route.path.indexOf(item) > -1)[0]
 		}

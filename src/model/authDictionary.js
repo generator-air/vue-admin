@@ -5,7 +5,7 @@ const dictionary = {
 			operations: ['create', 'edit', 'delete']
 		},
 		{
-			path: '/menu1/edit',
+			path: '/menu1',
 			operations: ['create', 'delete']
 		},
 		{

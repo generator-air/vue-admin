@@ -35,6 +35,7 @@ function createFile(items, rewrite) {
 	})
 }
 
+// default.js 创建
 function createDefaultFile(fileNames) {
 	let routerList = ''
 	let imports = ''
@@ -74,8 +75,17 @@ function createFileContent(rootPath, folderName) {
 		const name = formatPath.substring(0, formatPath.lastIndexOf('.'))
 		// 构造 import 引入语句
 		const importStr = `const ${name} = () => import('${path.substring(4)}')\n`
-		// 路由默认使用 pages 下的文件夹目录结构（将 path pages/ 及之前的路径截掉。将.vue字符截掉）
-		const routerPath = path.substring(9, path.lastIndexOf('.'))
+		// 获取.vue页面名称
+		const fileName = name.substring(name.lastIndexOf('_') + 1)
+		let routerPath = ''
+		// list/index 页，路由设计：直接对应文件夹名称
+		if (fileName !== 'list' && fileName !== 'index') {
+			// 路由默认使用 pages 下的文件夹目录结构（将 path pages/ 及之前的路径截掉。将.vue字符截掉）
+			routerPath = path.substring(9, path.lastIndexOf('.'))
+		} else {
+			// 默认 list/index 页为菜单对应的一级页面。路由直接对应所在文件夹名，以其作为一个命名空间。其下的编辑、详情等二级页面，均在这个命名空间下（设计规则如：/menu1，/menu1/edit）
+			routerPath = `/${folderName}`
+		}
 		// 构造路由描述字符串
 		const routerStr = `{\n\tpath: '${routerPath}',\n\tcomponent: ${name}\n},\n`
 		// import 语句生成

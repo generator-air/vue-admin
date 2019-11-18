@@ -5,7 +5,7 @@ import $authDic from '../model/authDictionary'
 import $menu1 from './menu1'
 import $menu2 from './menu2'
 import $default from './default'
-import { menus } from '../model/menu'
+import menus from '../model/menu'
 const $notFound = () => import(/* webpackChunkName: "notFound" */ 'pages/notFound')
 
 $vue.use($vueRouter)
