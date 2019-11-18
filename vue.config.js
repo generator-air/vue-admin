@@ -13,7 +13,7 @@ module.exports = {
 			alias: {
 				'@': resolve('src'),
 				'css': resolve('src/assets/css'),
-				'pages': resolve('src/layout/pages')
+				'pages': resolve('src/pages')
 			}
 		},
 		module: {

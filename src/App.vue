@@ -27,11 +27,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import navHead from '@/layout/navHead'
-import navSide from '@/layout/navSide'
-import copyright from '@/layout/copyright'
-import logo from '@/layout/logo'
-import demo from '@/components/demo.vue'
+import navHead from '@/components/navHead'
+import navSide from '@/components/navSide'
+import copyright from '@/components/copyright'
+import logo from '@/components/logo'
+import demo from '@/components/demo'
 
 export default {
 	components: {
@@ -66,7 +66,6 @@ export default {
 			.then((e) => {
 				console.log('%c' + JSON.stringify(e, null, 2), 'color:violet')
 			})
-			.catch(console.error)
 	}
 }
 </script>

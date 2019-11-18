@@ -38,6 +38,8 @@ axios.interceptors.response.use(({ data, status }) => {
 	return Promise.reject(err.message)
 })
 
+
+// put delete 咋办 restful method
 const request = Vue => {
 	Vue.prototype.get = (url, params) => axios({
 		url,
@@ -47,7 +49,7 @@ const request = Vue => {
 			// ajax 请求标识，部分服务器会区别对待 ajax 请求和普通请求
 			'X-Requested-With': 'XMLHttpRequest'
 		}
-	})
+	}),
 	Vue.prototype.post = (url, data) => axios({
 		url,
 		data,
