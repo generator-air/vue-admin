@@ -1,4 +1,4 @@
-const dic = {
+const dictionary = {
 	101: [
 		{
 			path: '/menu1',
@@ -24,4 +24,4 @@ const dic = {
 	]
 }
 
-export default dic;
+export default dictionary;

@@ -94,16 +94,7 @@ export default {
 					this.getKeyWords(keyType, item, arr)
 				})
 			}
-		},
-		// getUrls(menuItem, arr) {
-		// 	if (menuItem.url) {
-		// 		arr.push(menuItem.url)
-		// 	} else if (menuItem.submenu) {
-		// 		menuItem.submenu.forEach(item => {
-		// 			this.getUrls(item, arr)
-		// 		})
-		// 	}
-		// }
+		}
 	},
 	mounted () {
 		this.$emit('side-toggle', this.isCollapse)

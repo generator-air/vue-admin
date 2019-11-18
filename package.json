@@ -11,7 +11,8 @@
     "build-prod": "gulp build-prod",
     "upload": "gulp upload",
     "lint": "vue-cli-service lint",
-    "pageCreate": "node tools/pageCreate"
+    "pageCreate": "node tools/pageCreate",
+    "routeCreate": "node tools/routeCreate"
   },
   "dependencies": {
     "aegis-web-sdk": "^0.9.13",
@@ -22,7 +23,6 @@
     "lodash": "^4.17.11",
     "normalize.css": "^8.0.1",
     "qs": "^6.9.0",
-    "rx": "^4.1.0",
     "rxjs": "^6.5.3",
     "spore-kit-cookie": "^0.2.4",
     "spore-kit-date": "^0.2.3",
