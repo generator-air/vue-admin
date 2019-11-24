@@ -63,9 +63,9 @@ export default {
 		...mapState('user', [
 			'userInfo'
 		]),
-		menuList () {
-			return menus
-		},
+		...mapState('menu', [
+			'menuList'
+		]),
 		activeIndex () {
 			const arr = []
 			menus.forEach(menu => {

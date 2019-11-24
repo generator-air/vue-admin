@@ -11,6 +11,10 @@ const dictionary = {
 		{
 			path: '/menu2',
 			operations: ['create']
+		},
+		{
+			path: '/about',
+			operations: ['create']
 		}
 	],
 	102: [

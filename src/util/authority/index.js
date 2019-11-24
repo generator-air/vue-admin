@@ -5,8 +5,8 @@ function getMenuList(allMenu) {
 		return allMenu
 	}
 	const authRouters = getAuthRouters(this.authList)
-	const menuList = []
-	menuFilter(allMenu, authRouters, menuList)
+	const menuList = menuFilter(allMenu, authRouters)
+	return menuList
 }
 // 获取有权访问的路由
 function getRouterList(allRouter) {
@@ -19,8 +19,10 @@ function getRouterList(allRouter) {
 	return routerList
 }
 // 获取指定路由下的操作权限
-function getPageOperations() {
-
+function getPageOperations(allOps, router) {
+	// 当前项目涉及到的所有操作集合
+	console.log('allOps:', allOps)
+	console.log('router:', router)
 }
 
 // 格式化 authList，拿到当前用户有权访问的所有路由，组成的一位数组
@@ -32,59 +34,28 @@ function getAuthRouters(authList) {
 	return [...authRouters]
 }
 
-
-// 【参考】
 // 递归获取可访问的 menuList
-// privates.getMenuList = function (allMenuList, urls) {
-// 	const all = JSON.parse(JSON.stringify(allMenuList));
-// 	// 存放过滤后的menu列表（当传入的是一级菜单数组，menuList存放有权访问的一级菜单列表。当传入的是二级菜单数组，menuList存放有权访问的二级菜单列表。）
-// 	const menuList = [];
-// 	all.forEach(menuItem => {
-// 		// 如果当前菜单在可访问列表里，则放入menuList数组
-// 		if (menuItem.url && urls.includes(menuItem.url)) {
-// 			menuList.push(menuItem);
-// 		} else if (menuItem.submenu) {
-// 			// 当前菜单存在子菜单时，将其全部子菜单列表传回当前方法。此时，传入的子菜单列表，也会被当作全部菜单列表，进行同样的处理
-// 			const submenuList = privates.getMenuList(menuItem.submenu, urls);
-// 			// 当前 menuItem.submenu 进行过滤后，发现存在可访问的 submenu。则手动设置 menuItem.submenu 为过滤后的 submenuList
-// 			if (submenuList.length > 0) {
-// 				menuItem.submenu = submenuList;
-// 				// 将子菜单经过过滤的父菜单，放到父菜单数组
-// 				menuList.push(menuItem);
-// 			}
-// 		}
-// 	});
-// 	// 返回过滤后的菜单列表
-// 	return menuList;
-// };
-
-
-// 菜单过滤
 function menuFilter(allMenu, authRouters) {
-	const menus = allMenu.map(menuItem => {
-		if (menuItem.url && authRouters.includes(menuItem.url)) {
-			return menuItem
-		} else if (menuItem.submenu) {
-			const submenuItems = menuItem.submenu.map(submenuItem => {
-				if (submenuItem.url && authRouters.includes(submenuItem.url)) {
-					return submenuItem
-				} else if (submenuItem.submenu) {
-					const items = submenuItem.submenu.map(item => {
-						if (item.url && authRouters.includes(item.url)) {
-							return item
-						}
-					})
-					if (items.length > 0) {
-						return submenuItem
-					}
-				}
-			})
-			if (submenuItems.length > 0) {
-				return menuItem
+	// 存放过滤后的menu列表（如果当传入的是一级菜单数组，menuList存放有权访问的一级菜单列表。如果当传入的是二级菜单数组，menuList存放有权访问的二级菜单列表。）
+	const menuList = []
+	allMenu.forEach(menuItem => {
+		if (menuItem.submenu) {
+			// 当前菜单存在子菜单时，将其全部子菜单列表传回当前方法。此时，传入的子菜单列表，也会被当作全部菜单列表，进行同样的处理
+			const submenuList = menuFilter(menuItem.submenu, authRouters)
+			// 当前 menuItem.submenu 进行过滤后，发现存在可访问的 submenu。则手动设置 menuItem.submenu 为过滤后的 submenuList
+			if (submenuList.length > 0) {
+				menuItem.submenu = submenuList
+				// 将子菜单经过过滤的父菜单，放到父菜单数组
+				menuList.push(menuItem)
+			}
+		} else {
+			// 如果当前菜单在用户可访问列表里，则放入menuList数组
+			if (authRouters.includes(menuItem.url)) {
+				menuList.push(menuItem)
 			}
 		}
 	})
-	console.log('menus:', menus)
+	return menuList
 }
 
 class Authority {
@@ -98,11 +69,8 @@ class Authority {
 		} else {
 			this.authList = dic[role];
 		}
-		// this.dictionary = dic;
-		// this.roleId = roleId;
 		if (options) {
 			this.dev = options.dev;
-			// this.operations = options.operations;
 		}
 	}
 
