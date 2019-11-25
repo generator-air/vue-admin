@@ -39,7 +39,8 @@ axios.interceptors.response.use(({ data, status }) => {
 })
 
 const request = Vue => {
-	Vue.prototype.get = (url, params) => axios({
+	Vue.prototype.$request = options => axios(options)
+	Vue.prototype.$get = (url, params) => axios({
 		url,
 		params,
 		method: 'get',
@@ -48,13 +49,22 @@ const request = Vue => {
 			'X-Requested-With': 'XMLHttpRequest'
 		}
 	})
-	Vue.prototype.post = (url, data) => axios({
+	Vue.prototype.$post = (url, data) => axios({
 		url,
 		data,
 		method: 'post',
 		headers: {
 			'X-Requested-With': 'XMLHttpRequest',
 			// 标准 HTML form 格式
+			'Content-Type': 'application/x-www-form-urlencoded'
+		}
+	})
+	Vue.prototype.$put = (url, data) => axios({
+		url,
+		data,
+		method: 'put',
+		headers: {
+			'X-Requested-With': 'XMLHttpRequest',
 			'Content-Type': 'application/x-www-form-urlencoded'
 		}
 	})
