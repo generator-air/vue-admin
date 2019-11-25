@@ -38,19 +38,20 @@ axios.interceptors.response.use(({ data, status }) => {
 	return Promise.reject(err.message)
 })
 
-
-// put delete 咋办 restful method
 const request = Vue => {
-	Vue.prototype.get = (url, params) => axios({
+	Vue.prototype.$request = options => axios(options)
+	Vue.prototype.$get = (url, params) => axios({
 		url,
 		params,
 		method: 'get',
 		headers: {
 			// ajax 请求标识，部分服务器会区别对待 ajax 请求和普通请求
 			'X-Requested-With': 'XMLHttpRequest'
-		}
-	}),
-	Vue.prototype.post = (url, data) => axios({
+		},
+		// 跨域携带cookie
+		// withCredentials: true
+	})
+	Vue.prototype.$post = (url, data) => axios({
 		url,
 		data,
 		method: 'post',
@@ -58,7 +59,31 @@ const request = Vue => {
 			'X-Requested-With': 'XMLHttpRequest',
 			// 标准 HTML form 格式
 			'Content-Type': 'application/x-www-form-urlencoded'
-		}
+		},
+		// 跨域携带cookie
+		// withCredentials: true
+	})
+	Vue.prototype.$put = (url, data) => axios({
+		url,
+		data,
+		method: 'put',
+		headers: {
+			'X-Requested-With': 'XMLHttpRequest',
+			'Content-Type': 'application/x-www-form-urlencoded'
+		},
+		// 跨域携带cookie
+		// withCredentials: true
+	})
+	Vue.prototype.$delete = (url, data) => axios({
+		url,
+		data,
+		method: 'delete',
+		headers: {
+			'X-Requested-With': 'XMLHttpRequest',
+			'Content-Type': 'application/x-www-form-urlencoded'
+		},
+		// 跨域携带cookie
+		// withCredentials: true
 	})
 }
 

@@ -9,7 +9,6 @@
 		v-head.l-header(title="后台管理系统")
 		.l-body
 			.body-content
-				v-demo
 				.l-bread
 					el-breadcrumb(
 						separator="/"
@@ -31,15 +30,14 @@ import navHead from '@/components/navHead'
 import navSide from '@/components/navSide'
 import copyright from '@/components/copyright'
 import logo from '@/components/logo'
-import demo from '@/components/demo'
+import $config from '../config'
 
 export default {
 	components: {
 		'v-head': navHead,
 		'v-side': navSide,
 		'v-copyright': copyright,
-		'v-logo': logo,
-		'v-demo': demo
+		'v-logo': logo
 	},
 	data () {
 		return {
@@ -62,10 +60,18 @@ export default {
 		// https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final
 		// 404 response
 		// https://www.gamersky.com/news/201911/123w7764.shtml
-		this.get('https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final')
+		/* request demo */
+		this.$get('https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final')
 			.then((e) => {
 				console.log('%c' + JSON.stringify(e, null, 2), 'color:violet')
 			})
+		/* aegis log demo */
+		if ($config.logReport) {
+			// 监控当前页面
+			this.$aegis.logE('aegis异常日志上报')
+			// 监控当前页面
+			this.$aegis.logI('aegis普通日志上报')
+		}
 	}
 }
 </script>

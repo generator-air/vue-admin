@@ -1,7 +1,3 @@
-/**
- * （1）不使用namespace：叶子菜单的 url，作为一个命名空间。路由设计要求：值唯一，且不可重复。菜单栏的选中回显，根据url是否包含叶子菜单的路由判断
- * （2）使用namespace：url 可自由设计，但需要包含 namespace。菜单栏的选中回显，根据url是否包含namespace判断
- */
 const menus = [
 	{
 		title: '菜单1',

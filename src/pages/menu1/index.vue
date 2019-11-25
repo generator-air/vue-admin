@@ -1,5 +1,9 @@
 <template lang="pug">
-	.p-page1 menu1 - page1
+	.p-page1 页面操作过滤demo
+		.buttons
+			el-button(v-if="operations.includes('create')") 创建
+			el-button(v-if="operations.includes('edit')") 编辑
+			el-button(v-if="operations.includes('delete')") 删除
 </template>
 
 <script>
