@@ -1,3 +1,4 @@
+// 本文件暂未启用
 const store = {};
 
 function setStore(name, value) {

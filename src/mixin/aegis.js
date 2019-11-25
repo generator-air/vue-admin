@@ -1,5 +1,6 @@
 import Aegis from 'aegis-web-sdk';
 
+// 日志监控模块注入
 const install = function (Vue) {
 	Object.defineProperties(Vue.prototype, {
 		$aegis: {
