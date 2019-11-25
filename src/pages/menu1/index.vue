@@ -8,17 +8,20 @@ import { mapState } from 'vuex'
 export default {
 	computed: {
 		...mapState('user', [
-			'userInfo'
+			'userInfo', 'auth'
 		])
 	},
 	data() {
-		return {}
+		return {
+			operations: []
+		}
 	},
 	methods: {
 
 	},
 	mounted() {
-
+		this.operations = this.auth.getPageOperations(this.$route.path)
+		console.log('this.operations:', this.operations)
 	}
 }
 </script>

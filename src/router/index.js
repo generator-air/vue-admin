@@ -17,6 +17,8 @@ const router = new $vueRouter()
 setTimeout(() => {
 	// 将权限字典 + roleId传入权限组件
 	const auth = new $Auth($authDic, 101)
+	// 全局存储 auth 对象
+	$store.commit('user/setAuth', auth)
 	// 获取经过权限过滤后的路由
 	const routerList = auth.getRouterList([...$menu1, ...$menu2])
 	router.addRoutes([
@@ -32,9 +34,5 @@ setTimeout(() => {
 	// 权限过滤后的菜单保存至vuex
 	$store.commit('menu/setMenu', menuList)
 }, 2000)
-// 以下，根据权限动态添加
-// router.addRoutes($menu1)
-// router.addRoutes($menu2)
-
 
 export default router

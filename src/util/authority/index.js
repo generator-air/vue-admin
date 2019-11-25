@@ -19,10 +19,14 @@ function getRouterList(allRouter) {
 	return routerList
 }
 // 获取指定路由下的操作权限
-function getPageOperations(allOps, router) {
-	// 当前项目涉及到的所有操作集合
-	console.log('allOps:', allOps)
-	console.log('router:', router)
+function getPageOperations(router) {
+	let operations = []
+	this.authList.forEach(auth => {
+		if (auth.path === router) {
+			operations = auth.operations
+		}
+	})
+	return operations
 }
 
 // 格式化 authList，拿到当前用户有权访问的所有路由，组成的一位数组
