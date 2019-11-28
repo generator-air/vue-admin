@@ -129,7 +129,8 @@ npm run upload
 ```
 
 #### 3.启动原理
-执行gulp默认指令。详见gulpfile.js
+执行gulp默认指令。
+详见gulpfile.js
 vue-cli-service：用于开发（端口号：8090）
 > vue-cli官网：
 vue-cli-service serve 命令会启动一个开发服务器 (基于 webpack-dev-server) 并附带开箱即用的模块热重载 (Hot-Module-Replacement)
