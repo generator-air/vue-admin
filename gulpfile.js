@@ -116,11 +116,6 @@ $gulp.task('build-dev', $gulp.series(
 	'build'
 ));
 
-// build mock环境
-$gulp.task('build-mock', $gulp.series(
-	'mock',
-	'build'
-));
 
 // build 正式环境
 $gulp.task('build-prod', $gulp.series(
