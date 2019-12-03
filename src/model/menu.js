@@ -18,6 +18,10 @@ const menus = [
 					{
 						title: '三级菜单2',
 						url: '/menu2'
+					},
+					{
+						title: '搜索列表',
+						url: '/menu3'
 					}
 				]
 			}
