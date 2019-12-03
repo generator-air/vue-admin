@@ -36,7 +36,7 @@ export default {
 	},
 	data() {
 		return {
-			logger: 'view/table',
+			logger: 'components/table',
 			list: []
 		};
 	},
@@ -66,9 +66,7 @@ export default {
 			return '';
 		},
 		checkUpdate(info) {
-			let channel = this.channel;
 			let path = this.$route.path;
-			this.$info('checkUpdate:', path, channel, info);
 			if (info && path === info.path && this.channel === info.channel) {
 				this.update();
 			}
@@ -85,7 +83,7 @@ export default {
 			let api = this.api;
 			let query = this.$route.query;
 			let rs = await api(query);
-			this.$info('update:', path, channel, rs);
+			console.log(rs)
 			if (rs) {
 				let data = {};
 				rs.list = rs.list.map(item => {

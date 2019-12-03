@@ -7,7 +7,7 @@ route.local = $env.domain
 const API = {}
 const MOCK = {}
 
-MOCK['list'] = route.local + '/selectAdByKey'
+MOCK['list'] = route.local + '/list'
 
 
 Object.keys(MOCK).forEach(key => {

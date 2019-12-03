@@ -53,7 +53,6 @@ export default {
 			let path = this.$route.path;
 			let channel = this.channel;
 			// 校验列表一致性
-			this.$info('update', path, channel, rs);
 			if (rs && path === rs.path && channel === rs.channel) {
 				this.total = rs.total;
 				this.page = rs.page;

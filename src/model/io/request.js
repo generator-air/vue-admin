@@ -1,4 +1,5 @@
 import $axios from 'axios'
+import $bus from '@/mixin/bus'
 
 
 const request = options => {
@@ -10,10 +11,12 @@ const request = options => {
 		customError: false
 	}, options)
 
+	$bus.emit('progress-start')
 
 	const netErrMsg = '请求失败，请检查网络'
 
 	let pm = $axios(conf).then(xhr => {
+		$bus.emit('progress-end')
 		if (xhr) {
 			if (xhr.data) {
 				let rs = xhr.data
@@ -29,6 +32,7 @@ const request = options => {
 		}
 		return Promise.reject(new Error(`${netErrMsg}(未取得xhr对象)`))
 	}).catch(err => {
+		$bus.emit('progress-fail')
 		let msg = ''
 		let statusMsg = netErrMsg
 		// 登录认证失败，返回403，走catch
@@ -38,12 +42,15 @@ const request = options => {
 			if (code === 3000) {
 				statusMsg = '身份认证失败，请登录'
 				// 保证跳转发生在$notify提示语之后
+				setTimeout(() => $bus.emit('require-signin'), 2000)
 			} else if (code === 3001) {
 				statusMsg = '账号或密码错误'
 			} else if (code === 3002) {
 				statusMsg = '验证码错误'
 			} else if (code === 3003) {
 				statusMsg = '当前用户权限发生变更，请重新登录'
+				// 保证跳转发生在$notify提示语之后
+				setTimeout(() => $bus.emit('require-signin'), 2000)
 			}
 		} else if (typeof err === 'string') {
 			statusMsg = err

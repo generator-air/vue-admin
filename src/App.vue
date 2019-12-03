@@ -82,10 +82,10 @@ export default {
 		// 404 response
 		// https://www.gamersky.com/news/201911/123w7764.shtml
 		/* request demo */
-		this.$get('https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final')
-			.then((e) => {
-				console.log('%c' + JSON.stringify(e, null, 2), 'color:violet')
-			})
+		// this.$get('https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final')
+		// 	.then((e) => {
+		// 		console.log('%c' + JSON.stringify(e, null, 2), 'color:violet')
+		// 	})
 		/* aegis log demo */
 		if ($config.logReport) {
 			// 监控当前页面

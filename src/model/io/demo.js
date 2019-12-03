@@ -1,6 +1,6 @@
 import $request from './request'
 import $api from './api'
-
+import $notify from '@/util/notify'
 const Api = {}
 
 
@@ -12,7 +12,7 @@ Api.list = para => $request({
 }).then(
 	rs => rs.data
 ).catch(
-	err => console.error(err)
+	err => $notify.error(err)
 )
 
 
