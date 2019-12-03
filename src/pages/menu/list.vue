@@ -71,47 +71,31 @@
 				width="55"
 			)
 			el-table-column(
-				prop="qid"
-				label="问卷编号"
-				width="150"
-			)
-			el-table-column(
-				prop="title"
-				label="问卷标题"
-				min-width="100"
-			)
-			el-table-column(
-				prop="pv"
-				label="阅读量"
-				min-width="100"
+				prop="id"
+				label="编号"
+				width="100"
 				sortable
 			)
 			el-table-column(
-				prop="recycle_count"
-				label="回收量"
-				min-width="100"
+				prop="brief"
+				label="缩写"
+				min-width="55"
 				sortable
+			)
+			el-table-column(
+				prop="full"
+				label="全称"
+				min-width="100"
+			)
+			el-table-column(
+				prop="mean"
+				label="含义"
+				min-width="100"
 			)
 			el-table-column(
 				prop="stateName"
-				label="状态"
-				min-width="100"
-			)
-				template(v-slot="{row}")
-					span {{ row.stateName }}
-						el-tooltip(class="item" effect="dark" :content="row.reason" placement="bottom")
-							i(class="el-icon-question" style="margin-left: 10px" v-if="row.state === 3")
-			el-table-column(
-				prop="publish_at"
-				label="最后发布时间"
-				min-width="140"
-				:formatter="dateFormat"
-				sortable
-			)
-			el-table-column(
-				prop="creator"
-				label="发布者"
-				min-width="100"
+				label="备注"
+				min-width="200"
 			)
 			el-table-column(
 				label="操作"
