@@ -3,6 +3,8 @@ import type from '@/util/type'
 import errorDict from '../model/errorDict'
 import $env from '@/model/env'
 
+let raw = false
+
 const doWith = sth => {
 	const sType = type(sth)
 	if (sType === 'string') {
@@ -25,6 +27,7 @@ const useDict = (status, code, spare) => {
 
 // 全局拦截器
 axios.interceptors.request.use(config => {
+	raw = !!config.source
 	if (/^https?:\/\//.test(config.url)) {
 		return config
 	}
@@ -34,8 +37,11 @@ axios.interceptors.request.use(config => {
 
 axios.interceptors.response.use(({ data, status }) => {
 	if (data.code === 0 && status === 200) {
+		if (raw) {
+			return data
+		}
 		// 没有错误的理想情况直接返回 payload
-		return data.data
+		return data.data || data
 	}
 	// 不是理想情况的，需要使用错误码字典
 	return useDict(status, data.code, data.msg || data)
@@ -48,10 +54,17 @@ axios.interceptors.response.use(({ data, status }) => {
 })
 
 const exportObj = {
-	$request: options => axios(options),
-	$get: (url, params) => axios({
+	$request: options => axios({
+		headers: {
+			// ajax 请求标识，部分服务器会区别对待 ajax 请求和普通请求
+			'X-Requested-With': 'XMLHttpRequest'
+		},
+		...options
+	}),
+	$get: (url, params, source) => axios({
 		url,
-		params,
+		params: typeof params === 'boolean' ? {} : params,
+		source: typeof params === 'boolean' ? params : source,
 		method: 'get',
 		headers: {
 			// ajax 请求标识，部分服务器会区别对待 ajax 请求和普通请求
@@ -60,9 +73,10 @@ const exportObj = {
 		// 跨域携带cookie
 		// withCredentials: true
 	}),
-	$post: (url, data) => axios({
+	$post: (url, data, source) => axios({
 		url,
-		data,
+		params: typeof data === 'boolean' ? {} : data,
+		source: typeof data === 'boolean' ? data : source,
 		method: 'post',
 		headers: {
 			'X-Requested-With': 'XMLHttpRequest',
@@ -72,9 +86,10 @@ const exportObj = {
 		// 跨域携带cookie
 		// withCredentials: true
 	}),
-	$put: (url, data) => axios({
+	$put: (url, data, source) => axios({
 		url,
-		data,
+		params: typeof data === 'boolean' ? {} : data,
+		source: typeof data === 'boolean' ? data : source,
 		method: 'put',
 		headers: {
 			'X-Requested-With': 'XMLHttpRequest',
@@ -83,9 +98,10 @@ const exportObj = {
 		// 跨域携带cookie
 		// withCredentials: true
 	}),
-	$delete: (url, data) => axios({
+	$delete: (url, data, source) => axios({
 		url,
-		data,
+		params: typeof data === 'boolean' ? {} : data,
+		source: typeof data === 'boolean' ? data : source,
 		method: 'delete',
 		headers: {
 			'X-Requested-With': 'XMLHttpRequest',

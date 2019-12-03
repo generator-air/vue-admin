@@ -1,3 +1,1 @@
-const env = {};
-env.domain = "http://9.134.193.194:8000";
-module.exports = env;
+// @param:domain 启动后切换环境后生成的域名const env = {};env.domain = "http://9.134.193.194:8000";module.exports = env;
