@@ -1,0 +1,288 @@
+Index: src/pages/menu1/detail.vue
+===================================================================
+--- src/pages/menu1/detail.vue	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
++++ src/pages/menu1/detail.vue	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
+@@ -1,30 +0,0 @@
+-<template lang="pug">
+-	.p-page1-detail menu1 - page1-detail
+-</template>
+-
+-<script>
+-import { mapState } from 'vuex'
+-
+-export default {
+-	computed: {
+-		...mapState('user', [
+-			'userInfo'
+-		])
+-	},
+-	data() {
+-		return {}
+-	},
+-	methods: {
+-
+-	},
+-	mounted() {
+-
+-	}
+-}
+-</script>
+-
+-<style lang="less">
+-.p-page1-detail {
+-
+-}
+-</style>
+Index: src/pages/menu1/edit.vue
+===================================================================
+--- src/pages/menu1/edit.vue	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
++++ src/pages/menu1/edit.vue	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
+@@ -1,30 +0,0 @@
+-<template lang="pug">
+-	.p-page1-edit page1-edit
+-</template>
+-
+-<script>
+-import { mapState } from 'vuex'
+-
+-export default {
+-	computed: {
+-		...mapState('user', [
+-			'userInfo'
+-		])
+-	},
+-	data() {
+-		return {}
+-	},
+-	methods: {
+-
+-	},
+-	mounted() {
+-
+-	}
+-}
+-</script>
+-
+-<style lang="less">
+-.p-page1-edit {
+-
+-}
+-</style>
+Index: src/pages/menu1/index.vue
+===================================================================
+--- src/pages/menu1/index.vue	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
++++ src/pages/menu1/index.vue	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
+@@ -1,36 +0,0 @@
+-<template lang="pug">
+-	.p-page1 页面操作过滤demo
+-		.buttons
+-			el-button(v-if="operations.includes('create')") 创建
+-			el-button(v-if="operations.includes('edit')") 编辑
+-			el-button(v-if="operations.includes('delete')") 删除
+-</template>
+-
+-<script>
+-import { mapState } from 'vuex'
+-
+-export default {
+-	computed: {
+-		...mapState('user', [
+-			'userInfo', 'auth'
+-		])
+-	},
+-	data() {
+-		return {
+-			operations: []
+-		}
+-	},
+-	methods: {
+-
+-	},
+-	mounted() {
+-		this.operations = this.auth.getPageOperations(this.$route.path)
+-	}
+-}
+-</script>
+-
+-<style lang="less">
+-.p-page1 {
+-
+-}
+-</style>
+Index: src/pages/menu2/edit.vue
+===================================================================
+--- src/pages/menu2/edit.vue	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
++++ src/pages/menu2/edit.vue	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
+@@ -1,30 +0,0 @@
+-<template lang="pug">
+-	.p-page2 page2
+-</template>
+-
+-<script>
+-import { mapState } from 'vuex'
+-
+-export default {
+-	computed: {
+-		...mapState('user', [
+-			'userInfo'
+-		])
+-	},
+-	data() {
+-		return {}
+-	},
+-	methods: {
+-
+-	},
+-	mounted() {
+-
+-	}
+-}
+-</script>
+-
+-<style lang="less">
+-.p-page2 {
+-
+-}
+-</style>
+Index: src/pages/menu2/list.vue
+===================================================================
+--- src/pages/menu2/list.vue	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
++++ src/pages/menu2/list.vue	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
+@@ -1,30 +0,0 @@
+-<template lang="pug">
+-	.p-page1 menu2 - page1
+-</template>
+-
+-<script>
+-import { mapState } from 'vuex'
+-
+-export default {
+-	computed: {
+-		...mapState('user', [
+-			'userInfo'
+-		])
+-	},
+-	data() {
+-		return {}
+-	},
+-	methods: {
+-
+-	},
+-	mounted() {
+-
+-	}
+-}
+-</script>
+-
+-<style lang="less">
+-.p-page1 {
+-
+-}
+-</style>
+Index: src/router/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/router/index.js	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
++++ src/router/index.js	(date 1575363008626)
+@@ -3,8 +3,6 @@
+ // import $axios from 'axios'
+ import $Auth from '../util/authority'
+ import $authDic from '../model/authDictionary'
+-import $menu1 from './menu1'
+-import $menu2 from './menu2'
+ import $menu3 from './menu3'
+ import $default from './default'
+ import $menus from '../model/menu'
+@@ -57,7 +55,7 @@
+ 	// 全局存储 auth 对象
+ 	$store.commit('user/setAuth', auth)
+ 	// 获取经过权限过滤后的路由
+-	const routerList = auth.getRouterList([...$menu1, ...$menu2, ...$menu3])
++	const routerList = auth.getRouterList([...$menu3])
+ 	router.addRoutes([
+ 		...routerList,
+ 		...$default,
+Index: src/model/authDictionary.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/model/authDictionary.js	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
++++ src/model/authDictionary.js	(date 1575363115729)
+@@ -1,16 +1,8 @@
+ const dictionary = {
+ 	101: [
+ 		{
+-			path: '/menu1',
+-			operations: ['create', 'edit', 'delete']
+-		},
+-		{
+-			path: '/menu2',
+-			operations: ['create', 'edit']
+-		},
+-		{
+ 			path: '/menu3',
+-			operations: ['create', 'edit']
++			operations: ['create', 'edit', 'delete']
+ 		},
+ 		{
+ 			path: '/about',
+Index: src/model/menu.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/model/menu.js	(revision 529f87832a690c8c79105bb3571db32e3588d16b)
++++ src/model/menu.js	(date 1575362963194)
+@@ -1,46 +1,19 @@
+ const menus = [
+ 	{
+-		title: '菜单1',
++		title: '一级菜单',
+ 		icon: 'clock',
+ 		submenu: [
+ 			{
+-				title: '子菜单1',
+-				url: '/home'
+-			},
+-			{
+-				title: '子菜单2',
++				title: '二级菜单',
+ 				icon: 'clock',
+ 				submenu: [
+ 					{
+-						title: '三级菜单1',
+-						url: '/menu1'
+-					},
+-					{
+-						title: '三级菜单2',
+-						url: '/menu2'
+-					},
+-					{
+-						title: '搜索列表',
++						title: '三级菜单',
+ 						url: '/menu3'
+ 					}
+ 				]
+ 			}
+ 		]
+-	},
+-	{
+-		title: '菜单2',
+-		icon: 'gear',
+-		submenu: [
+-			{
+-				title: '子菜单3',
+-				url: '/submenu'
+-			}
+-		]
+-	},
+-	{
+-		title: '菜单3',
+-		icon: 'clock',
+-		url: '/about'
+ 	}
+ ]
+ 

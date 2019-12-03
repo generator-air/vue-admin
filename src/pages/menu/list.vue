@@ -100,6 +100,7 @@ import $search from '@/components/search'
 import $filter from '@/components/filter'
 import $pagination from '@/components/pagination'
 import $apiWord from '@/model/io/ad'
+import { mapState } from 'vuex'
 
 export default {
 		components: {
@@ -112,7 +113,11 @@ export default {
 						this.init()
 				}
 		},
-		computed: {},
+    computed: {
+        ...mapState('user', [
+            'userInfo'
+        ])
+    },
 		data () {
 				return {
 						type: '',

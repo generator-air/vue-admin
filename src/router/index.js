@@ -3,9 +3,7 @@ import $vueRouter from 'vue-router'
 // import $axios from 'axios'
 import $Auth from '../util/authority'
 import $authDic from '../model/authDictionary'
-import $menu1 from './menu1'
-import $menu2 from './menu2'
-import $menu3 from './menu3'
+import $menu from './menu'
 import $default from './default'
 import $menus from '../model/menu'
 import $store from '../vuex/index'
@@ -57,7 +55,7 @@ setTimeout(() => {
 	// 全局存储 auth 对象
 	$store.commit('user/setAuth', auth)
 	// 获取经过权限过滤后的路由
-	const routerList = auth.getRouterList([...$menu1, ...$menu2, ...$menu3])
+	const routerList = auth.getRouterList([...$menu])
 	router.addRoutes([
 		...routerList,
 		...$default,
