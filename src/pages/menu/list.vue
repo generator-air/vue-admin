@@ -106,8 +106,12 @@
 						type="success"
 						size="small"
 						@click="edit(row)"
-						v-if="row.showEdit"
 					) 编辑
+					el-button.op-button(
+						type="warning"
+						size="small"
+						@click="del(row)"
+					) 删除
 
 		v-pagination
 </template>
@@ -182,15 +186,11 @@ export default {
 				},
 				// 编辑
 				edit(row) {
-						console.log(row.id)
+						alert('编号:' + row.id + ' , 编辑操作')
 				},
-				// 提交审核
-				async submit(row) {
-						console.log(row.id)
-				},
-				// 撤回
-				async withdraw(row) {
-						console.log(row.id)
+				// 删除
+				del(row) {
+						alert('编号:' + row.id + ' , 删除操作')
 				},
 				operationHandler(row, operation) {
 						let confirmText = '';
