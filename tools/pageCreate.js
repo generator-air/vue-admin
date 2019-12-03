@@ -31,7 +31,6 @@ $inquirer.prompt([
 		if (answer.confirm) {
 			$fse.readFile(`${url}.vue`, 'binary', function(err, data) {
 				if (data) {
-					console.log($chalk.red('页面已存在，不可重复创建'))
 					return
 				}
 				const start = answers.path && answers.path.lastIndexOf('/')
@@ -41,14 +40,10 @@ $inquirer.prompt([
 				const template = $template.replace(/\$pageName\$/g, pageName)
 				$fse.outputFile(`${url}.vue`, template, function(err) {
 					if (err) {
-						console.log($chalk.red(`文件创建发生错误: ${err}`))
 						return
 					}
-					console.log($chalk.green('页面创建成功！^_^'))
 				})
 			})
-		} else {
-			console.log($chalk.red('已取消页面生成'))
 		}
 	})
 });

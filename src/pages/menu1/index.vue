@@ -25,7 +25,6 @@ export default {
 	},
 	mounted() {
 		this.operations = this.auth.getPageOperations(this.$route.path)
-		console.log('this.operations:', this.operations)
 	}
 }
 </script>
