@@ -72,25 +72,25 @@
 			)
 			el-table-column(
 				prop="id"
-				label="编号"
+				label="名词编号"
 				width="100"
 				sortable
 			)
 			el-table-column(
 				prop="brief"
 				label="缩写"
-				min-width="55"
+				width="100"
 				sortable
 			)
 			el-table-column(
 				prop="full"
 				label="全称"
-				min-width="100"
+				min-width="55"
 			)
 			el-table-column(
 				prop="mean"
 				label="含义"
-				min-width="100"
+				min-width="55"
 			)
 			el-table-column(
 				prop="tips"
