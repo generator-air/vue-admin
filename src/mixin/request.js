@@ -1,6 +1,7 @@
 import axios from 'axios'
 import type from '@/util/type'
 import errorDict from '../model/errorDict'
+import $env from '@/model/env'
 
 const doWith = sth => {
 	const sType = type(sth)
@@ -23,6 +24,14 @@ const useDict = (status, code, spare) => {
 }
 
 // 全局拦截器
+axios.interceptors.request.use(config => {
+	if (/^https?:\/\//.test(config.url)) {
+		return config
+	}
+	config.url = $env.domain + config.url
+	return config
+})
+
 axios.interceptors.response.use(({ data, status }) => {
 	if (data.code === 0 && status === 200) {
 		// 没有错误的理想情况直接返回 payload
@@ -38,9 +47,9 @@ axios.interceptors.response.use(({ data, status }) => {
 	return Promise.reject(err.message)
 })
 
-const request = Vue => {
-	Vue.prototype.$request = options => axios(options)
-	Vue.prototype.$get = (url, params) => axios({
+const exportObj = {
+	$request: options => axios(options),
+	$get: (url, params) => axios({
 		url,
 		params,
 		method: 'get',
@@ -50,8 +59,8 @@ const request = Vue => {
 		},
 		// 跨域携带cookie
 		// withCredentials: true
-	})
-	Vue.prototype.$post = (url, data) => axios({
+	}),
+	$post: (url, data) => axios({
 		url,
 		data,
 		method: 'post',
@@ -62,8 +71,8 @@ const request = Vue => {
 		},
 		// 跨域携带cookie
 		// withCredentials: true
-	})
-	Vue.prototype.$put = (url, data) => axios({
+	}),
+	$put: (url, data) => axios({
 		url,
 		data,
 		method: 'put',
@@ -73,8 +82,8 @@ const request = Vue => {
 		},
 		// 跨域携带cookie
 		// withCredentials: true
-	})
-	Vue.prototype.$delete = (url, data) => axios({
+	}),
+	$delete: (url, data) => axios({
 		url,
 		data,
 		method: 'delete',
@@ -87,4 +96,14 @@ const request = Vue => {
 	})
 }
 
-export default request
+const install = Vue => {
+	// 插件安装
+	Object.keys(exportObj).forEach(method => {
+		Vue.prototype[method] = exportObj[method]
+	})
+}
+
+export default {
+	install,
+	...exportObj
+}
