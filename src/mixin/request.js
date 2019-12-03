@@ -63,9 +63,8 @@ const exportObj = {
 	}),
 	$get: (url, params, source) => axios({
 		url,
-		params: source === undefined ? {} : params,
-		source: source === undefined ? params : source,
-		source,
+		params: typeof params === 'boolean' ? {} : params,
+		source: typeof params === 'boolean' ? params : source,
 		method: 'get',
 		headers: {
 			// ajax 请求标识，部分服务器会区别对待 ajax 请求和普通请求
@@ -76,9 +75,8 @@ const exportObj = {
 	}),
 	$post: (url, data, source) => axios({
 		url,
-		data: source === undefined ? {} : data,
-		source: source === undefined ? data : source,
-		source,
+		params: typeof data === 'boolean' ? {} : data,
+		source: typeof data === 'boolean' ? data : source,
 		method: 'post',
 		headers: {
 			'X-Requested-With': 'XMLHttpRequest',
@@ -90,8 +88,8 @@ const exportObj = {
 	}),
 	$put: (url, data, source) => axios({
 		url,
-		data: source === undefined ? {} : data,
-		source: source === undefined ? data : source,
+		params: typeof data === 'boolean' ? {} : data,
+		source: typeof data === 'boolean' ? data : source,
 		method: 'put',
 		headers: {
 			'X-Requested-With': 'XMLHttpRequest',
@@ -102,8 +100,8 @@ const exportObj = {
 	}),
 	$delete: (url, data, source) => axios({
 		url,
-		data: source === undefined ? {} : data,
-		source: source === undefined ? data : source,
+		params: typeof data === 'boolean' ? {} : data,
+		source: typeof data === 'boolean' ? data : source,
 		method: 'delete',
 		headers: {
 			'X-Requested-With': 'XMLHttpRequest',
