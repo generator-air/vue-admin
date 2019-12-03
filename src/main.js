@@ -4,7 +4,7 @@ import $elementUI from 'element-ui';
 import $app from '@/App.vue';
 import $store from './vuex';
 import $router from './router';
-
+import '@/ui/index'
 import 'element-ui/lib/theme-chalk/index.css';
 import './mixin';
 import './assets/icon';

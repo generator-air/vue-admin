@@ -5,14 +5,25 @@ import $Auth from '../util/authority'
 import $authDic from '../model/authDictionary'
 import $menu1 from './menu1'
 import $menu2 from './menu2'
+import $menu3 from './menu3'
 import $default from './default'
 import $menus from '../model/menu'
 import $store from '../vuex/index'
+
 const $notFound = () => import(/* webpackChunkName: "notFound" */ 'pages/notFound')
 
 $vue.use($vueRouter)
 
-const router = new $vueRouter()
+const router = new $vueRouter(
+	{
+		routes: [
+			{
+				path: '/',
+				redirect: '/home'
+			}
+		]
+	}
+)
 
 // 【勿删】拉取用户信息（【Replace】需替换为实际的接口地址）
 // $axios.get('/getUserInfo').then(userInfo => {
@@ -47,7 +58,7 @@ setTimeout(() => {
 	// 全局存储 auth 对象
 	$store.commit('user/setAuth', auth)
 	// 获取经过权限过滤后的路由
-	const routerList = auth.getRouterList([...$menu1, ...$menu2])
+	const routerList = auth.getRouterList([...$menu1, ...$menu2, ...$menu3])
 	router.addRoutes([
 		...routerList,
 		...$default,
