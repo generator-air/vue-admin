@@ -83,7 +83,6 @@ export default {
 			let api = this.api;
 			let query = this.$route.query;
 			let rs = await api(query);
-			console.log(rs)
 			if (rs) {
 				let data = {};
 				rs.list = rs.list.map(item => {

@@ -316,7 +316,6 @@ export default {
 				init() {
 						// 搜索项回显
 						this.searchValue = this.$route.query.search;
-						this.userOperation = this.auth.getPageOperations(this.$route.path);
 				}
 		},
 		// 当前list页面挂载前赋值this.api，保证table挂载时拿到指定的api
