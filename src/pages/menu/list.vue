@@ -99,7 +99,7 @@
 import $search from '@/components/search'
 import $filter from '@/components/filter'
 import $pagination from '@/components/pagination'
-import $apiWord from '@/model/io/ad'
+import $apiWord from '@/model/io/demo'
 import { mapState } from 'vuex'
 
 export default {
