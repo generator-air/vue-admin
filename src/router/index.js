@@ -12,7 +12,16 @@ const $notFound = () => import(/* webpackChunkName: "notFound" */ 'pages/notFoun
 
 $vue.use($vueRouter)
 
-const router = new $vueRouter()
+const router = new $vueRouter(
+	{
+		routes: [
+			{
+				path: '/',
+				redirect: '/home'
+			}
+		]
+	}
+)
 
 // 【勿删】拉取用户信息（【Replace】需替换为实际的接口地址）
 // $axios.get('/getUserInfo').then(userInfo => {
