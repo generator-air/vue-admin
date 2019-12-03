@@ -26,7 +26,7 @@ config.logReport = false; // 日志监控开关
 
 config.mock = "https://tmock.qq.com/mock/271";
 
-config.production = "http://9.134.193.194:8000"; // 线上域名
+config.production = "http://9.134.193.194:8000"; // 线上域名,这里用豆瓣api举例
 
 config.development = "http://localhost:" + config.devServerPort;
 

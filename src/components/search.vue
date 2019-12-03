@@ -1,5 +1,6 @@
 <template lang="pug">
 .v-search
+	.search-label {{label}}
 	.el-input(:class="{'is-empty': empty}")
 		input.el-input__inner(
 			v-model="inputValue"
@@ -26,54 +27,81 @@ export default {
 			type: String,
 			default: 'kw'
 		},
+		label: {
+			type: String,
+			default: '请搜索'
+		},
 		value: String,
 		placeholder: String
 	},
-	data () {
+	data() {
 		return {
 			logger: 'view/search',
 			inputValue: ''
-		}
+		};
 	},
 	computed: {
-		empty () {
-			return !this.inputValue
+		empty() {
+			return !this.inputValue;
 		}
 	},
 	watch: {
-		value (val) {
-			this.inputValue = val
+		value(val) {
+			this.inputValue = val;
 		}
 	},
 	methods: {
-		get () {
-			return this.inputValue
+		search() {
+			let value = this.inputValue;
+			if (value) {
+				value = value.trim();
+				this.inputValue = value;
+				this.$emit('search', value);
+				this.setKeyword(value);
+			}
 		},
-		search () {
-			let value = this.inputValue
-			value = value.trim()
-			this.inputValue = value
-			this.$emit('search', value)
+		clear() {
+			this.inputValue = '';
+			this.$emit('clear');
+			this.setKeyword('');
 		},
-		clear () {
-			this.inputValue = ''
-			this.$emit('clear')
+		setKeyword(keyword) {
+			let name = this.name;
+			let query = {};
+			query.page = 1;
+			query[name] = keyword;
+			this.setQuery(query);
 		},
+		setQuery(query) {
+			query = Object.assign({}, this.$route.query, query);
+			this.$router.push({
+				query
+			});
+		}
 	},
-	mounted () {
-		this.inputValue = this.value
+	mounted() {
+		this.inputValue = this.value;
 	}
-}
+};
 </script>
 
 <style lang="less">
-@import "../../src/assets/css/color";
+@import "../assets/css/color";
 
 .v-search{
+	display: inline-block;
+	vertical-align: middle;
 	width: 300px;
 	margin-right: 10px;
+	.search-label {
+		display: inline-block;
+		color: @default-color;
+	}
+	.el-input {
+		width: 70%;
+	}
 	input {
-		border-radius: 100px;
+		// border-radius: 100px;
 		box-shadow: 0 0 20px 0 rgba(102, 126, 164, 0.05);
 	}
 	.el-input__icon {

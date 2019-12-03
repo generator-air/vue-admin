@@ -1,302 +1,394 @@
 <template lang="pug">
-	.l-content.p-adlist
+	.l-content.p-questionnaire
 		.l-content-title
 			el-breadcrumb
-				el-breadcrumb-item 词汇管理
-				el-breadcrumb-item 词汇查询
+				el-breadcrumb-item 问卷管理
+				el-breadcrumb-item 问卷列表
 			.u-table-header
-				h1.header-title 词汇查询
+				h1.header-title 问卷列表
 		.u-table-header
 			v-search(
 				ref="search"
-				label="词汇缩写："
+				label="问卷编号："
 				name="search"
-				placeholder="请输入搜索内容"
-				:value="searchValue"
+				placeholder="请输入"
+				:value="questionNo"
 			)
+			v-filter(
+				ref="filter"
+			)
+				template(v-slot="{ query, change }")
+					el-form-item(label="状态：")
+						el-select(
+							v-model="query.state"
+							size="small"
+							placeholder="请选择"
+							style="width: 120px;"
+							@change="change"
+						)
+							el-option(
+								v-for="item in stateOptions"
+								:label="item.label"
+								:key="item.label"
+								:value="item.id"
+							)
 			.header-aside
-				el-button(
+				el-button.u-button(
 					type="primary"
 					size="large"
 					@click="search"
 				) 查询
-				el-button(
+				el-button.u-button.btn-filter(
 					size="large"
 					@click="reset"
 				) 重置
-				el-button(
-					type="info"
-					size="large"
-					@click="exportData"
-				) 导出
-		.u-tip
-			span.tip-item 词汇量总计：{{this.dialogTable.total}} 条
-			el-table.u-table(
-				:data="dialogTable.list"
+		.u-button-group
+			router-link(
+				v-show="userOperation.create"
+				:to="`/content/questionnaire/create`"
 			)
-				el-table-column(
-					prop="id"
-					label="名词编号"
-					width="100"
-					sortable
-				)
-				el-table-column(
-					prop="brief"
-					label="缩写"
-					min-width="55"
-					sortable
-				)
-					template(v-slot="{ row }")
-						span(v-html="showData(row.brief)")
-				el-table-column(
-					prop="full"
-					label="全称"
-					min-width="100"
-				)
-					template(v-slot="{ row }")
-						span(v-html="showData(row.full)")
-				el-table-column(
-					prop="mean"
-					label="含义"
-					min-width="100"
-				)
-					template(v-slot="{ row }")
-						span(v-html="showData(row.mean)")
-				el-table-column(
-					prop="tips"
-					label="备注"
-					min-width="200"
-				)
-					template(v-slot="{ row }")
-						span(v-html="showData(row.tips)")
-				el-table-column(
-					label="操作"
-					width="200"
-				)
-					template(v-slot="{ row }")
-						el-button.op-button(
-							type="success"
-							size="small"
-							@click="edit(row)"
-						) 编辑
-						el-button.op-button(
-							type="warning"
-							size="small"
-							@click="del(row)"
-						) 删除
-			.u-pagination
-				el-pagination(
-					@size-change="pageSizeChange"
-					@current-change="pageChange"
-					:page-sizes="[5, 10, 15, 20]"
-					:page-size="limit"
-					layout="total, sizes, prev, pager, next"
-					:total="dialogTable.total"
-				)
+				el-button.u-button(
+					type="primary"
+					icon="el-icon-plus"
+					size="large"
+				) 新建
+			el-dropdown(@command="batchHandler" trigger="click")
+				el-button(v-show="userOperation.batch" type="primary" :disabled="operations.length === 0 ? true : false") 批量操作
+					i.el-icon-arrow-down.el-icon--right
+				el-dropdown-menu(slot="dropdown")
+					el-dropdown-item(v-for="operation in operations" :command="operation.method" :key="operation.id") {{operation.label}}
+		.u-tip
+			span.tip-item 已选择 {{this.selectCount}} 项
+			span.tip-item 阅读量总计：{{this.selectRead}} 万
+		v-table(
+			:api="api"
+			ref="list"
+			@change="onListChange"
+			:onSelectionChange="selectionChangeHandler"
+		)
+			el-table-column(
+				type="selection"
+				width="55"
+			)
+			el-table-column(
+				prop="qid"
+				label="问卷编号"
+				width="150"
+			)
+			el-table-column(
+				prop="title"
+				label="问卷标题"
+				min-width="100"
+			)
+			el-table-column(
+				prop="pv"
+				label="阅读量"
+				min-width="100"
+				sortable
+			)
+			el-table-column(
+				prop="recycle_count"
+				label="回收量"
+				min-width="100"
+				sortable
+			)
+			el-table-column(
+				prop="stateName"
+				label="状态"
+				min-width="100"
+			)
+				template(v-slot="{row}")
+					span {{ row.stateName }}
+						el-tooltip(class="item" effect="dark" :content="row.reason" placement="bottom")
+							i(class="el-icon-question" style="margin-left: 10px" v-if="row.state === 3")
+			el-table-column(
+				prop="publish_at"
+				label="最后发布时间"
+				min-width="140"
+				:formatter="dateFormat"
+				sortable
+			)
+			el-table-column(
+				prop="creator"
+				label="发布者"
+				min-width="100"
+			)
+			el-table-column(
+				label="操作"
+				width="180"
+			)
+				template(v-slot="{ row }")
+					el-button.op-button(
+						type="success"
+						size="small"
+						@click="edit(row)"
+						v-if="row.showEdit"
+					) 编辑
+
+		v-pagination
+		//- 【勿删】
+		//- v-preview(
+		//- 	ref="preview"
+		//- 	template="code"
+		//- 	:content="previewContent"
+		//- )
+				template(#footer-btn)
+						el-button(type="primary") 审核
 </template>
 
 <script>
-import $search from '@/components/search'
-import $filter from '@/components/filter'
-import $pagination from '@/components/pagination'
-import $apiWord from '@/model/io/demo'
-import { mapState } from 'vuex'
-
-export default {
-		components: {
-				'v-search': $search,
-				'v-filter': $filter,
-				'v-pagination': $pagination
-		},
-		watch: {
-				$route () {
-						this.init()
-				}
-		},
-    computed: {
-        ...mapState('user', [
-            'userInfo'
-        ])
-    },
-		data () {
-				return {
-						type: '',
-						id: 0,
-						api: $apiWord.getInfo,
-						searchValue: '',
-						total: 0,
-						page: 0,
-						limit: 5,
-						dialogTable: {
-								list: [],
-								total: 0,
-								page: 1
-						}
-				}
-		},
-		methods: {
-				// 筛选变色
-				showData(val) {
-						val = val + '';
-						if (this.checkPara(val, this.searchValue)) {
-								// 如果搜索结果记录包含关键字中的任何一个，那么修改样式
-								let reg = new RegExp(this.searchValue, 'gmi')
-								if (val.match(reg).length > 0) {
-										return val.replace(reg, '<span   style="color: #FF0000; ">'  + val.match(reg)[0] + '</span>')
-								} else {
-										return val.replace(this.searchValue, '<span   style="color: #FF0000; ">'  + this.searchValue + '</span>')
-								}
-
-						} else {
-								return val // 不做任何修改
-						}
-				},
-				// 判断搜索记录是否包含某个关键字
-				checkPara(val, para) {
-						val = val.toUpperCase()
-						para = para.toUpperCase()
-						if (val.indexOf(para) !== -1 && para !== '') {
-								return true;
-						} else {
-								return false
-						}
-				},
-				// 分页组件size变化
-				pageSizeChange (limit) {
-						// console.log('limit', limit)
-						this.limit = limit
-						this.dialogTable.page = 1
-						this.init()
-				},
-				// 分页组件page变化
-				pageChange (page) {
-						// console.log('page', page)
-						this.page = page
-						this.dialogTable.page = page
-						this.init()
-				},
-				// 查询
-				async search () {
-						this.searchValue = this.$refs.search.get()
-						const para = {
-								key: this.searchValue,
-								pageNo: this.page,
-								pageSize: this.limit
-						}
-						const data = await $apiWord.searchKey(para)
-						if (data) {
-								// 同步后端返回的dialog table列表数据
-								this.dialogTable = JSON.parse(JSON.stringify(data))
-						} else {
-								this.message("没有搜索到相关词条")
-						}
-				},
-
-				async getInfo () {
-						const para = {
-								key: '', // key为空全局搜索
-								pageNo: this.page,
-								pageSize: this.limit
-						}
-						const data = await $apiWord.searchKey(para)
-						console.log(data)
-						if (data) {
-								// 同步后端返回的dialog table列表数据
-								this.dialogTable = JSON.parse(JSON.stringify(data))
-						}
-				},
-				// 重置
-				reset () {
-						this.$refs.search.clear()
-						this.$router.push({ path: this.$route.path })
-				},
-				// 编辑
-				edit (row) {
-						this.$router.push({ path: '/word/edit', query: { id: row.id } })
-				},
-				// 删除
-				del (row) {
-						this.id = row.id
-						this.confirm('确认删除？', this.delInfo)
-				},
-				async delInfo () {
-						let rs = await $apiWord.delInfo(this.id)
-						if (rs) {
-								this.$message.success('名词删除成功')
-								window.location.reload()
-						} else {
-								this.$message.error('名词删除失败')
-								window.location.reload()
-						}
-				},
-				// 弹窗提示
-				confirm (confirmText, operation) {
-						this.$confirm(confirmText, '提示', {
-								confirmButtonText: '确定',
-								cancelButtonText: '取消',
-								type: 'warning'
-						}).then(() => {
-								operation()
-						}).catch(() => {
-						})
-				},
-				message (messageText) {
-						this.$message({
-								type: 'success',
-								message: messageText
-						})
-				},
-				onListChange (rs) {
-						if (rs) {
-								this.total = rs.total
-						}
-				},
-				exportData() {
-						if (this.dialogTable.list.length == 0) {
-								this.$message.error("当前列表为空")
-						} else {
-								window.location.href = $apiWord.export
-						}
-				},
-				init () {
-						// 搜索项回显
-						if (this.searchValue) {
-								this.search()
-						} else {
-								this.getInfo()
-						}
-				}
-
-		},
-		// 当前list页面挂载前赋值this.api，保证table挂载时拿到指定的api
-		created () {
-				this.init()
-		},
-		mounted () {
-				this.init()
-		}
-}
+    import { mapState } from 'vuex';
+    import $search from '@/components/search'
+    import $filter from '@/components/filter';
+    import $pagination from '@/components/pagination'
+    import $table from '@/components/table'
+    import $date from '@/util/date'
+    import $apiQuest from '@/model/io/demo'
+    import $selectOptions from '@/util/selectOptions'
+    export default {
+        components: {
+            'v-search': $search,
+            'v-filter': $filter,
+            'v-table': $table,
+            'v-pagination': $pagination,
+        },
+        watch: {
+            $route() {
+                this.init();
+                // 如果当前用户有权访问所有人创建的文章
+                if (this.userOperation.all && !this.$route.query.list) {
+                    this.$router.push({ query: { list: 'all' } });
+                    // 重置过滤项，避免显示上一问卷页下拉选项
+                    this.$refs.filter.reset();
+                }
+            }
+        },
+        computed: {
+            ...mapState('user', {
+                auth: state => state.auth
+            })
+        },
+        data() {
+            return {
+                type: '',
+                id: 1,
+                selectCount: 0,
+                selectRead: 0,
+                articleType: '',
+                api: $apiQuest.list,
+                stateOptions: $selectOptions.COMMON_STATE,
+                operations: [],
+                tableSelections: [],
+                questionNo: '',
+                total: 0,
+                para: {
+                    is_approved: true,
+                    reason: ''
+                },
+                userOperation: {},
+            };
+        },
+        methods: {
+            // 查询
+            search() {
+                this.$refs.search.search();
+            },
+            // 重置
+            reset() {
+                this.$refs.search.clear();
+                this.$router.push({ path: this.$route.path });
+            },
+            dateFormat(row) {
+                if (row.publish_at === null) {
+                    return '';
+                }
+                return $date.formatSec(row.publish_at);
+            },
+            // 查看问卷回收列表
+            list(row) {
+                this.$router.push({ path: '/content/questionnaire/recycleList', query: { id: row.qid } });
+            },
+            // 问卷回收统计
+            count(row) {
+                this.$router.push({ path: '/content/questionnaire/statistics', query: { qid: row.qid } });
+            },
+            // 编辑
+            edit(row) {
+                this.$router.push({ path: `/content/questionnaire/edit/${row.qid}` });
+            },
+            // 提交审核
+            async submit(row) {
+                this.operationHandler(row, 'submit');
+            },
+            // 撤回
+            async withdraw(row) {
+                this.operationHandler(row, 'withdraw');
+            },
+            // 预览
+            preview(row) {
+                this.previewContent = {
+                    url: 'https://cn.vuejs.org/v2/api/#Vue-extend',
+                    contentTitle: row.title,
+                    creator: row.creator,
+                    createTime: $date.formatSec(row.publish_at),
+                    typeName: '问卷',
+                    stateName: row.stateName
+                };
+                this.$refs.preview.show();
+            },
+            operationHandler(row, operation) {
+                let confirmText = '';
+                let messageText = '';
+                if (operation === 'submit') {
+                    confirmText = '确认要提交审核？';
+                    messageText = '文章已提交审核';
+                } else {
+                    confirmText = '确认要撤回问卷？';
+                    messageText = '问卷已撤回';
+                }
+                this.$confirm(confirmText, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(async () => {
+                    let rs = {};
+                    if (operation === 'submit') {
+                        await $apiQuest.submit(row.qid, this.para);
+                    } else {
+                        await $apiQuest.revert(row.qid);
+                    }
+                    if (rs) {
+                        this.$message({
+                            type: 'success',
+                            message: messageText
+                        });
+                        // 刷新列表
+                        this.$refs.list.update();
+                    }
+                }).catch(() => {});
+            },
+            batchHandler(command) {
+                let operationName = '';
+                let confirmText = '';
+                let messageText = '';
+                const ids = [];
+                // 操作名称确认
+                if (command.name.includes('submit')) {
+                    operationName = 'submit';
+                    confirmText = '确认要提交审核？';
+                    messageText = '文章已提交审核';
+                } else {
+                    operationName = 'withdraw';
+                    confirmText = '确认要撤回问卷？';
+                    messageText = '问卷已撤回';
+                }
+                // 操作文章id整合
+                this.tableSelections.forEach(item => {
+                    ids.push(item.qid);
+                });
+                this.$confirm(confirmText, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(async () => {
+                    const para = {
+                        operation: operationName,
+                        reason: '',
+                        id_list: ids
+                    };
+                    let rs = {};
+                    if (operationName === 'submit') {
+                        rs = await $apiQuest.batchSubmit(para);
+                    } else {
+                        rs = await $apiQuest.batchWithdraw(para);
+                    }
+                    if (rs) {
+                        this.$message({
+                            type: 'success',
+                            message: messageText
+                        });
+                        // 刷新列表
+                        this.$refs.list.update();
+                    }
+                }).catch(() => {});
+            },
+            // 列表选中项变更
+            selectionChangeHandler(val) {
+                let countCommandOne = 0;
+                let countCommandTwo = 0;
+                this.selectCount = val.length;
+                // 没有选中时清空一下数据
+                let selectRead = 0;
+                val.forEach(item => {
+                    if (item.state === 0 || item.state === 3 || item.state === 4) {
+                        // 第一类操作命令
+                        ++countCommandOne;
+                    } else {
+                        // 第二类操作命令
+                        ++countCommandTwo;
+                    }
+                    selectRead += item.pv;
+                });
+                if (val.length > 0) {
+                    if (countCommandOne === val.length) {
+                        this.operations = [{ id: 'submit', method: this.submit, label: '提交审核' }];
+                    } else if (countCommandTwo === val.length) {
+                        this.operations = [{ id: 'withdraw', method: this.withdraw, label: '撤回问卷' }];
+                    } else {
+                        this.operations = [];
+                    }
+                } else {
+                    this.operations = [];
+                }
+                this.tableSelections = val;
+                this.selectRead = selectRead / 10000;
+            },
+            // 列表数据变更
+            onListChange(rs) {
+                if (rs) {
+                    this.total = rs.total;
+                }
+            },
+            notify($title, $message, $type) {
+                this.$notify({
+                    title: $title,
+                    message: $message,
+                    type: $type
+                });
+            },
+            init() {
+                // 搜索项回显
+                this.questionNo = this.$route.query.search;
+                this.userOperation = this.auth.getPageOperations(this.$route.path);
+            }
+        },
+        // 当前list页面挂载前赋值this.api，保证table挂载时拿到指定的api
+        created() {
+            this.init();
+        },
+        mounted() {
+            // 过滤项回显。mounted前无法通过 this.$refs 访问组件
+            this.$refs.filter.update();
+            // 如果当前用户有权访问所有人创建的文章
+            if (this.userOperation.all && !this.$route.query.list) {
+                this.$router.push({ query: { list: 'all' } });
+                // 重置过滤项，避免显示上一文章页下拉选项
+                this.$refs.filter.reset();
+            }
+        }
+    };
 </script>
 
 <style lang="less" scoped>
-	.p-adlist {
+	.p-questionnaire {
 		// 覆盖 el-ui 的默认样式（后面的元素会给一个 margin-left）
 		tbody button.el-button {
 			margin: 5px;
 		}
-
 		.button-box {
 			display: inline-block;
 			text-align: left;
 			margin: -5px 0 0 -5px;
-		}
-		.el-table.th, .el-table.tr{
-			display: none;
-		}
-		.el-date-table__row{
-			.cell{
-				display: none;
-			}
 		}
 	}
 </style>

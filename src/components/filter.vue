@@ -18,48 +18,52 @@ export default {
 			default: ''
 		}
 	},
-	data () {
+	data() {
 		return {
 			logger: 'view/filter',
 			query: {}
-		}
+		};
 	},
 	watch: {
-		$route () {
-			this.update()
+		$route() {
+			this.update();
 		}
 	},
 	methods: {
-		update () {
-			let query = this.$route.query
-			Object.keys(query).forEach(key => {
-				let val = query[key]
-				this.$set(this.query, key, val)
-			})
+		update() {
+			const query = this.$route.query;
+			const keys = Object.keys(query);
+			if (keys.length > 0) {
+				keys.forEach(key => {
+					let val = query[key];
+					this.$set(this.query, key, val);
+				});
+			} else {
+				this.reset();
+			}
 		},
-		onChange () {
-			let query = Object.assign({}, this.query)
-			query.page = 1
-			this.setQuery(query)
+		reset() {
+			// 当query为{}时，为保证页面选择框回显正确，手动重置query（适配机场文章，多页面使用相同路由的情况）
+			this.query = {};
+		},
+		onChange() {
+			let query = Object.assign({}, this.query);
+			query.page = 1;
+			this.setQuery(query);
 		},
 		// 供外部使用，配置同步路由的过滤参数
-		setFilter (key, val) {
-			let query = Object.assign({}, this.query)
-			query[key] = val
-			query.page = 1
-			this.setQuery(query)
+		setFilter(key, val) {
+			let query = Object.assign({}, this.query);
+			query[key] = val;
+			query.page = 1;
+			this.setQuery(query);
 		},
-		setQuery (query) {
-			query = Object.assign({}, this.$route.query, query)
+		setQuery(query) {
+			query = Object.assign({}, this.$route.query, query);
 			this.$router.push({
 				query
-			})
+			});
 		}
-	},
-	mounted () {
-		// 没有在组件加载时立即更新
-		// 因为过滤选项数据有可能是延迟加载的
-		// 需要在选项数据加载完毕后再同步query
 	}
-}
+};
 </script>
