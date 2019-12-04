@@ -2,7 +2,7 @@ const menus = [
 	{
 		title: '一级菜单',
 		icon: 'clock',
-		url: '/menu1'
+		url: '/demo1'
 	},
 	{
 		title: '一级菜单',
@@ -10,7 +10,7 @@ const menus = [
 		submenu: [
 			{
 				title: '二级菜单',
-				url: '/menu2'
+				url: '/demo2'
 			}
 		]
 	},
@@ -25,7 +25,7 @@ const menus = [
 				submenu: [
 					{
 						title: '三级菜单',
-						url: '/menu3'
+						url: '/demo3'
 					}
 				]
 			}
