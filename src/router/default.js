@@ -1,6 +1,5 @@
 const pages_about = () => import('pages/about.vue')
 const pages_home = () => import('pages/home.vue')
-const pages_demo = () => import('pages/demo.vue')
 const pages_notFound = () => import('pages/notFound.vue')
 
 const routerList = [
@@ -15,10 +14,6 @@ const routerList = [
 	{
 		path: '/notFound',
 		component: pages_notFound
-	},
-	{
-		path: '/demo',
-		component: pages_demo
 	}
 ]
 
