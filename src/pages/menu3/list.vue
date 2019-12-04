@@ -118,10 +118,10 @@
 
 <script>
     import { mapState } from 'vuex';
-    import $search from '@/components/search'
-    import $filter from '@/components/filter';
-    import $pagination from '@/components/pagination'
-    import $table from '@/components/table'
+    import $search from '@/components/list/search'
+    import $filter from '@/components/list/filter';
+    import $pagination from '@/components/list/pagination'
+    import $table from '@/components/list/table'
     import $apiQuest from '@/model/io/demo'
     import $selectOptions from '@/util/selectOptions'
     export default {

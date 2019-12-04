@@ -26,8 +26,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import navHead from '@/components/navHead'
-import navSide from '@/components/navSide'
+import navHead from '@/components/nav/navHead'
+import navSide from '@/components/nav/navSide'
 import copyright from '@/components/copyright'
 import logo from '@/components/logo'
 import $config from '../config'

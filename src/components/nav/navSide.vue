@@ -48,7 +48,7 @@ el-menu.p-navSide(
 
 <script>
 import { mapState } from 'vuex'
-import menus from '../model/menu'
+import menus from '../../model/menu'
 
 // 只支持二级列表
 // 二级列表的汇总菜单不携带链接
