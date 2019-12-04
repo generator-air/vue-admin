@@ -24,7 +24,7 @@ config.mockServerPort = 8091;
 
 config.logReport = false; // 日志监控开关
 
-config.mock = "https://tmock.qq.com/mock/271";
+config.mock = "https://www.fastmock.site/mock/93b567b50371b5d9d095fcbf0e8be716/test";
 
 config.production = "http://9.134.193.194:8000"; // 线上域名,这里用豆瓣api举例
 

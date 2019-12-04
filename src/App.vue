@@ -4,7 +4,7 @@
 		:class="{'l-main__hideLeft': leftStatus}"
 	)
 		v-logo(title="平台图标")
-		v-side.left-side(@side-toggle="toggleLeftStatus")
+		v-side
 	.l-right
 		v-head.l-header(title="后台管理系统")
 		.l-body
@@ -53,9 +53,6 @@ export default {
 		])
 	},
 	methods: {
-		toggleLeftStatus (status) {
-			this.leftStatus = status
-		},
 		dateFormat(time, type) {
 		    let date = {}
 		    switch (type) {

@@ -1,7 +1,6 @@
 <template lang="pug">
 el-menu.p-navSide(
 	:default-active="activeIndex"
-	:collapse="isCollapse"
 	:unique-opened="true"
 	text-color="#ffffff"
 	background-color="#334654"
@@ -11,7 +10,7 @@ el-menu.p-navSide(
 	template(v-for="menuItem in menuList")
 		el-submenu(
 			v-if="!menuItem.hidden && menuItem.submenu"
-			:index="menuItem.title"
+			:index="menuItem.menuId"
 		)
 			template(slot="title")
 				svg-icon(:name="menuItem.icon")
@@ -21,7 +20,7 @@ el-menu.p-navSide(
 			)
 				el-submenu(
 					v-if="submenuItem.submenu"
-					:index="submenuItem.title"
+					:index="submenuItem.menuId"
 				)
 					template(slot="title")
 						svg-icon(:name="submenuItem.icon")
@@ -55,9 +54,7 @@ import menus from '../model/menu'
 // 二级列表的汇总菜单不携带链接
 export default {
 	data () {
-		return {
-			isCollapse: false
-		}
+		return {}
 	},
 	computed: {
 		...mapState('user', [
@@ -71,15 +68,18 @@ export default {
 			menus.forEach(menu => {
 				this.getKeyWords('url', menu, arr)
 			})
+			// list 页面路由作为命名空间，按照我们的设计规范，下属的编辑/详情页等页面路由，均在此命名空间下定义。如: /menu1、/menu1/edit
 			return arr.filter(item => this.$route.path.indexOf(item) > -1)[0]
 		}
 	},
+	watch: {
+		menuList(val) {
+			// 异步请求回 menuList 信息后，进行格式化，为每个 menu 添加 menuId。用于父菜单的 :index 匹配
+			this.getFormatMenuList(val)
+		}
+	},
 	methods: {
-		// 点击左侧菜单的开关按钮
-		toggle () {
-			this.isCollapse = !this.isCollapse
-			this.$emit('side-toggle', this.isCollapse)
-		},
+		// 获取所有，菜单对应页面的路由集合（即所有list页的路由集合 => arr）
 		getKeyWords(keyType, menuItem, arr) {
 			if (menuItem[keyType]) {
 				arr.push(menuItem[keyType])
@@ -88,10 +88,21 @@ export default {
 					this.getKeyWords(keyType, item, arr)
 				})
 			}
+		},
+		// 为每个菜单添加唯一的 menuId
+		getFormatMenuList(menuList, parentId) {
+			menuList.forEach((menu, index) => {
+				if (parentId) {
+					menu.menuId = `${parentId}_${index}`
+				} else {
+					// 统一使用字符串类型作为 menuId
+					menu.menuId = index + ''
+				}
+				if (menu.submenu) {
+					this.getFormatMenuList(menu.submenu, menu.menuId)
+				}
+			})
 		}
-	},
-	mounted () {
-		this.$emit('side-toggle', this.isCollapse)
 	}
 }
 </script>
