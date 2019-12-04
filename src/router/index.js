@@ -1,6 +1,6 @@
 import $vue from 'vue'
 import $vueRouter from 'vue-router'
-// import $axios from 'axios'
+// import $request from '../mixin/request'
 import $Auth from '../util/authority'
 import $authDic from '../model/authDictionary'
 import $menu1 from './menu1'
@@ -26,7 +26,7 @@ const router = new $vueRouter(
 )
 
 // 【勿删】拉取用户信息（【Replace】需替换为实际的接口地址）
-// $axios.get('/getUserInfo').then(userInfo => {
+// $request.get('/getUserInfo').then(userInfo => {
 // 	if (userInfo) {
 // 		// 将权限字典 + roleId传入权限组件
 // 		const auth = new $Auth($authDic, 101)

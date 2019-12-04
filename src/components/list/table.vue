@@ -36,7 +36,7 @@ export default {
 	},
 	data() {
 		return {
-			logger: 'components/table',
+			logger: 'components/list/table',
 			list: []
 		};
 	},

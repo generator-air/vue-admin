@@ -118,10 +118,10 @@
 
 <script>
 import { mapState } from 'vuex';
-import $search from '@/components/search'
-import $filter from '@/components/filter';
-import $pagination from '@/components/pagination'
-import $table from '@/components/table'
+import $search from '@/components/list/search'
+import $filter from '@/components/list/filter';
+import $pagination from '@/components/list/pagination'
+import $table from '@/components/list/table'
 import $apiQuest from '@/model/io/demo'
 export default {
 		components: {
@@ -154,13 +154,13 @@ export default {
 						selectRead: 0,
 						articleType: '',
 						api: $apiQuest.list,
-						stateOptions: {
-								0: '草稿',
-								1: '待审核',
-								2: '已发布',
-								3: '审核拒绝',
-								4: '已撤回'
-						},
+            stateOptions: {
+                0: '草稿',
+                1: '待审核',
+                2: '已发布',
+                3: '审核拒绝',
+                4: '已撤回'
+            },
 						operations: [],
 						tableSelections: [],
 						searchValue: '',
