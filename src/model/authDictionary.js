@@ -15,6 +15,10 @@ const dictionary = {
 		{
 			path: '/about',
 			operations: ['create']
+		},
+		{
+			path: '/demo',
+			operations: ['create']
 		}
 	],
 	102: [
