@@ -13,7 +13,6 @@
 
 <script>
 import $lodash from 'lodash'
-import $req from '@/util/req'
 
 export default {
 	props: {
@@ -63,17 +62,7 @@ export default {
 					let channel = this.channel
 					let api = this.api
 					let query = this.$route.query
-          // this.$get(api, query)
-					let rs = await $req({
-							url: api,
-							method: 'get',
-							params: query
-					}).then(
-					    rs => rs.data
-					).catch(
-					    err => this.$message.error(err)
-					);
-					console.log(rs)
+          let rs = await this.$get(api, query).catch(err=>this.$message.error(err))
           if (rs) {
               let data = {}
               data.list = rs.list
