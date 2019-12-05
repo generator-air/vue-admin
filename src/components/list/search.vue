@@ -59,7 +59,7 @@ export default {
 				this.$emit('search', value)
 				this.setKeyword(value)
 			} else {
-				this.$message.warning("请输入搜索内容")
+				this.clear()
 			}
 		},
 		clear() {

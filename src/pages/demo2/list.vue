@@ -47,7 +47,7 @@ export default {
 				// https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final
 				// 404 response
 				// https://www.gamersky.com/news/201911/123w7764.shtml
-				/* request demo */
+				/* req demo */
 				this.$get('https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final')
 						.then((e) => {
 								console.log('%c' + JSON.stringify(e, null, 2), 'color:violet')
