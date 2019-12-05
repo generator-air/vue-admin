@@ -2,7 +2,7 @@
 	#app1
 		.u-style.u-table-header
 			el-card(class="box-card")
-				h3.u-style.header-title 组件调用示例
+				h3.u-style.header-title 时间工具示例
 					div(class="text item")
 						h5.u-style.header-title {{"测试时间: " +this.time}}
 						h5.u-style.header-title {{"时间格式化(秒): "  +this.sec}}
