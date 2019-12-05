@@ -22,59 +22,73 @@
  * }
  */
 
-let bus = null
-let whiteList = null
-const cacheList = []
+let bus = null;
+let whiteList = null;
+const cacheList = [];
+
 
 const VueBus = Vue => {
 	if (!bus) {
-		bus = new Vue()
+		bus = new Vue();
 	}
 	bus.on = (...args) => {
-		bus.$on(...args)
-	}
-	bus.once = bus.$once
-	bus.off = bus.$off
+		bus.$on(...args);
+	};
+	bus.once = bus.$once;
+	bus.off = bus.$off;
 	bus.emit = (...args) => {
 		if (!whiteList || whiteList[args[0]]) {
-			bus.$emit(...args)
+			bus.$emit(...args);
 		}
-	}
+	};
 
-	Vue.prototype.$bus = bus
+	Vue.prototype.$bus = bus;
 
 	while (cacheList.length > 0) {
-		let cacheItem = cacheList.shift()
-		bus[cacheItem.method](...cacheItem.args)
+		let cacheItem = cacheList.shift();
+		bus[cacheItem.method](...cacheItem.args);
 	}
-}
 
-VueBus.whiteList = list => {
+	let list =  [
+		'notify',
+		'user-ready',
+		'user-signin',
+		'user-signout',
+		'require-signin',
+		'require-signout',
+		'progress-start',
+		'progress-end',
+		'progress-fail',
+		'list-update',
+		'list-changed',
+		'set-router'
+	]
 	if (!whiteList) {
-		whiteList = {}
+		whiteList = {};
 	}
 	if (Array.isArray(list)) {
 		list.forEach(name => {
-			whiteList[name] = true
-		})
+			whiteList[name] = true;
+		});
 	}
 };
+
 
 ['on', 'once', 'off', 'emit'].forEach(method => {
 	VueBus[method] = (...args) => {
 		if (!bus) {
-			let cacheItem = {}
-			cacheItem.method = method
-			cacheItem.args = args
-			cacheList.push(cacheItem)
+			let cacheItem = {};
+			cacheItem.method = method;
+			cacheItem.args = args;
+			cacheList.push(cacheItem);
 		} else {
-			bus[method](...args)
+			bus[method](...args);
 		}
-	}
-})
+	};
+});
 
 if (typeof window !== 'undefined' && window.Vue) {
-	window.Vue.use(VueBus)
+	window.Vue.use(VueBus);
 }
 
-export default VueBus
+export default VueBus;
