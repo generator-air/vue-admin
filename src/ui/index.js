@@ -1,5 +1,0 @@
-import './u-breadcrumb.less'
-import './u-pagination.less'
-import './u-table-filter.less'
-import './u-table-header.less'
-import './u-table.less'

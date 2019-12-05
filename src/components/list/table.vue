@@ -1,116 +1,106 @@
 <template lang="pug">
-.u-table.v-table
-	el-table(
-		:data="list"
-		:ref="withCheckbox ? 'multipleTable' : ''"
-		:tooltip-effect="withCheckbox ? 'dark' : ''"
-		:default-sort = "{ prop: 'date', order: 'descending' }"
-		:cell-class-name="cellClassName"
-		style="width: 100%"
-		@selection-change="onSelectionChange"
-	)
-		slot
+	.u-style.u-table.v-table
+		el-table(
+			:data="list"
+			:ref="withCheckbox ? 'multipleTable' : ''"
+			:tooltip-effect="withCheckbox ? 'dark' : ''"
+			:default-sort = "{ prop: 'date', order: 'descending' }"
+			style="width: 100%"
+			@selection-change="onSelectionChange"
+		)
+			slot
 </template>
 
 <script>
-import $lodash from 'lodash';
+import $lodash from 'lodash'
 
 export default {
-	props: {
-		channel: {
-			type: String,
-			default: ''
-		},
-		api: {
-			type: Function,
-			required: true
-		},
-		withCheckbox: {
-			type: Boolean,
-			default: true
-		},
-		onSelectionChange: {
-			type: Function,
-			default: () => true
-		}
-	},
-	data() {
-		return {
-			logger: 'components/list/table',
-			list: []
-		};
-	},
-	watch: {
-		$route() {
-			this.update();
-		}
-	},
-	methods: {
-		cellClassName({ row, column }) {
-			if (column.property === 'stateName') {
-				switch (row.state) {
-					case 0:
-						return 'state-gray';
-					case 1:
-						return 'state-green';
-					case 2:
-						return 'state-blue';
-					case 3:
-						return 'state-red';
-					case 4:
-						return 'state-yellow';
-					default:
-						return '';
+		props: {
+				channel: {
+						type: String,
+						default: ''
+				},
+				api: {
+						type: String,
+						default: ''
+				},
+				withCheckbox: {
+						type: Boolean,
+						default: true
+				},
+				onSelectionChange: {
+						type: Function,
+						default: () => true
 				}
-			}
-			return '';
 		},
-		checkUpdate(info) {
-			let path = this.$route.path;
-			if (info && path === info.path && this.channel === info.channel) {
-				this.update();
-			}
+		data() {
+				return {
+						logger: 'components/list/table',
+						list: []
+				}
 		},
-		getList() {
-			return this.list;
+		watch: {
+				$route() {
+						this.update()
+				}
 		},
-		find(fn) {
-			return $lodash.find(this.list, fn);
+		methods: {
+				checkUpdate(info) {
+						let path = this.$route.path
+						if (info && path === info.path && this.channel === info.channel) {
+								this.update()
+						}
+				},
+				getList() {
+						return this.list
+				},
+				find(fn) {
+						return $lodash.find(this.list, fn)
+				},
+				// 更新数据
+				notify(err, path, channel) {
+            console.log(err)
+						let data = {}
+						data.list = []
+						data.total = 0
+						data.path = path
+						data.channel = channel
+						this.list = data.list
+						this.$emit('change', data)
+            this.$bus.emit('list-changed', data)
+						return err
+				},
+				// 填充数据
+				fill(rs, path, channel) {
+						if (rs) {
+								let data = {}
+								data.list = rs.list
+								data.total = rs.total
+								data.page = rs.page
+								data.size = rs.limit
+								data.path = path
+								data.channel = channel
+								this.list = data.list
+								this.$emit('change', data)
+                this.$bus.emit('list-changed', data)
+						}
+						return rs
+				},
+				// 网络请求
+				async update() {
+						let api = this.api
+						let query = this.$route.query
+            let path = this.$route.path
+            let channel = this.channel
+						await this.$get(api, query).then(rs => this.fill(rs, path, channel)).catch(err => this.notify(err, path, channel))
+				}
 		},
-		async update() {
-			let path = this.$route.path;
-			let channel = this.channel;
-			let api = this.api;
-			let query = this.$route.query;
-			let rs = await api(query);
-			if (rs) {
-				let data = {};
-				rs.list = rs.list.map(item => {
-					// 在此处进行英文名的拼接：full_name = first_name + last_name
-					// 为了方便后面（因为后面已经写好了），first_name = full_name
-					if (item.last_name && item.first_name) {
-						item.first_name = item.first_name + ' ' + item.last_name;
-					}
-					return item;
-				});
-				data.list = rs.list;
-				data.total = rs.total;
-				data.page = rs.page;
-				data.size = rs.limit;
-				data.path = path;
-				data.channel = channel;
-				this.list = data.list;
-				this.$emit('change', data);
-				this.$bus.emit('list-changed', data);
-			}
+		mounted() {
+				this.update()
+				this.$bus.on('list-update', this.checkUpdate)
+		},
+		destroyed() {
+				this.$bus.off('list-update', this.checkUpdate)
 		}
-	},
-	mounted() {
-		this.update();
-		this.$bus.on('list-update', this.checkUpdate);
-	},
-	destroyed() {
-		this.$bus.off('list-update', this.checkUpdate);
-	}
-};
+}
 </script>

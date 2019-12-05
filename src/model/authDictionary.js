@@ -1,15 +1,15 @@
 const dictionary = {
 	101: [
 		{
-			path: '/menu1',
+			path: '/demo1',
 			operations: ['create', 'edit', 'delete']
 		},
 		{
-			path: '/menu2',
+			path: '/demo2',
 			operations: ['create', 'edit']
 		},
 		{
-			path: '/menu3',
+			path: '/demo3',
 			operations: ['create', 'edit']
 		},
 		{
@@ -19,11 +19,11 @@ const dictionary = {
 	],
 	102: [
 		{
-			path: '/menu1/edit',
+			path: '/demo1/edit',
 			operations: ['edit', 'delete']
 		},
 		{
-			path: '/menu2'
+			path: '/demo2'
 		}
 	]
 }

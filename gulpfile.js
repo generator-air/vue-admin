@@ -88,7 +88,6 @@ $gulp.task('upload', () => $gulp.src([
 
 $gulp.task('mock', ()=>{ return switchMode($config.mock) });
 $gulp.task('development', ()=>{ return switchMode($config.development) });
-$gulp.task('production', ()=>{ return switchMode($config.production) });
 
 
 $gulp.task('build', done => {
@@ -117,13 +116,6 @@ $gulp.task('build-dev', $gulp.series(
 ));
 
 
-// build 正式环境
-$gulp.task('build-prod', $gulp.series(
-	'production',
-	'build'
-));
-
-
 // serve 开发环境
 $gulp.task('dev', $gulp.series(
 	'development',
@@ -138,12 +130,5 @@ $gulp.task('mock', $gulp.series(
 	'serve'
 ));
 
-
-// serve 正式环境
-$gulp.task('prod', $gulp.series(
-	'production',
-	'tool-kill-running',
-	'serve'
-));
 
 $gulp.task('default', $gulp.series('serve'));
