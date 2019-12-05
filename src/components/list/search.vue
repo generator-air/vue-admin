@@ -36,7 +36,7 @@ export default {
 	},
 	data() {
 		return {
-			logger: 'view/search',
+			logger: 'components/list/fsearch',
 			inputValue: ''
 		}
 	},
@@ -58,6 +58,8 @@ export default {
 				this.inputValue = value
 				this.$emit('search', value)
 				this.setKeyword(value)
+			} else {
+				this.$message.warning("请输入搜索内容")
 			}
 		},
 		clear() {

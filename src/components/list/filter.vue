@@ -1,5 +1,5 @@
 <template lang="pug">
-.u-table-filter.v-filter
+.u-style.u-table-filter.v-filter
 	el-form(
 		:inline="true"
 		label-position="left"
@@ -20,7 +20,7 @@ export default {
 	},
 	data() {
 		return {
-			logger: 'view/filter',
+			logger: 'components/list/filter',
 			query: {}
 		}
 	},

@@ -1,5 +1,5 @@
 <template lang="pug">
-	.u-pagination.v-pagination(
+	.u-style.u-pagination.v-pagination(
 		v-if="total !== 0"
 	)
 		el-pagination(
@@ -22,11 +22,11 @@ export default {
 		},
 		data() {
 				return {
-						logger: 'components/pagination',
+						logger: 'components/list/fpagination',
 						query: {},
 						page: 1,
 						total: 0,
-						size: 0
+						size: 10
 				};
 		},
 		methods: {

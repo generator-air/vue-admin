@@ -1,12 +1,12 @@
 <template lang="pug">
-	.l-content.p-questionnaire
-		.l-content-title
+	.u-style.l-content.p-questionnaire
+		.u-style.l-content-title
 			el-breadcrumb
 				el-breadcrumb-item 数据管理
 				el-breadcrumb-item 数据列表
-			.u-table-header
-				h1.header-title 数据列表
-		.u-table-header
+			.u-style.u-table-header
+				h1.u-style.header-title 数据列表
+		.u-style.u-table-header
 			v-search(
 				ref="search"
 				label="数据编号："
@@ -32,21 +32,21 @@
 								:key="item.label"
 								:value="item.id"
 							)
-			.header-aside
-				el-button.u-button(
+			.u-style.header-aside
+				el-button.u-style.u-button(
 					type="primary"
 					size="large"
 					@click="search"
 				) 查询
-				el-button.u-button.btn-filter(
+				el-button.u-style.u-button.btn-filter(
 					size="large"
 					@click="reset"
 				) 重置
-		.u-button-group
+		.u-style.u-button-group
 			router-link(
 				:to="`/home`"
 			)
-				el-button.u-button(
+				el-button.u-style.u-button(
 					type="primary"
 					icon="el-icon-plus"
 					size="large"
@@ -56,7 +56,7 @@
 					i.el-icon-arrow-down.el-icon--right
 				el-dropdown-menu(slot="dropdown")
 					el-dropdown-item(v-for="operation in operations" :command="operation.method" :key="operation.id") {{operation.label}}
-		.u-tip
+		.u-style.u-tip
 			span.tip-item 已选择 {{this.selectCount}} 项
 			span.tip-item  总计：{{this.total}} 条
 		v-table(
@@ -161,10 +161,6 @@ export default {
 						total: 0,
 						page: 0,
 						limit: 5,
-						para: {
-								is_approved: true,
-								reason: ''
-						},
 						userOperation: {},
 				};
 		},

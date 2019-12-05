@@ -1,5 +1,5 @@
 <template lang="pug">
-.u-table.v-table
+.u-style.u-table.v-table
 	el-table(
 		:data="list"
 		:ref="withCheckbox ? 'multipleTable' : ''"
@@ -57,26 +57,27 @@ export default {
 		find(fn) {
 			return $lodash.find(this.list, fn)
 		},
-		async update() {
+	  update() {
 			let path = this.$route.path
 			let channel = this.channel
 			let api = this.api
 			let query = this.$route.query
-			let rs = await this.$get(api, query).catch(e => {
-         this.$message.error(e)
+		  this.$get(api, query).then(rs=>{
+          if (rs) {
+              let data = {}
+              data.list = rs.list
+              data.total = rs.total
+              data.page = rs.page
+              data.size = rs.limit
+              data.path = path
+              data.channel = channel
+              this.list = data.list
+              this.$emit('change', data)
+              this.$bus.emit('list-changed', data)
+          }
+				}).catch(e => {
+         this.$message.warning(e)
       })
-			if (rs) {
-				let data = {}
-				data.list = rs.list
-				data.total = rs.total
-				data.page = rs.page
-				data.size = rs.limit
-				data.path = path
-				data.channel = channel
-				this.list = data.list
-				this.$emit('change', data)
-				this.$bus.emit('list-changed', data)
-			}
 		}
 	},
 	mounted() {
