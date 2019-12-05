@@ -1,5 +1,5 @@
 <template lang="pug">
-	.u-style.l-content.p-questionnaire
+	.u-style.l-content.p-demo3
 		.u-style.l-content-title
 			el-breadcrumb
 				el-breadcrumb-item 数据管理
@@ -146,7 +146,6 @@ export default {
 						id: 1,
 						selectCount: 0,
 						selectRead: 0,
-						articleType: '',
 						api: $env.domain + '/list',
             stateOptions: {
                 0: '草稿',
@@ -161,7 +160,6 @@ export default {
 						total: 0,
 						page: 0,
 						limit: 5,
-						userOperation: {},
 				};
 		},
 		methods: {
@@ -319,7 +317,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.p-questionnaire {
+	.p-demo3 {
 		// 覆盖 el-ui 的默认样式（后面的元素会给一个 margin-left）
 		tbody button.el-button {
 			margin: 5px;
