@@ -1,0 +1,119 @@
+@import "../css/color";
+
+.u-button {
+	border: none;
+	color: @default-color;
+	cursor: pointer;
+
+	&:hover, &:focus {
+		color: @theme-color;
+	}
+
+	&.el-button--primary {
+		background-color: @color-primary;
+		color: #fff;
+		&:hover, &:focus {
+			color: @color-primary-light;
+		}
+		&.btn-light {
+			background-color: @color-primary-light;
+			color: @color-primary;
+		}
+	}
+
+	&.el-button--success {
+		background-color: @color-success;
+		color: #fff;
+		&:hover, &:focus {
+			color: @color-success-light;
+		}
+		&.btn-light {
+			background-color: @color-success-light;
+			color: @color-success;
+		}
+	}
+
+	&.el-button--info {
+		background-color: @color-info;
+		color: @color-info-light;
+		&.btn-light {
+			background-color: @color-info-light;
+			color: @color-info;
+		}
+	}
+
+	/* 表单 筛选项按钮 */
+	&.btn-filter {
+		padding: 8px;
+		border: 1px solid #dcdfe6;
+
+		&.el-button--large {
+			padding: 12px 20px;
+		}
+
+		&.el-button--small {
+			padding: 7px 16px;
+		}
+
+		&.active {
+			border-color: @theme-color;
+			color: @theme-color;
+		}
+	}
+
+	/* 列表按钮 */
+	&.btn-listopt {
+		border: none;
+		border-radius: 100px;
+		padding: 8px 11px;
+	}
+
+	/* 表单 圆形按钮 */
+	&.btn-form-circle {
+		padding: 17px;
+		border-radius: 100px;
+		font-size: 16px;
+
+		&.el-button--small {
+			padding: 13px 17px;
+			font-size: 14px;
+		}
+
+		&.el-button--large {
+			padding: 17px;
+			font-weight: 600;
+		}
+
+		&__white {
+			background-color: #fff;
+			color: #5d6e88;
+
+			&:hover, &:focus {
+				color: #5d6e88;
+			}
+		}
+	}
+
+	/* 表单 矩形按钮 */
+	&.btn-form-rect {
+		padding: 12px;
+		border-radius: 4px;
+		font-size: 14px;
+
+		[class*=el-icon-] + span {
+			margin-left: 6px;
+		}
+
+		&.el-button--large {
+			width: 100%;
+			padding: 15px 0;
+		}
+	}
+	&.is-disabled,
+	&.is-disabled:active,
+	&.is-disabled:focus,
+	&.is-disabled:hover{
+		background-color: @default-tip;
+		color: #fff;
+	}
+}

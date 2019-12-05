@@ -38,51 +38,51 @@ export default {
 		return {
 			logger: 'view/search',
 			inputValue: ''
-		};
+		}
 	},
 	computed: {
 		empty() {
-			return !this.inputValue;
+			return !this.inputValue
 		}
 	},
 	watch: {
 		value(val) {
-			this.inputValue = val;
+			this.inputValue = val
 		}
 	},
 	methods: {
 		search() {
-			let value = this.inputValue;
+			let value = this.inputValue
 			if (value) {
-				value = value.trim();
-				this.inputValue = value;
-				this.$emit('search', value);
-				this.setKeyword(value);
+				value = value.trim()
+				this.inputValue = value
+				this.$emit('search', value)
+				this.setKeyword(value)
 			}
 		},
 		clear() {
-			this.inputValue = '';
-			this.$emit('clear');
-			this.setKeyword('');
+			this.inputValue = ''
+			this.$emit('clear')
+			this.setKeyword('')
 		},
 		setKeyword(keyword) {
-			let name = this.name;
-			let query = {};
-			query.page = 1;
-			query[name] = keyword;
-			this.setQuery(query);
+			let name = this.name
+			let query = {}
+			query.page = 1
+			query[name] = keyword
+			this.setQuery(query)
 		},
 		setQuery(query) {
-			query = Object.assign({}, this.$route.query, query);
+			query = Object.assign({}, this.$route.query, query)
 			this.$router.push({
 				query
-			});
+			})
 		}
 	},
 	mounted() {
-		this.inputValue = this.value;
+		this.inputValue = this.value
 	}
-};
+}
 </script>
 
 <style lang="less">
@@ -101,7 +101,7 @@ export default {
 		width: 70%;
 	}
 	input {
-		// border-radius: 100px;
+		// border-radius: 100px
 		box-shadow: 0 0 20px 0 rgba(102, 126, 164, 0.05);
 	}
 	.el-input__icon {
@@ -124,11 +124,11 @@ export default {
 	}
 	.el-input.is-active .el-input__inner,
 	.el-input__inner:focus{
-		border-color: @theme-color;
+		border-color: @theme-color
 	}
 	.is-empty{
 		.el-icon-close{
-			display: none;
+			display: none
 		}
 	}
 }

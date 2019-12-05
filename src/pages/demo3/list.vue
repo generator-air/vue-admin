@@ -44,8 +44,7 @@
 				) 重置
 		.u-button-group
 			router-link(
-				v-show="userOperation.create"
-				:to="`/content/questionnaire/create`"
+				:to="`/home`"
 			)
 				el-button.u-button(
 					type="primary"
@@ -53,7 +52,7 @@
 					size="large"
 				) 新建
 			el-dropdown(@command="batchHandler" trigger="click")
-				el-button(v-show="userOperation.batch" type="primary" :disabled="operations.length === 0 ? true : false") 批量操作
+				el-button( type="primary" :disabled="operations.length === 0 ? true : false") 批量操作
 					i.el-icon-arrow-down.el-icon--right
 				el-dropdown-menu(slot="dropdown")
 					el-dropdown-item(v-for="operation in operations" :command="operation.method" :key="operation.id") {{operation.label}}
@@ -122,7 +121,8 @@ import $search from '@/components/list/search'
 import $filter from '@/components/list/filter';
 import $pagination from '@/components/list/pagination'
 import $table from '@/components/list/table'
-import $apiQuest from '@/model/io/demo'
+import $env from '@/model/env'
+
 export default {
 		components: {
 				'v-search': $search,
@@ -133,12 +133,6 @@ export default {
 		watch: {
 				$route() {
 						this.init();
-						// 如果当前用户有权访问所有人创建的文章
-						if (this.userOperation.all && !this.$route.query.list) {
-								this.$router.push({ query: { list: 'all' } });
-								// 重置过滤项，避免显示上一数据页下拉选项
-								this.$refs.filter.reset();
-						}
 				}
 		},
 		computed: {
@@ -153,7 +147,7 @@ export default {
 						selectCount: 0,
 						selectRead: 0,
 						articleType: '',
-						api: $apiQuest.list,
+						api: $env.domain + '/list',
             stateOptions: {
                 0: '草稿',
                 1: '待审核',
@@ -167,11 +161,6 @@ export default {
 						total: 0,
 						page: 0,
 						limit: 5,
-						dialogTable: {
-								list: [],
-								total: 0,
-								page: 1
-						},
 						para: {
 								is_approved: true,
 								reason: ''
@@ -197,12 +186,16 @@ export default {
 				del(row) {
 						alert('编号:' + row.id + ' , 删除操作')
 				},
+        // 提交
+        async submit(row) {
+            this.operationHandler(row, 'submit');
+        },
 				operationHandler(row, operation) {
 						let confirmText = '';
 						let messageText = '';
 						if (operation === 'submit') {
 								confirmText = '确认要提交审核？';
-								messageText = '文章已提交审核';
+								messageText = '数据已提交审核';
 						} else {
 								confirmText = '确认要撤回数据？';
 								messageText = '数据已撤回';
@@ -214,9 +207,9 @@ export default {
 						}).then(async () => {
 								let rs = {};
 								if (operation === 'submit') {
-										await $apiQuest.submit(row.qid, this.para);
+										alert('提交操作')
 								} else {
-										await $apiQuest.revert(row.qid);
+                    alert('撤回操作')
 								}
 								if (rs) {
 										this.$message({
@@ -237,13 +230,13 @@ export default {
 						if (command.name.includes('submit')) {
 								operationName = 'submit';
 								confirmText = '确认要提交审核？';
-								messageText = '文章已提交审核';
+								messageText = '数据已提交审核';
 						} else {
 								operationName = 'withdraw';
 								confirmText = '确认要撤回数据？';
 								messageText = '数据已撤回';
 						}
-						// 操作文章id整合
+						// 操作数据id整合
 						this.tableSelections.forEach(item => {
 								ids.push(item.qid);
 						});
@@ -252,16 +245,11 @@ export default {
 								cancelButtonText: '取消',
 								type: 'warning'
 						}).then(async () => {
-								const para = {
-										operation: operationName,
-										reason: '',
-										id_list: ids
-								};
 								let rs = {};
 								if (operationName === 'submit') {
-										rs = await $apiQuest.batchSubmit(para);
+										alert('批量提交')
 								} else {
-										rs = await $apiQuest.batchWithdraw(para);
+                    alert('批量撤回')
 								}
 								if (rs) {
 										this.$message({
@@ -282,13 +270,13 @@ export default {
 						let selectRead = 0;
 						console.log(val)
 						val.forEach(item => {
-								// if (item.state === 0 || item.state === 3 || item.state === 4) {
-								// 		// 第一类操作命令
-								// 		++countCommandOne;
-								// } else {
-								// 		// 第二类操作命令
-								// 		++countCommandTwo;
-								// }
+								if (item.id) {
+										// 第一类操作命令
+										++countCommandOne;
+								} else {
+										// 第二类操作命令
+										++countCommandTwo;
+								}
 								selectRead += item.id;
 						});
 						if (val.length > 0) {
@@ -330,12 +318,6 @@ export default {
 		mounted() {
 				// 过滤项回显。mounted前无法通过 this.$refs 访问组件
 				this.$refs.filter.update();
-				// 如果当前用户有权访问所有人创建的文章
-				if (this.userOperation.all && !this.$route.query.list) {
-						this.$router.push({ query: { list: 'all' } });
-						// 重置过滤项，避免显示上一文章页下拉选项
-						this.$refs.filter.reset();
-				}
 		}
 };
 </script>
