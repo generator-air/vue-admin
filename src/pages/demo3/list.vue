@@ -146,7 +146,7 @@ export default {
 						id: 1,
 						selectCount: 0,
 						selectRead: 0,
-						api: $env.domain + '/list',
+						api: $env.domain + '/admin/list',
             stateOptions: {
                 0: '草稿',
                 1: '待审核',

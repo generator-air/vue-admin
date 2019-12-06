@@ -24,7 +24,7 @@ config.mockServerPort = 8091;
 
 config.logReport = false; // 日志监控开关
 
-config.mock = "https://www.fastmock.site/mock/93b567b50371b5d9d095fcbf0e8be716/test";
+config.mock = "https://www.fastmock.site/mock/eb39d1eaf002b7375da3216bb71b3a21";
 
 config.development = "http://9.134.193.194:8000";// 测试域名
 
