@@ -59,7 +59,6 @@ export default {
 				},
 				// 更新数据
 				notify(err, path, channel) {
-            console.log(err)
 						let data = {}
 						data.list = []
 						data.total = 0

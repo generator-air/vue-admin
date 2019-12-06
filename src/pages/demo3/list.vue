@@ -146,7 +146,7 @@ export default {
 						id: 1,
 						selectCount: 0,
 						selectRead: 0,
-						api: $env.domain + '/list',
+						api: $env.domain + '/admin/list',
             stateOptions: {
                 0: '草稿',
                 1: '待审核',
@@ -262,7 +262,6 @@ export default {
 						this.selectCount = val.length;
 						// 没有选中时清空一下数据
 						let selectRead = 0;
-						console.log(val)
 						val.forEach(item => {
 								if (item.id) {
 										// 第一类操作命令

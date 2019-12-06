@@ -4,11 +4,20 @@
 			el-card(class="box-card")
 				h3.u-style.header-title 时间工具示例
 					div(class="text item")
-						h5.u-style.header-title {{"测试时间: " +this.time}}
-						h5.u-style.header-title {{"时间格式化(秒): "  +this.sec}}
+						h5.u-style.header-title {{"当前时间格式化: " +this.time}}
+						h5.u-style.header-title {{"秒: "  +this.sec}}
 						h5.u-style.header-title {{"天: " +this.day}}
-						h5.u-style.header-title {{"标准时间: " +this.sect}}
+						h5.u-style.header-title {{"标准: " +this.sect}}
 						h5.u-style.header-title {{"年月日: " + this.quant}}
+		.u-style.u-table-header
+			h3.u-style.header-title 日志开关
+			el-switch(
+				style="display: block"
+				v-model="isOpened"
+				active-color="#13ce66"
+				active-text="开启"
+				inactive-text="关闭"
+				@change='handleSwitch')
 			.u-style.u-table-header
 			el-card(class="box-card")
 				h3.u-style.header-title 网络请求示例
@@ -20,8 +29,8 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
-import $config from '../../../config'
 import $date from '@/util/date'
+import $env from '@/model/env'
 
 export default {
 		computed: {
@@ -38,6 +47,8 @@ export default {
 						quant: '',
 						list: {},
 						url: '',
+						isOpened: false,
+						interval: ''
 				}
 		},
 		methods: {
@@ -49,50 +60,38 @@ export default {
 								name: 'Adam'
 						})
 				},
-				dateFormat(time, type) {
-						let date = {}
-						switch (type) {
-								case 'sec':
-										date = $date.formatSec(time);
-										break;
-								case 'day':
-										date = $date.formatDay(time);
-										break;
-								case 'secText':
-										date = $date.formatSecText(time);
-										break;
-								case 'quantum':
-										date = $date.formatQuantum(time);
-										break;
-								default:
-										break;
+				init() {
+						/* 网络请求接口示例，也可以参考table.vue中的update*/
+						this.url = $env.domain + '/admin/list'
+						this.$get(this.url,)
+								.then((rs) => {
+										this.list = rs
+								})
+						/* 时间处理工具类示例 */
+						this.time = Date.parse(new Date()) / 1000
+						const time = this.time
+						this.sec = $date.formatSec(time)
+						this.day = $date.formatDay(time)
+						this.sect = $date.formatSecText(time)
+						this.quant = $date.formatQuantum(time)
+				},
+				/* 日志上报系统 aegis，详见 aegis.ivweb.io */
+				handleSwitch(value) {
+						if (value) {
+								/* 日志监听结果在日志/项目实时日志中选择开始监听 */
+								this.interval = setInterval(() => {
+										this.$aegis.logE('aegis异常日志上报', value)
+										// 监控当前页面
+										this.$aegis.logI('aegis普通日志上报', value)
+								}, 1000)
+						} else {
+								clearInterval(this.interval)
 						}
-						return date
 				}
 		},
-		created() {
-				// https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final
-				// 404 response
-				// https://www.gamersky.com/news/201911/123w7764.shtml
-				/* req demo */
-				this.url = 'https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final';
-				this.$get(this.url,)
-						.then((e) => {
-						    this.list = e;
-								console.log('%c' + JSON.stringify(e, null, 2), 'color:violet')
-						})
-				/* aegis log demo */
-				if ($config.logReport) {
-						// 监控当前页面
-						this.$aegis.logE('aegis异常日志上报')
-						// 监控当前页面
-						this.$aegis.logI('aegis普通日志上报')
-				}
-				this.time = '1575341866'
-				this.sec = this.dateFormat(this.time, 'sec');
-				this.day = this.dateFormat(this.time, 'day')
-				this.sect = this.dateFormat(this.time, 'secText')
-				this.quant = this.dateFormat(this.time, 'quantum')
+		created() {},
+		mounted() {
+				this.init()
 		}
 }
 </script>
