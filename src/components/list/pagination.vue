@@ -22,7 +22,7 @@ export default {
 		},
 		data() {
 				return {
-						logger: 'components/list/fpagination',
+						logger: 'components/list/pagination',
 						query: {},
 						page: 1,
 						total: 0,
