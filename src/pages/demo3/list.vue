@@ -262,7 +262,6 @@ export default {
 						this.selectCount = val.length;
 						// 没有选中时清空一下数据
 						let selectRead = 0;
-						console.log(val)
 						val.forEach(item => {
 								if (item.id) {
 										// 第一类操作命令
