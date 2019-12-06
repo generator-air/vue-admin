@@ -4,10 +4,10 @@
 			el-card(class="box-card")
 				h3.u-style.header-title 时间工具示例
 					div(class="text item")
-						h5.u-style.header-title {{"测试时间: " +this.time}}
-						h5.u-style.header-title {{"时间格式化(秒): "  +this.sec}}
+						h5.u-style.header-title {{"当前时间格式化: " +this.time}}
+						h5.u-style.header-title {{"秒: "  +this.sec}}
 						h5.u-style.header-title {{"天: " +this.day}}
-						h5.u-style.header-title {{"标准时间: " +this.sect}}
+						h5.u-style.header-title {{"标准: " +this.sect}}
 						h5.u-style.header-title {{"年月日: " + this.quant}}
 			.u-style.u-table-header
 			el-card(class="box-card")
@@ -88,7 +88,7 @@ export default {
 						// 监控当前页面
 						this.$aegis.logI('aegis普通日志上报')
 				}
-				this.time = '1575341866'
+        this.time = Date.parse(new Date()) / 1000;
 				this.sec = this.dateFormat(this.time, 'sec');
 				this.day = this.dateFormat(this.time, 'day')
 				this.sect = this.dateFormat(this.time, 'secText')
