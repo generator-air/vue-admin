@@ -28,69 +28,70 @@
 </template>
 
 <script>
-    import { mapMutations, mapState } from 'vuex'
-    import $date from '@/util/date'
+import { mapMutations, mapState } from 'vuex'
+import $date from '@/util/date'
+import $env from '@/model/env'
 
-    export default {
-        computed: {
-            ...mapState('user', [
-                'userInfo'
-            ])
-        },
-        data() {
-            return {
-                time: '',
-                sec: '',
-                day: '',
-                sect: '',
-                quant: '',
-                list: {},
-                url: '',
-                isOpened: false,
-								interval: ''
-            }
-        },
-        methods: {
-            ...mapMutations('user', [
-                'setUserInfo'
-            ]),
-            changeUser() {
-                this.setUserInfo({
-                    name: 'Adam'
-                })
-            },
-            init() {
-                /* 网络请求接口示例，也可以参考table.vue中的update*/
-                this.url = 'https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final';
-                this.$get(this.url,)
-                    .then((rs) => {
-                        this.list = rs;
-                    })
-                /* 时间处理工具类示例 */
-                this.time = Date.parse(new Date()) / 1000
-                const time = this.time
-                this.sec = $date.formatSec(time);
-                this.day = $date.formatDay(time);
-                this.sect = $date.formatSecText(time);
-                this.quant = $date.formatQuantum(time);
-            },
-            /* 日志上报系统 aegis，详见 aegis.ivweb.io */
-            handleSwitch(value) {
-                if (value) {
-                    this.interval = setInterval(()=>{
-                        this.$aegis.logE('aegis异常日志上报', value)
-                        // 监控当前页面
-                        this.$aegis.logI('aegis普通日志上报', value)
-                    }, 1000)
-								} else {
-                    clearInterval(this.interval);
-								}
-            }
-        },
-        created() {
-        },
-        mounted() {
-            this.init()
-        }
-    }
+export default {
+		computed: {
+				...mapState('user', [
+						'userInfo'
+				])
+		},
+		data() {
+				return {
+						time: '',
+						sec: '',
+						day: '',
+						sect: '',
+						quant: '',
+						list: {},
+						url: '',
+						isOpened: false,
+						interval: ''
+				}
+		},
+		methods: {
+				...mapMutations('user', [
+						'setUserInfo'
+				]),
+				changeUser() {
+						this.setUserInfo({
+								name: 'Adam'
+						})
+				},
+				init() {
+						/* 网络请求接口示例，也可以参考table.vue中的update*/
+						this.url = $env.domain + '/admin/list'
+						this.$get(this.url,)
+								.then((rs) => {
+										this.list = rs
+								})
+						/* 时间处理工具类示例 */
+						this.time = Date.parse(new Date()) / 1000
+						const time = this.time
+						this.sec = $date.formatSec(time)
+						this.day = $date.formatDay(time)
+						this.sect = $date.formatSecText(time)
+						this.quant = $date.formatQuantum(time)
+				},
+				/* 日志上报系统 aegis，详见 aegis.ivweb.io */
+				handleSwitch(value) {
+						if (value) {
+								/* 日志监听结果在日志/项目实时日志中选择开始监听 */
+								this.interval = setInterval(() => {
+										this.$aegis.logE('aegis异常日志上报', value)
+										// 监控当前页面
+										this.$aegis.logI('aegis普通日志上报', value)
+								}, 1000)
+						} else {
+								clearInterval(this.interval)
+						}
+				}
+		},
+		created() {},
+		mounted() {
+				this.init()
+		}
+}
 </script>
