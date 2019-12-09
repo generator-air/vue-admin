@@ -145,13 +145,13 @@ export default {
 						selectCount: 0,
 						selectRead: 0,
 						api: $env.domain + '/word/list',
-            stateOptions: [
+						stateOptions: [
 								{
-								    id: 0,
+										id: 1,
 										label: "待提交"
 								},
 								{
-								    id: 1,
+										id: 2,
 										label: "已提交"
 								}
 						],
@@ -174,29 +174,29 @@ export default {
 						this.$refs.search.clear();
 						this.$router.push({ path: this.$route.path });
 				},
-        // 新建
-        create() {
-            this.$router.push({ path: '/demo3/edit' })
-        },
+				// 新建
+				create() {
+						this.$router.push({ path: '/demo3/edit' })
+				},
 				// 编辑
 				edit(row) {
-            this.$router.push({ path: '/demo3/edit', query: { id: row.id } })
+						this.$router.push({ path: '/demo3/edit', query: { id: row.id } })
 				},
 				// 详情
 				detail(row) {
-            this.$router.push({ path: '/demo3/detail', query: { id: row.id } })
+						this.$router.push({ path: '/demo3/detail', query: { id: row.id } })
 				},
-        // 提交
-        async submit(row) {
-            this.operationHandler(row, 'submit');
-        },
-        // 批量提交
-        batch(para) {
-            return  this.$post($env.domain + '/word/batch', para).catch(
-                err => this.$message.error(err)
-            )
-        },
-				// 单个选中项提交
+				// 提交
+				async submit(row) {
+						this.operationHandler(row, 'submit');
+				},
+				// 批量提交
+				batch(para) {
+						return this.$post($env.domain + '/word/batch', para).catch(
+								err => this.$message.error(err)
+						)
+				},
+				// 提交时触发
 				operationHandler(row, operation) {
 						let confirmText = '';
 						let messageText = '';
@@ -209,23 +209,25 @@ export default {
 								cancelButtonText: '取消',
 								type: 'warning'
 						}).then(async () => {
-								let rs = {};
-                const para = {
-                    operation: operationName,
-                    id: row.id
-                };
+								const para = {
+										operation: operationName,
+										id: row.id
+								};
 								if (operation === 'submit') {
-										rs = this.batch(para)
+										this.$post($env.domain + '/word/batch', para).then(rs => {
+												if (rs) {
+														this.$message({
+																type: 'success',
+																message: messageText
+														});
+														// 刷新列表
+														this.$refs.list.update();
+												}
+										}).catch(
+												err => this.$message.error(err)
+										)
 								}
-								if (rs) {
-										this.$message({
-												type: 'success',
-												message: messageText
-										});
-										// 刷新列表
-										this.$refs.list.update();
-								}
-						}).catch(() => {});
+						})
 				},
 				// 全选提交
 				batchHandler(command) {
@@ -248,23 +250,25 @@ export default {
 								cancelButtonText: '取消',
 								type: 'warning'
 						}).then(async () => {
-								let rs = {};
-                const para = {
-                    operation: operationName,
-                    id_list: ids
-                };
+								const para = {
+										operation: operationName,
+										id_list: ids
+								};
 								if (operationName === 'submit') {
-										rs = await this.batch(para)
+										this.$post($env.domain + '/word/batch', para).then(rs => {
+												if (rs) {
+														this.$message({
+																type: 'success',
+																message: messageText
+														});
+														// 刷新列表
+														this.$refs.list.update();
+												}
+										}).catch(
+												err => this.$message.error(err)
+										)
 								}
-								if (rs) {
-										this.$message({
-												type: 'success',
-												message: messageText
-										});
-										// 刷新列表
-										this.$refs.list.update();
-								}
-						}).catch(() => {});
+						});
 				},
 				// 列表选中项变更
 				selectionChangeHandler(val) {
@@ -307,7 +311,6 @@ export default {
 				init() {
 						// 搜索项回显
 						this.searchValue = this.$route.query.search;
-						console.log(this.stateOptions)
 				}
 		},
 		// 当前list页面挂载前赋值this.api，保证table挂载时拿到指定的api
@@ -327,6 +330,7 @@ export default {
 		tbody button.el-button {
 			margin: 5px;
 		}
+
 		.button-box {
 			display: inline-block;
 			text-align: left;
