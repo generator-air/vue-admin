@@ -26,6 +26,7 @@ config.mock = "https://www.fastmock.site/mock/5804566cbf92cb32bf29b622fdfe6138";
 
 config.development = "http://127.0.0.1:8000";// 测试域名
 
+config.logReport = false; // 日志全局开关
 
 // cdn部署路径
 config.cdnBase = '//cdn.xx.yy.com'; // 使用cdn的域名，以//开头，自动匹配站点协议

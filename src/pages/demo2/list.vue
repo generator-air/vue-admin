@@ -31,7 +31,7 @@
 import { mapMutations, mapState } from 'vuex'
 import $date from '@/util/date'
 import $env from '@/model/env'
-
+import $config from  '../../../config'
 export default {
 		computed: {
 				...mapState('user', [
@@ -43,8 +43,8 @@ export default {
 						time: '',
 						sec: '',
 						day: '',
-						sect: '',
 						quant: '',
+						sect: '',
 						list: {},
 						url: '',
 						isOpened: false,
@@ -77,7 +77,7 @@ export default {
 				},
 				/* 日志上报系统 aegis，详见 aegis.ivweb.io */
 				handleSwitch(value) {
-						if (value) {
+						if (value && $config.logReport) {
 								/* 日志监听结果在日志/项目实时日志中选择开始监听 */
 								this.interval = setInterval(() => {
 										this.$aegis.logE('aegis异常日志上报', value)
