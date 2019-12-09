@@ -200,7 +200,7 @@ export default {
 										id: row.id
 								};
 								if (operation === 'submit') {
-										rs = await this.$post($env.domain + '/word/batch', para)
+                    rs = await this.$post($env.domain + '/word/batch', para).catch(err=> { console.error(err) })
 								}
                 if (rs) {
                     this.$message({
@@ -241,7 +241,7 @@ export default {
 										id_list: ids
 								};
 								if (operationName === 'submit') {
-                    rs = await this.$post($env.domain + '/word/batch', para)
+                    rs = await this.$post($env.domain + '/word/batch', para).catch(err=> { console.error(err) })
 								}
                 if (rs) {
                     this.$message({
