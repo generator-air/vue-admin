@@ -47,9 +47,7 @@ export default {
 		methods: {
 				// 根据id查询
 				searchId(id) {
-						return this.$get($env.domain + '/word/getId', { id }).catch(
-                err => this.$message.error(err)
-            )
+						return this.$get($env.domain + '/word/getId', { id })
 				},
 				// 数据获取
         async getList() {

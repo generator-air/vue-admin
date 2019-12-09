@@ -117,21 +117,15 @@ export default {
 				},
 				// 根据id查询
 				searchId(id) {
-						return this.$get($env.domain + '/word/getId', { id }).catch(
-                err => this.$message.error(err)
-            )
+						return this.$get($env.domain + '/word/getId', { id })
 				},
 				// 新增词条
         addInfo(para) {
-            return this.$post($env.domain + '/word/add', para).catch(
-								err => this.$message.error(err)
-						)
+            return this.$post($env.domain + '/word/add', para)
 				},
 				// 更新词条
 			 updateInfo(para) {
-					return  this.$post($env.domain + '/word/modify', para).catch(
-							err => this.$message.error(err)
-					)
+					return  this.$post($env.domain + '/word/modify', para)
 				},
 
 				// 文件上传成功

@@ -181,12 +181,6 @@ export default {
 				async submit(row) {
 						this.operationHandler(row, 'submit');
 				},
-				// 批量提交
-				batch(para) {
-						return this.$post($env.domain + '/word/batch', para).catch(
-								err => this.$message.error(err)
-						)
-				},
 				// 提交时触发
 				operationHandler(row, operation) {
 						let confirmText = '';
@@ -200,23 +194,23 @@ export default {
 								cancelButtonText: '取消',
 								type: 'warning'
 						}).then(async () => {
+						    let rs = {}
 								const para = {
 										operation: operationName,
 										id: row.id
 								};
 								if (operation === 'submit') {
-										this.$post($env.domain + '/word/batch', para).then(rs => {
-												if (rs) {
-														this.$message({
-																type: 'success',
-																message: messageText
-														});
-														// 刷新列表
-														this.$refs.list.update();
-												}
-										}).catch(
-												err => this.$message.error(err)
-										)
+										rs = await this.$post($env.domain + '/word/batch', para)
+								}
+                if (rs) {
+                    this.$message({
+                        type: 'success',
+                        message: messageText
+                    });
+                    // 刷新列表
+                    this.$refs.list.update();
+                } else {
+                    this.$message.error("提交失败")
 								}
 						})
 				},
@@ -241,24 +235,24 @@ export default {
 								cancelButtonText: '取消',
 								type: 'warning'
 						}).then(async () => {
+                let rs = {}
 								const para = {
 										operation: operationName,
 										id_list: ids
 								};
 								if (operationName === 'submit') {
-										this.$post($env.domain + '/word/batch', para).then(rs => {
-												if (rs) {
-														this.$message({
-																type: 'success',
-																message: messageText
-														});
-														// 刷新列表
-														this.$refs.list.update();
-												}
-										}).catch(
-												err => this.$message.error(err)
-										)
+                    rs = await this.$post($env.domain + '/word/batch', para)
 								}
+                if (rs) {
+                    this.$message({
+                        type: 'success',
+                        message: messageText
+                    });
+                    // 刷新列表
+                    this.$refs.list.update();
+                } else {
+                    this.$message.error("提交失败")
+                }
 						});
 				},
 				// 列表选中项变更

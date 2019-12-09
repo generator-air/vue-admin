@@ -50,7 +50,7 @@ axios.interceptors.response.use(({ data, status }) => {
 		const { status, data } = err.response
 		return useDict(status, data.code, data.msg || err.message)
 	}
-	return Promise.reject(err.message)
+	return Promise.reject(err)
 })
 
 const exportObj = {
