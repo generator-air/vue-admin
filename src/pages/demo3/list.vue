@@ -120,6 +120,7 @@ import $filter from '@/components/list/filter';
 import $pagination from '@/components/list/pagination'
 import $table from '@/components/list/table'
 import $env from '@/model/env'
+import $select from '@/util/select'
 
 export default {
 		components: {
@@ -145,16 +146,7 @@ export default {
 						selectCount: 0,
 						selectRead: 0,
 						api: $env.domain + '/word/list',
-						stateOptions: [
-								{
-										id: 1,
-										label: "待提交"
-								},
-								{
-										id: 2,
-										label: "已提交"
-								}
-						],
+            stateOptions: $select.COMMON_STATE,
 						operations: [],
 						tableSelections: [],
 						searchValue: '',
