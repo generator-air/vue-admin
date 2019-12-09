@@ -145,10 +145,16 @@ export default {
 						selectCount: 0,
 						selectRead: 0,
 						api: $env.domain + '/word/list',
-            stateOptions: {
-                0: '待提交',
-                1: '已提交',
-            },
+            stateOptions: [
+								{
+								    id: 0,
+										label: "待提交"
+								},
+								{
+								    id: 1,
+										label: "已提交"
+								}
+						],
 						operations: [],
 						tableSelections: [],
 						searchValue: '',
@@ -301,6 +307,7 @@ export default {
 				init() {
 						// 搜索项回显
 						this.searchValue = this.$route.query.search;
+						console.log(this.stateOptions)
 				}
 		},
 		// 当前list页面挂载前赋值this.api，保证table挂载时拿到指定的api
