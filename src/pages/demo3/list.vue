@@ -1,9 +1,9 @@
 <template lang="pug">
-	.u-style.l-content.p-demo3
+	.u-style.l-content.p-list
 		.u-style.l-content-title
 			el-breadcrumb
+				el-breadcrumb-item 组件示例
 				el-breadcrumb-item 数据管理
-				el-breadcrumb-item 数据列表
 			.u-style.u-table-header
 				h1.u-style.header-title 数据列表
 		.u-style.u-table-header
@@ -107,8 +107,8 @@
 					el-button.op-button(
 						type="warning"
 						size="small"
-						@click="del(row)"
-					) 删除
+						@click="detail(row)"
+					) 详情
 
 		v-pagination
 </template>
@@ -178,9 +178,9 @@ export default {
 				edit(row) {
             this.$router.push({ path: '/demo3/edit', query: { id: row.id } })
 				},
-				// 删除
-				del(row) {
-						alert('编号:' + row.id + ' , 删除操作')
+				// 详情
+				detail(row) {
+            this.$router.push({ path: '/demo3/detail', query: { id: row.id } })
 				},
         // 提交
         async submit(row) {
@@ -318,7 +318,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.p-demo3 {
+	.p-list {
 		// 覆盖 el-ui 的默认样式（后面的元素会给一个 margin-left）
 		tbody button.el-button {
 			margin: 5px;

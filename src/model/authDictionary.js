@@ -17,6 +17,10 @@ const dictionary = {
 			operations: ['create', 'edit']
 		},
 		{
+			path: '/demo3/detail',
+			operations: ['delete']
+		},
+		{
 			path: '/about',
 			operations: ['create']
 		}

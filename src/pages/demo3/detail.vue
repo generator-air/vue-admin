@@ -1,65 +1,27 @@
 <template lang="pug">
-	.u-style.l-content.p-edit
+	.u-style.l-content.p-detail
 		.u-style.l-content-title
 			el-breadcrumb
 				router-link(:to="'/demo3/list'")
 					el-breadcrumb-item 组件示例
 					el-breadcrumb-item 数据管理
-			.u-style.u-table-header
-				h1.u-style.header-title {{qid ? '编辑' : '创建'}}数据
-		.u-style.u-table-header
-				el-form.u-form(
-					:inline="true"
-					label-position="left"
-					:model="form"
-					:rules="rules"
-					ref="form"
-				)
-					.u-style.filter-block
-						el-form-item(label="数据缩写:" prop="brief")
-							el-input(
-								v-model="form.brief"
-								size="small"
-								style="width: 480px"
-								placeholder="请输入数据缩写"
-							)
-					.u-style.filter-block
-						el-form-item(label="数据全称:" prop="full")
-							el-input(
-								v-model="form.full"
-								size="small"
-								style="width: 480px"
-								placeholder="请输入数据全称"
-							)
-					.u-style.filter-block
-						el-form-item(label="数据含义:" prop="mean")
-							el-input(
-								v-model="form.mean"
-								size="small"
-								style="width: 480px"
-								placeholder="请输入数据含义"
-							)
-					.u-style.filter-block
-						el-form-item(label="数据备注:" prop="tips")
-							el-input(
-								v-model="form.tips"
-								size="small"
-								placeholder="请输入数据备注"
-								type="textarea"
-								:autosize="{ minRows: 2, maxRows: 100}"
-							)
-					.u-style.u-button-group
-						el-button.u-style.u-button(
-							type="primary"
-							size="large"
-							plain
-							@click="check('form')"
-						) 提交
-						el-button(
-							type="danger"
-							plain
-							@click="clear"
-						) 清空
+				h1.u-style.header-title 数据详情
+			mixin pcicRow (title, content)
+				.pcic-row
+					.pcic-title #{title}：
+					if block
+						block
+			.p-coupon-info-head
+				h3 数据信息
+			.p-coupon-info-content
+				+pcicRow('简称')
+					.pcic-content {{form.brief}}
+				+pcicRow('全称')
+					.pcic-content {{form.full}}
+				+pcicRow('含义')
+					.pcic-content {{form.mean}} 张
+				+pcicRow('备注')
+					.pcic-content {{form.tips}}
 
 </template>
 
@@ -234,15 +196,39 @@ export default {
 </script>
 
 <style lang="less">
-	.p-edit {
-		.el-form-item__label {
-			min-width: 120px;
-			text-align: right;
-			padding-right: 30px;
-		}
-
-		.header-button {
-			display: flex;
+	.p-detail{
+		.p-coupon-info{
+			padding: 30px;
+			background-color: #fff;
+			.p-coupon-info-head{
+				margin-bottom: 30px;
+				display: flex;
+				height: 50px;
+				justify-content: space-between;
+				align-items: center;
+				h3{
+					margin: 0;
+				}
+			}
+			.p-coupon-info-content{
+				font-size: 14px;
+				color: #333;
+				.pcic-row{
+					margin-bottom: 15px;
+					display: flex;
+				}
+				.pcic-title{
+					flex-shrink: 0;
+					width: 150px;
+					text-align: right;
+				}
+				.pcic-content{
+					a{
+						margin-left: 30px;
+					}
+				}
+			}
 		}
 	}
 </style>
+
