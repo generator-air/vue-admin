@@ -43,14 +43,12 @@
 					@click="reset"
 				) 重置
 		.u-style.u-button-group
-			router-link(
-				:to="`/home`"
-			)
-				el-button.u-style.u-button(
-					type="primary"
-					icon="el-icon-plus"
-					size="large"
-				) 新建
+			el-button.u-style.u-button(
+				type="primary"
+				icon="el-icon-plus"
+				size="large"
+				@click="create()"
+			) 新建
 			el-dropdown(@command="batchHandler" trigger="click")
 				el-button( type="primary" :disabled="operations.length === 0 ? true : false") 批量操作
 					i.el-icon-arrow-down.el-icon--right
@@ -172,6 +170,10 @@ export default {
 						this.$refs.search.clear();
 						this.$router.push({ path: this.$route.path });
 				},
+        // 新建
+        create() {
+            this.$router.push({ path: '/demo3/edit' })
+        },
 				// 编辑
 				edit(row) {
             this.$router.push({ path: '/demo3/edit', query: { id: row.id } })

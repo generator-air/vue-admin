@@ -116,25 +116,22 @@ export default {
 						return $date.formatSec(time)
 				},
 				// 根据id查询
-				async searchId(id) {
-						const rs = await this.$get($env.domain + '/word/getId', { id }).catch(
-								err => this.$message.error(err)
-						)
-						return rs
+				searchId(id) {
+						return this.$get($env.domain + '/word/getId', { id }).catch(
+                err => this.$message.error(err)
+            )
 				},
 				// 新增词条
-        async addInfo(para) {
-            const rs = this.$post($env.domain + '/word/add', para).catch(
+        addInfo(para) {
+            return this.$post($env.domain + '/word/add', para).catch(
 								err => this.$message.error(err)
 						)
-            return rs
 				},
 				// 更新词条
-        async updateInfo(para) {
-            const rs = this.$post($env.domain + '/word/modify', para).catch(
-								err => this.$message.error(err)
-						)
-            return rs
+			 updateInfo(para) {
+					return  this.$post($env.domain + '/word/modify', para).catch(
+							err => this.$message.error(err)
+					)
 				},
 
 				// 文件上传成功
@@ -161,9 +158,9 @@ export default {
 						return this.$confirm(`确定移除 ${file.name}？`);
 				},
 				// 数据获取
-				 getList() {
+        async getList() {
 						this.id = this.qid
-						const rs = this.searchId(this.id)
+						const rs = await this.searchId(this.id)
 						if (rs) {
 								this.form = Object.assign(this.form, rs)
 								this.form.brief = rs.brief
@@ -172,11 +169,11 @@ export default {
 								this.form.tips = rs.tips
 						}
 				},
-				submitForm() {
+				async submitForm() {
 						const para = Object.assign({}, this.form)
 						if (this.qid) {
 								para.id = this.qid
-								const rs = this.updateInfo(para)
+								const rs = await this.updateInfo(para)
 								if (rs) {
 										this.$message.success('数据已提交')
 										this.$router.push({ path: '/demo3/list' })
@@ -184,7 +181,7 @@ export default {
 										this.$message.error("提交失败")
 								}
 						} else {
-								const rs = this.addInfo(para)
+								const rs = await this.addInfo(para)
 								if (rs) {
 										this.$message.success('数据已提交')
 										this.$router.push({ path: '/demo3/list' })
