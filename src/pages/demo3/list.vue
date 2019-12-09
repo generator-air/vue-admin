@@ -184,19 +184,19 @@ export default {
         async submit(row) {
             this.operationHandler(row, 'submit');
         },
-				// 批量提交
-        // 更新词条
+        // 批量提交
         batch(para) {
             return  this.$post($env.domain + '/word/batch', para).catch(
                 err => this.$message.error(err)
             )
         },
+				// 单个选中项提交
 				operationHandler(row, operation) {
 						let confirmText = '';
 						let messageText = '';
 						if (operation === 'submit') {
-								confirmText = '确认要批量提交？';
-								messageText = '数据已批量提交';
+								confirmText = '确认要提交选中项？';
+								messageText = '选中项已提交';
 						}
 						this.$confirm(confirmText, '提示', {
 								confirmButtonText: '确定',
@@ -204,8 +204,12 @@ export default {
 								type: 'warning'
 						}).then(async () => {
 								let rs = {};
+                const para = {
+                    operation: operationName,
+                    id: row.id
+                };
 								if (operation === 'submit') {
-										rs = this.batch()
+										rs = this.batch(para)
 								}
 								if (rs) {
 										this.$message({
@@ -217,6 +221,7 @@ export default {
 								}
 						}).catch(() => {});
 				},
+				// 全选提交
 				batchHandler(command) {
 						let operationName = '';
 						let confirmText = '';
