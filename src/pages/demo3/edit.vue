@@ -175,7 +175,7 @@ export default {
 								para.id = this.qid
 								const rs = await this.updateInfo(para)
 								if (rs) {
-										this.$message.success('数据已提交')
+										this.$message.success('修改数据已提交')
 										this.$router.push({ path: '/demo3/list' })
 								} else {
 										this.$message.error("提交失败")
@@ -183,7 +183,7 @@ export default {
 						} else {
 								const rs = await this.addInfo(para)
 								if (rs) {
-										this.$message.success('数据已提交')
+										this.$message.success('新增数据已提交')
 										this.$router.push({ path: '/demo3/list' })
 								} else {
 										this.$message.error("提交失败")
