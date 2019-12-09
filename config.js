@@ -24,7 +24,7 @@ config.mockServerPort = 8091;
 
 config.mock = "https://www.fastmock.site/mock/5804566cbf92cb32bf29b622fdfe6138";
 
-config.development = "http://9.134.193.194:8000";// 测试域名
+config.development = "http://127.0.0.1:8000";// 测试域名
 
 
 // cdn部署路径

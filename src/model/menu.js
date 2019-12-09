@@ -25,7 +25,7 @@ const menus = [
 				submenu: [
 					{
 						title: '三级菜单',
-						url: '/demo3'
+						url: '/demo3/list'
 					}
 				]
 			}

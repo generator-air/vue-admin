@@ -174,7 +174,7 @@ export default {
 				},
 				// 编辑
 				edit(row) {
-						alert('编号:' + row.id + ' , 编辑操作')
+            this.$router.push({ path: '/demo3/edit', query: { id: row.id } })
 				},
 				// 删除
 				del(row) {
