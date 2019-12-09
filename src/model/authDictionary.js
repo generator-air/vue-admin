@@ -9,8 +9,16 @@ const dictionary = {
 			operations: ['create', 'edit']
 		},
 		{
-			path: '/demo3',
+			path: '/demo3/list',
+			operations: ['create', 'edit', 'delete']
+		},
+		{
+			path: '/demo3/edit',
 			operations: ['create', 'edit']
+		},
+		{
+			path: '/demo3/detail',
+			operations: ['delete']
 		},
 		{
 			path: '/about',

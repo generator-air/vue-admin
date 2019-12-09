@@ -1,9 +1,9 @@
 <template lang="pug">
-	.u-style.l-content.p-demo3
+	.u-style.l-content.p-list
 		.u-style.l-content-title
 			el-breadcrumb
+				el-breadcrumb-item 组件示例
 				el-breadcrumb-item 数据管理
-				el-breadcrumb-item 数据列表
 			.u-style.u-table-header
 				h1.u-style.header-title 数据列表
 		.u-style.u-table-header
@@ -43,14 +43,12 @@
 					@click="reset"
 				) 重置
 		.u-style.u-button-group
-			router-link(
-				:to="`/home`"
-			)
-				el-button.u-style.u-button(
-					type="primary"
-					icon="el-icon-plus"
-					size="large"
-				) 新建
+			el-button.u-style.u-button(
+				type="primary"
+				icon="el-icon-plus"
+				size="large"
+				@click="create()"
+			) 新建
 			el-dropdown(@command="batchHandler" trigger="click")
 				el-button( type="primary" :disabled="operations.length === 0 ? true : false") 批量操作
 					i.el-icon-arrow-down.el-icon--right
@@ -107,10 +105,10 @@
 						@click="edit(row)"
 					) 编辑
 					el-button.op-button(
-						type="warning"
+						type="primary"
 						size="small"
-						@click="del(row)"
-					) 删除
+						@click="detail(row)"
+					) 详情
 
 		v-pagination
 </template>
@@ -122,6 +120,7 @@ import $filter from '@/components/list/filter';
 import $pagination from '@/components/list/pagination'
 import $table from '@/components/list/table'
 import $env from '@/model/env'
+import $select from '@/util/select'
 
 export default {
 		components: {
@@ -147,13 +146,7 @@ export default {
 						selectCount: 0,
 						selectRead: 0,
 						api: $env.domain + '/word/list',
-            stateOptions: {
-                0: '草稿',
-                1: '待审核',
-                2: '已发布',
-                3: '审核拒绝',
-                4: '已撤回'
-            },
+            stateOptions: $select.COMMON_STATE,
 						operations: [],
 						tableSelections: [],
 						searchValue: '',
@@ -172,49 +165,62 @@ export default {
 						this.$refs.search.clear();
 						this.$router.push({ path: this.$route.path });
 				},
+				// 新建
+				create() {
+						this.$router.push({ path: '/demo3/edit' })
+				},
 				// 编辑
 				edit(row) {
-						alert('编号:' + row.id + ' , 编辑操作')
+						this.$router.push({ path: '/demo3/edit', query: { id: row.id } })
 				},
-				// 删除
-				del(row) {
-						alert('编号:' + row.id + ' , 删除操作')
+				// 详情
+				detail(row) {
+						this.$router.push({ path: '/demo3/detail', query: { id: row.id } })
 				},
-        // 提交
-        async submit(row) {
-            this.operationHandler(row, 'submit');
-        },
+				// 提交
+				async submit(row) {
+						this.operationHandler(row, 'submit');
+				},
+				// 批量提交
+				batch(para) {
+						return this.$post($env.domain + '/word/batch', para).catch(
+								err => this.$message.error(err)
+						)
+				},
+				// 提交时触发
 				operationHandler(row, operation) {
 						let confirmText = '';
 						let messageText = '';
 						if (operation === 'submit') {
-								confirmText = '确认要提交审核？';
-								messageText = '数据已提交审核';
-						} else {
-								confirmText = '确认要撤回数据？';
-								messageText = '数据已撤回';
+								confirmText = '确认要提交选中项？';
+								messageText = '选中项已提交';
 						}
 						this.$confirm(confirmText, '提示', {
 								confirmButtonText: '确定',
 								cancelButtonText: '取消',
 								type: 'warning'
 						}).then(async () => {
-								let rs = {};
+								const para = {
+										operation: operationName,
+										id: row.id
+								};
 								if (operation === 'submit') {
-										alert('提交操作')
-								} else {
-                    alert('撤回操作')
+										this.$post($env.domain + '/word/batch', para).then(rs => {
+												if (rs) {
+														this.$message({
+																type: 'success',
+																message: messageText
+														});
+														// 刷新列表
+														this.$refs.list.update();
+												}
+										}).catch(
+												err => this.$message.error(err)
+										)
 								}
-								if (rs) {
-										this.$message({
-												type: 'success',
-												message: messageText
-										});
-										// 刷新列表
-										this.$refs.list.update();
-								}
-						}).catch(() => {});
+						})
 				},
+				// 全选提交
 				batchHandler(command) {
 						let operationName = '';
 						let confirmText = '';
@@ -223,60 +229,54 @@ export default {
 						// 操作名称确认
 						if (command.name.includes('submit')) {
 								operationName = 'submit';
-								confirmText = '确认要提交审核？';
-								messageText = '数据已提交审核';
-						} else {
-								operationName = 'withdraw';
-								confirmText = '确认要撤回数据？';
-								messageText = '数据已撤回';
+								confirmText = '确认要批量提交？';
+								messageText = '已批量提交';
 						}
 						// 操作数据id整合
 						this.tableSelections.forEach(item => {
-								ids.push(item.qid);
+								ids.push(item.id);
 						});
 						this.$confirm(confirmText, '提示', {
 								confirmButtonText: '确定',
 								cancelButtonText: '取消',
 								type: 'warning'
 						}).then(async () => {
-								let rs = {};
+								const para = {
+										operation: operationName,
+										id_list: ids
+								};
 								if (operationName === 'submit') {
-										alert('批量提交')
-								} else {
-                    alert('批量撤回')
+										this.$post($env.domain + '/word/batch', para).then(rs => {
+												if (rs) {
+														this.$message({
+																type: 'success',
+																message: messageText
+														});
+														// 刷新列表
+														this.$refs.list.update();
+												}
+										}).catch(
+												err => this.$message.error(err)
+										)
 								}
-								if (rs) {
-										this.$message({
-												type: 'success',
-												message: messageText
-										});
-										// 刷新列表
-										this.$refs.list.update();
-								}
-						}).catch(() => {});
+						});
 				},
 				// 列表选中项变更
 				selectionChangeHandler(val) {
 						let countCommandOne = 0;
-						let countCommandTwo = 0;
 						this.selectCount = val.length;
 						// 没有选中时清空一下数据
 						let selectRead = 0;
 						val.forEach(item => {
 								if (item.id) {
-										// 第一类操作命令
+										// 操作命令
 										++countCommandOne;
-								} else {
-										// 第二类操作命令
-										++countCommandTwo;
 								}
 								selectRead += item.id;
 						});
 						if (val.length > 0) {
 								if (countCommandOne === val.length) {
-										this.operations = [{ id: 'submit', method: this.submit, label: '提交审核' }];
-								} else if (countCommandTwo === val.length) {
-										this.operations = [{ id: 'withdraw', method: this.withdraw, label: '撤回数据' }];
+										this.operations = [{ id: 'submit', method: this.submit, label: '批量提交' }];
 								} else {
 										this.operations = [];
 								}
@@ -316,11 +316,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.p-demo3 {
+	.p-list {
 		// 覆盖 el-ui 的默认样式（后面的元素会给一个 margin-left）
 		tbody button.el-button {
 			margin: 5px;
 		}
+
 		.button-box {
 			display: inline-block;
 			text-align: left;
