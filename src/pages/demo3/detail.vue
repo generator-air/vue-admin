@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import $date from '@/util/date'
 import $env from '@/model/env'
 
 export default {
@@ -46,9 +45,6 @@ export default {
 				}
 		},
 		methods: {
-				dateFormat(time) {
-						return $date.formatSec(time)
-				},
 				// 根据id查询
 				searchId(id) {
 						return this.$get($env.domain + '/word/getId', { id }).catch(

@@ -105,7 +105,7 @@
 						@click="edit(row)"
 					) 编辑
 					el-button.op-button(
-						type="warning"
+						type="primary"
 						size="small"
 						@click="detail(row)"
 					) 详情
@@ -146,11 +146,8 @@ export default {
 						selectRead: 0,
 						api: $env.domain + '/word/list',
             stateOptions: {
-                0: '草稿',
-                1: '待审核',
-                2: '已发布',
-                3: '审核拒绝',
-                4: '已撤回'
+                0: '待提交',
+                1: '已提交',
             },
 						operations: [],
 						tableSelections: [],
@@ -158,6 +155,7 @@ export default {
 						total: 0,
 						page: 0,
 						limit: 5,
+						para: {}
 				};
 		},
 		methods: {
@@ -186,15 +184,19 @@ export default {
         async submit(row) {
             this.operationHandler(row, 'submit');
         },
+				// 批量提交
+        // 更新词条
+        batch(para) {
+            return  this.$post($env.domain + '/word/batch', para).catch(
+                err => this.$message.error(err)
+            )
+        },
 				operationHandler(row, operation) {
 						let confirmText = '';
 						let messageText = '';
 						if (operation === 'submit') {
-								confirmText = '确认要提交审核？';
-								messageText = '数据已提交审核';
-						} else {
-								confirmText = '确认要撤回数据？';
-								messageText = '数据已撤回';
+								confirmText = '确认要批量提交？';
+								messageText = '数据已批量提交';
 						}
 						this.$confirm(confirmText, '提示', {
 								confirmButtonText: '确定',
@@ -203,9 +205,7 @@ export default {
 						}).then(async () => {
 								let rs = {};
 								if (operation === 'submit') {
-										alert('提交操作')
-								} else {
-                    alert('撤回操作')
+										rs = this.batch()
 								}
 								if (rs) {
 										this.$message({
@@ -225,16 +225,12 @@ export default {
 						// 操作名称确认
 						if (command.name.includes('submit')) {
 								operationName = 'submit';
-								confirmText = '确认要提交审核？';
-								messageText = '数据已提交审核';
-						} else {
-								operationName = 'withdraw';
-								confirmText = '确认要撤回数据？';
-								messageText = '数据已撤回';
+								confirmText = '确认要批量提交？';
+								messageText = '已批量提交';
 						}
 						// 操作数据id整合
 						this.tableSelections.forEach(item => {
-								ids.push(item.qid);
+								ids.push(item.id);
 						});
 						this.$confirm(confirmText, '提示', {
 								confirmButtonText: '确定',
@@ -242,10 +238,12 @@ export default {
 								type: 'warning'
 						}).then(async () => {
 								let rs = {};
+                const para = {
+                    operation: operationName,
+                    id_list: ids
+                };
 								if (operationName === 'submit') {
-										alert('批量提交')
-								} else {
-                    alert('批量撤回')
+										rs = await this.batch(para)
 								}
 								if (rs) {
 										this.$message({
@@ -260,25 +258,19 @@ export default {
 				// 列表选中项变更
 				selectionChangeHandler(val) {
 						let countCommandOne = 0;
-						let countCommandTwo = 0;
 						this.selectCount = val.length;
 						// 没有选中时清空一下数据
 						let selectRead = 0;
 						val.forEach(item => {
 								if (item.id) {
-										// 第一类操作命令
+										// 操作命令
 										++countCommandOne;
-								} else {
-										// 第二类操作命令
-										++countCommandTwo;
 								}
 								selectRead += item.id;
 						});
 						if (val.length > 0) {
 								if (countCommandOne === val.length) {
-										this.operations = [{ id: 'submit', method: this.submit, label: '提交审核' }];
-								} else if (countCommandTwo === val.length) {
-										this.operations = [{ id: 'withdraw', method: this.withdraw, label: '撤回数据' }];
+										this.operations = [{ id: 'submit', method: this.submit, label: '批量提交' }];
 								} else {
 										this.operations = [];
 								}
