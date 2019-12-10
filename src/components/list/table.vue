@@ -73,6 +73,7 @@ export default {
 				fill(rs, path, channel) {
 						if (rs) {
 								let data = {}
+                data.response = rs
 								data.list = rs.list
 								data.total = rs.total
 								data.page = rs.page
