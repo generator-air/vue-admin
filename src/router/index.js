@@ -12,6 +12,11 @@ import $store from '../vuex/index'
 
 const $notFound = () => import(/* webpackChunkName: "notFound" */ 'pages/notFound')
 
+const originalPush = $vueRouter.prototype.push
+$vueRouter.prototype.push = function push(location) {
+	return originalPush.call(this, location).catch(err => err)
+}
+
 $vue.use($vueRouter)
 
 const router = new $vueRouter(

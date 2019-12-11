@@ -310,16 +310,62 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.p-list {
-		// 覆盖 el-ui 的默认样式（后面的元素会给一个 margin-left）
-		tbody button.el-button {
-			margin: 5px;
-		}
+.u-style {
+	.u-button-group {
+		line-height: 80px;
 
-		.button-box {
-			display: inline-block;
-			text-align: left;
-			margin: -5px 0 0 -5px;
+		.u-button {
+			margin-right: 10px;
+			height: 100%;
 		}
 	}
+
+	.u-pagination {
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.u-table {
+		margin: 30px 0;
+	}
+
+	.u-table-filter {
+		.filter-block {
+			overflow: hidden;
+		}
+
+		.el-form-item {
+			margin-right: 30px;
+			margin-bottom: 6px;
+		}
+	}
+
+	.u-table-header {
+		display: flex;
+		justify-content: flex-start;
+		margin-bottom: 20px;
+
+		.header-title,
+		.header-subtitle {
+			flex: 0 0 auto;
+			margin: 0 10px 0 0;
+			padding: 0;
+			line-height: 40px;
+			font-size: 20px;
+		}
+
+		.header-aside {
+			display: flex;
+			flex: 1 0 auto;
+			justify-content: flex-end;
+		}
+	}
+}
+
+.p-list {
+	// 覆盖 el-ui 的默认样式（后面的元素会给一个 margin-left）
+	tbody button.el-button {
+		margin: 5px;
+	}
+}
 </style>
