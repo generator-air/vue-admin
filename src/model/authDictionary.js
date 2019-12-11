@@ -21,8 +21,13 @@ const dictionary = {
 			operations: ['delete']
 		},
 		{
-			path: '/about',
-			operations: ['create']
+			path: '/about'
+		},
+		{
+			path: '/home'
+		},
+		{
+			path: '/login'
 		}
 	],
 	102: [

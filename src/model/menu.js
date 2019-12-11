@@ -14,7 +14,6 @@ const menus = [
 			}
 		]
 	},
-
 	{
 		title: '组件示例',
 		icon: 'clock',
