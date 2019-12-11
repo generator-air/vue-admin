@@ -17,9 +17,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="less">
-.p-common {
-
-}
-</style>

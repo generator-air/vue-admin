@@ -25,7 +25,7 @@ const menus = [
 				submenu: [
 					{
 						title: '数据列表',
-						url: '/demo3/list'
+						url: '/demo3'
 					}
 				]
 			}
