@@ -9,7 +9,7 @@ const dictionary = {
 			operations: ['create', 'edit']
 		},
 		{
-			path: '/demo3/list',
+			path: '/demo3',
 			operations: ['create', 'edit', 'delete']
 		},
 		{
@@ -21,8 +21,13 @@ const dictionary = {
 			operations: ['delete']
 		},
 		{
-			path: '/about',
-			operations: ['create']
+			path: '/about'
+		},
+		{
+			path: '/home'
+		},
+		{
+			path: '/login'
 		}
 	],
 	102: [
