@@ -8,6 +8,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './mixin';
 import './assets/icon';
 import 'normalize.css';
+// 引入项目通用样式
+import 'css/common.less'
 
 $vue.config.productionTip = false
 
