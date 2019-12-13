@@ -60,7 +60,6 @@
 		v-table(
 			:api="api"
 			ref="list"
-			:combine= "false"
 			@change="onListChange"
 			:onSelectionChange="selectionChangeHandler"
 		)

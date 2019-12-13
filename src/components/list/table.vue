@@ -2,7 +2,7 @@
 	.u-style.u-table.v-table
 		el-table(
 			:data="list"
-		  :border="combine"
+		  :border="borders"
 			:span-method="objectSpanMethod"
 			:ref="withCheckbox ? 'multipleTable' : ''"
 			:tooltip-effect="withCheckbox ? 'dark' : ''"
@@ -22,6 +22,10 @@ export default {
 						type: Boolean,
 						default: false
 				},
+        borders: {
+            type: Boolean,
+            default: false
+        },
 				channel: {
 						type: String,
 						default: ''
