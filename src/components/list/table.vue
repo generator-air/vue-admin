@@ -2,7 +2,6 @@
 	.u-style.u-table.v-table
 		el-table(
 			:data="list"
-			border
 			:span-method="objectSpanMethod"
 			:ref="withCheckbox ? 'multipleTable' : ''"
 			:tooltip-effect="withCheckbox ? 'dark' : ''"
