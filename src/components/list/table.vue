@@ -2,6 +2,7 @@
 	.u-style.u-table.v-table
 		el-table(
 			:data="list"
+		  :border="combine"
 			:span-method="objectSpanMethod"
 			:ref="withCheckbox ? 'multipleTable' : ''"
 			:tooltip-effect="withCheckbox ? 'dark' : ''"
@@ -19,7 +20,7 @@ export default {
 		props: {
 				combine: {
 						type: Boolean,
-						default: true
+						default: false
 				},
 				channel: {
 						type: String,
