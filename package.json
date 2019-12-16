@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "gulp dev",
     "debug": "gulp debug",
+    "build": "gulp build",
     "upload": "gulp upload",
     "lint": "vue-cli-service lint",
     "pageCreate": "node tools/pageCreate",
