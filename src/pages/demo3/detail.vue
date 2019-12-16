@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import $api from '@/model/api'
+
 export default {
 		components: {},
 		computed: {},
@@ -45,18 +47,18 @@ export default {
 		methods: {
 				// 根据id查询
 				searchId(id) {
-						return this.$get('/getId', { id })
+						return this.$get($api.getDetail, { id })
 				},
 				// 数据获取
-        async getList() {
+				async getList() {
 						this.id = this.qid
-						const rs = await this.searchId(this.id)
-						if (rs) {
-								this.form = Object.assign(this.form, rs)
-								this.form.brief = rs.brief
-								this.form.full = rs.full
-								this.form.mean = rs.mean
-								this.form.tips = rs.tips
+						const { data } = await this.searchId(this.id)
+						if (data) {
+								this.form = Object.assign(this.form, data)
+								this.form.brief = data.brief
+								this.form.full = data.full
+								this.form.mean = data.mean
+								this.form.tips = data.tips
 						}
 				},
 				init() {

@@ -37,7 +37,7 @@ axios.interceptors.response.use(({ data, status }) => {
 	return Promise.reject(err)
 })
 
-function request(options) {
+function $request(options) {
 	return axios({
 		headers: {
 			// ajax 请求标识，部分服务器会区别对待 ajax 请求和普通请求
@@ -51,7 +51,7 @@ function request(options) {
 }
 
 const exportObj = {
-	$get: (url, params) => request({
+	$get: (url, params) => $request({
 		url,
 		params: typeof params === 'boolean' ? {} : params,
 		method: 'get',
@@ -62,7 +62,7 @@ const exportObj = {
 		// 跨域携带cookie
 		// withCredentials: true
 	}),
-	$post: (url, data) => request({
+	$post: (url, data) => $request({
 		url,
 		params: typeof data === 'boolean' ? {} : data,
 		method: 'post',
@@ -74,7 +74,7 @@ const exportObj = {
 		// 跨域携带cookie
 		// withCredentials: true
 	}),
-	$put: (url, data) => request({
+	$put: (url, data) => $request({
 		url,
 		params: typeof data === 'boolean' ? {} : data,
 		method: 'put',
@@ -85,7 +85,7 @@ const exportObj = {
 		// 跨域携带cookie
 		// withCredentials: true
 	}),
-	$delete: (url, data) => request({
+	$delete: (url, data) => $request({
 		url,
 		params: typeof data === 'boolean' ? {} : data,
 		method: 'delete',
@@ -107,6 +107,6 @@ const install = Vue => {
 
 export default {
 	install,
-	request,
+	$request,
 	...exportObj
 }
