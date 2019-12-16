@@ -67,7 +67,6 @@
 import $search from '@/components/list/search'
 import $filter from '@/components/list/filter'
 import $date from '@/util/date'
-import $env from '@/model/env'
 
 export default {
 		components: {
@@ -117,15 +116,15 @@ export default {
 				},
 				// 根据id查询
 				searchId(id) {
-						return this.$get($env.domain + '/word/getId', { id })
+						return this.$get('/getId', { id })
 				},
 				// 新增词条
         addInfo(para) {
-            return this.$post($env.domain + '/word/add', para)
+            return this.$post('/add', para)
 				},
 				// 更新词条
 			 updateInfo(para) {
-					return  this.$post($env.domain + '/word/modify', para)
+					return  this.$post('/modify', para)
 				},
 
 				// 文件上传成功

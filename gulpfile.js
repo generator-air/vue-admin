@@ -109,6 +109,16 @@ $gulp.task('serve', done => {
 	done();
 });
 
+// json-server 启动
+$gulp.task('json-server', done => {
+	$execa('node', [
+		'./mock/mock-server.js'
+	], {
+		stdio: 'inherit'
+	});
+	done();
+});
+
 // build 开发环境
 $gulp.task('build-dev', $gulp.series(
 	'development',
@@ -127,6 +137,7 @@ $gulp.task('dev', $gulp.series(
 $gulp.task('mock', $gulp.series(
 	'mock',
 	'tool-kill-running',
+	// 'json-server',
 	'serve'
 ));
 

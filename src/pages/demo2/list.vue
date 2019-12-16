@@ -4,11 +4,11 @@
 			el-card(class="box-card")
 				h3.u-style.header-title 时间工具示例
 					div(class="text item")
-						h5.u-style.header-title {{"当前时间格式化: " +this.time}}
-						h5.u-style.header-title {{"秒: "  +this.sec}}
-						h5.u-style.header-title {{"天: " +this.day}}
-						h5.u-style.header-title {{"标准: " +this.sect}}
-						h5.u-style.header-title {{"年月日: " + this.quant}}
+						h5.u-style.header-title {{"当前时间格式化: " + time}}
+						h5.u-style.header-title {{"秒: " + sec}}
+						h5.u-style.header-title {{"天: " + day}}
+						h5.u-style.header-title {{"标准: " + sect}}
+						h5.u-style.header-title {{"年月日: " + quant}}
 		.u-style.u-table-header
 			h3.u-style.header-title 日志开关
 			el-switch(
@@ -22,16 +22,17 @@
 			el-card(class="box-card")
 				h3.u-style.header-title 网络请求示例
 					div(class="text item")
-						h5.u-style.header-title {{"接口地址: " +this.url}}
+						h5.u-style.header-title {{"接口地址: " + url}}
 						h5.u-style.header-title 返回数据：
-						h5.u-style.header-title {{this.list}}
+						h5.u-style.header-title {{list}}
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex'
 import $date from '@/util/date'
-import $env from '@/model/env'
-import $config from  '../../../config'
+import $config from '../../../config'
+import $api from '@/model/api'
+
 export default {
 		computed: {
 				...mapState('user', [
@@ -61,19 +62,19 @@ export default {
 						})
 				},
 				init() {
-						/* 网络请求接口示例，也可以参考table.vue中的update*/
-						this.url = $env.domain + '/word/list',
-						this.$get(this.url,)
-								.then((rs) => {
-										this.list = rs
-								})
-						/* 时间处理工具类示例 */
-						this.time = Date.parse(new Date()) / 1000
-						const time = this.time
-						this.sec = $date.formatSec(time)
-						this.day = $date.formatDay(time)
-						this.sect = $date.formatSecText(time)
-						this.quant = $date.formatQuantum(time)
+					this.url = $api.getList
+					/* 网络请求接口示例，也可以参考table.vue中的update*/
+					this.$get(this.url)
+							.then((rs) => {
+									this.list = rs
+							})
+					/* 时间处理工具类示例 */
+					this.time = Date.parse(new Date()) / 1000
+					const time = this.time
+					this.sec = $date.formatSec(time)
+					this.day = $date.formatDay(time)
+					this.sect = $date.formatSecText(time)
+					this.quant = $date.formatQuantum(time)
 				},
 				/* 日志上报系统 aegis，详见 aegis.ivweb.io */
 				handleSwitch(value) {

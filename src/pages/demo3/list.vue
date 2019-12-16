@@ -119,8 +119,8 @@ import $search from '@/components/list/search'
 import $filter from '@/components/list/filter';
 import $pagination from '@/components/list/pagination'
 import $table from '@/components/list/table'
-import $env from '@/model/env'
 import $select from '@/util/select'
+import $api from '@/model/api'
 
 export default {
 		components: {
@@ -145,8 +145,8 @@ export default {
 						id: 1,
 						selectCount: 0,
 						selectRead: 0,
-						api: $env.domain + '/word/list',
-            stateOptions: $select.COMMON_STATE,
+						api: $api.getList,
+						stateOptions: $select.COMMON_STATE,
 						operations: [],
 						tableSelections: [],
 						searchValue: '',
@@ -200,7 +200,7 @@ export default {
 										id: row.id
 								};
 								if (operation === 'submit') {
-                    rs = await this.$post($env.domain + '/word/batch', para).catch(err=> { console.error(err) })
+                    rs = await this.$post('/batch', para).catch(err=> { console.error(err) })
 								}
                 if (rs) {
                     this.$message({
@@ -241,7 +241,7 @@ export default {
 										id_list: ids
 								};
 								if (operationName === 'submit') {
-                    rs = await this.$post($env.domain + '/word/batch', para).catch(err=> { console.error(err) })
+                    rs = await this.$post('/batch', para).catch(err=> { console.error(err) })
 								}
                 if (rs) {
                     this.$message({

@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import $env from '@/model/env'
-
 export default {
 		components: {},
 		computed: {},
@@ -47,7 +45,7 @@ export default {
 		methods: {
 				// 根据id查询
 				searchId(id) {
-						return this.$get($env.domain + '/word/getId', { id })
+						return this.$get('/getId', { id })
 				},
 				// 数据获取
         async getList() {

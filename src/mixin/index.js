@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Icon from '@/components/svgIcon'
+import Icon from '@/components/global/svgIcon'
 
 // 批量处理 @/mixin 下的所有文件
 const requireContext = require.context('@/mixin', false, /\.js$/i)

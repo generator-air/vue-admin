@@ -1,7 +1,7 @@
 export default {
 	state: {
-		userInfo: {},
-		auth: {}
+		userInfo: null,
+		auth: null
 	},
 	mutations: {
 		setUserInfo (state, info) {

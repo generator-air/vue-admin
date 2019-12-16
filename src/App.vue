@@ -1,9 +1,7 @@
 <template lang="pug">
 #app
-	.l-left(
-		:class="{'l-main__hideLeft': leftStatus}"
-	)
-		v-logo(title="平台图标")
+	.l-left
+		v-logo(title="平台logo")
 		v-side
 	.l-right
 		v-head.l-header(title="后台管理系统")
@@ -21,15 +19,14 @@
 						) {{bread}}
 					h3 {{$route.name}}
 				router-view.l-route
-			v-copyright
+			//- v-copyright
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import navHead from '@/components/nav/navHead'
 import navSide from '@/components/nav/navSide'
-import copyright from '@/components/copyright'
-import logo from '@/components/logo'
+import copyright from '@/components/global/copyright'
+import logo from '@/components/global/logo'
 
 export default {
 	components: {
@@ -39,18 +36,9 @@ export default {
 		'v-logo': logo
 	},
 	data () {
-		return {
-			authReady: false,
-			userReady: false,
-			leftStatus: false
-		}
+		return {}
 	},
-	computed: {
-		...mapState('user', [
-			'userInfo'
-		])
-	},
-	methods: {},
+	methods: {}
 }
 </script>
 

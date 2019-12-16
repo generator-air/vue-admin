@@ -21,8 +21,8 @@ config.devServerPort = 8090;
 // 本地mock服务端口
 config.mockServerPort = 8091;
 
-
-config.mock = "https://www.fastmock.site/mock/5804566cbf92cb32bf29b622fdfe6138";
+config.mock = "https://www.fastmock.site/mock/5804566cbf92cb32bf29b622fdfe6138/word"
+// config.mock = "http://127.0.0.1:3001";
 
 config.development = "http://127.0.0.1:8000";// 测试域名
 
