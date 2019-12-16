@@ -1,12 +1,12 @@
 <template lang="pug">
-	.u-style.l-content.p-detail
-		.u-style.l-content-title
+	.l-content.p-detail
+		.l-content-title
 			el-breadcrumb
 				router-link(:to="'/demo3/list'")
 					el-breadcrumb-item 组件示例
 					el-breadcrumb-item 数据管理
-			.u-style.u-table-header
-				h1.u-style.header-title 数据详情
+			.display-block
+				h1.header-title 数据详情
 			.p-demo-info
 				mixin detailRow (title, content)
 					.detail-row
@@ -78,6 +78,11 @@ export default {
 
 <style lang="less">
 	.p-detail{
+		.display-block {
+			display: flex;
+			justify-content: flex-start;
+			margin-bottom: 20px;
+		}
 		.p-demo-info{
 			background-color: #fff;
 			.p-demo-info-head{

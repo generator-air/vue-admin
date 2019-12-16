@@ -1,37 +1,37 @@
-const $urlJoin = require('url-join');
-const $path = require('path');
+const $urlJoin = require('url-join')
+const $path = require('path')
 
-const config = {};
+const config = {}
 
 // 任务运行时环境，保存任务执行期间一些环境参数
-config.context = {};
-config.root = $path.resolve(__dirname);
+config.context = {}
+config.root = $path.resolve(__dirname)
 
 // 源代码路径
-config.src = 'src';
+config.src = 'src'
 // 初步构建生成路径
-config.dist = 'dist';
+config.dist = 'dist'
 // 版本库忽略目录的路径，也作为构建流程的临时目录
-config.ignore = 'ignore';
+config.ignore = 'ignore'
 // 版本库外部引入文件路径
-config.externals = 'externals';
+config.externals = 'externals'
 
 // 开发服务端口
-config.devServerPort = 8090;
+config.devServerPort = 8090
 // 本地mock服务端口
-config.mockServerPort = 8091;
+config.mockServerPort = 8091
 
 
-config.debug = "http://127.0.0.1:8000";
+config.debug = 'http://127.0.0.1:8000'
 
-config.development = "https://www.fastmock.site/mock/5804566cbf92cb32bf29b622fdfe6138";// 测试域名
+config.development = 'https://www.fastmock.site/mock/5804566cbf92cb32bf29b622fdfe6138'// 测试域名
 
-config.logReport = false; // 日志全局开关
+config.logReport = false // 日志全局开关
 
 // cdn部署路径
-config.cdnBase = '//cdn.xx.yy.com'; // 使用cdn的域名，以//开头，自动匹配站点协议
-config.uploadUrl = '/2019/test-project'; // 上传cdn的路径
-config.cdnRoot = $urlJoin(config.cdnBase, config.uploadUrl);
+config.cdnBase = '//cdn.xx.yy.com' // 使用cdn的域名，以//开头，自动匹配站点协议
+config.uploadUrl = '/2019/test-project' // 上传cdn的路径
+config.cdnRoot = $urlJoin(config.cdnBase, config.uploadUrl)
 
 // cdn上传配置模板
 config.uploadConfig = {
@@ -47,6 +47,6 @@ config.uploadConfig = {
 	Region: '',
 	// 上传cdn的路径。所有文件上传到这个路径下
 	prefix: config.uploadUrl
-};
+}
 
-module.exports = config;
+module.exports = config
