@@ -149,7 +149,7 @@ export default {
 						let query = this.$route.query
 						let path = this.$route.path
 						let channel = this.channel
-						await this.$get(api, query).then(rs => this.fill(rs, path, channel)).catch(err => this.notify(err, path, channel))
+						await this.$get(api, query).then(rs => this.fill(rs.data, path, channel)).catch(err => this.notify(err, path, channel))
 				}
 		},
 		mounted() {

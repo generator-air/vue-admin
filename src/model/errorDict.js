@@ -6,10 +6,10 @@ export default {
 	404: () => console.log('%c404了~', 'color: blue'),
 	200: {
 		3000: '服务器返回了一个3000',
-		/** 【接口无权访问处理demo】假如 200 && 3005 为无权访问接口错误，强制刷新页面，重新获取用户信息（包含权限信息）
-		 * 【Replace】根据实际情况替换错误码 & 替换项目首页 url（强制刷新）
+		/** 【接口无权访问处理demo】假如 200 && 3005 为无权访问接口错误，跳转到第三方登录页（以企业微信登录为例）
+		 * 【Replace】根据实际情况替换错误码 & 第三方登录地址
 		 */
-		3005: () => location.href = 'http://localhost:8090/#/login',
+		3005: () => location.href = 'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=APPID&agentid=AGENTID&redirect_uri=REDIRECT_URI&',
 		8000: () => {
 			console.log('服务器返回了8000')
 		}
