@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "gulp dev",
-    "mock": "gulp mock",
-    "build-dev": "gulp build-dev",
+    "debug": "gulp debug",
+    "build": "gulp build",
     "upload": "gulp upload",
     "lint": "vue-cli-service lint",
     "page": "node tools/pageCreate",
