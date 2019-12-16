@@ -1,25 +1,39 @@
 const dictionary = {
 	101: [
 		{
-			path: '/menu1',
+			path: '/demo1',
 			operations: ['create', 'edit', 'delete']
 		},
 		{
-			path: '/menu2',
+			path: '/demo2',
 			operations: ['create', 'edit']
 		},
 		{
-			path: '/about',
-			operations: ['create']
+			path: '/demo3',
+			operations: ['create', 'edit', 'delete']
+		},
+		{
+			path: '/demo3/edit',
+			operations: ['create', 'edit']
+		},
+		{
+			path: '/demo3/detail',
+			operations: ['delete']
+		},
+		{
+			path: '/home'
+		},
+		{
+			path: '/login'
 		}
 	],
 	102: [
 		{
-			path: '/menu1/edit',
+			path: '/demo1/edit',
 			operations: ['edit', 'delete']
 		},
 		{
-			path: '/menu2'
+			path: '/demo2'
 		}
 	]
 }

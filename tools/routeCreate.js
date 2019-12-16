@@ -118,10 +118,8 @@ function getPagePaths(rootPath, folderName, arr) {
 function outputFile(fileName, content) {
 	$fse.outputFile(`src/router/${fileName}.js`, content, function(err) {
 		if (err) {
-			console.log($chalk.red(`文件创建发生错误: ${err}`))
 			return
 		}
-		console.log($chalk.green(`路由${fileName}.js，创建完成！^_^`))
 	})
 }
 
@@ -157,8 +155,6 @@ $inquirer.prompt([
 			}
 			createFile(folders, answer.rewrite)
 		})
-	} else {
-		console.log($chalk.red('已取消'))
 	}
 })
 

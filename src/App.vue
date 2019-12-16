@@ -4,7 +4,7 @@
 		:class="{'l-main__hideLeft': leftStatus}"
 	)
 		v-logo(title="平台图标")
-		v-side.left-side(@side-toggle="toggleLeftStatus")
+		v-side
 	.l-right
 		v-head.l-header(title="后台管理系统")
 		.l-body
@@ -26,11 +26,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import navHead from '@/components/navHead'
-import navSide from '@/components/navSide'
+import navHead from '@/components/nav/navHead'
+import navSide from '@/components/nav/navSide'
 import copyright from '@/components/copyright'
 import logo from '@/components/logo'
-import $config from '../config'
 
 export default {
 	components: {
@@ -51,28 +50,7 @@ export default {
 			'userInfo'
 		])
 	},
-	methods: {
-		toggleLeftStatus (status) {
-			this.leftStatus = status
-		}
-	},
-	created () {
-		// https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final
-		// 404 response
-		// https://www.gamersky.com/news/201911/123w7764.shtml
-		/* request demo */
-		this.$get('https://yapi.qqmylife.com/mock/227/rule/rules/clearing/final')
-			.then((e) => {
-				console.log('%c' + JSON.stringify(e, null, 2), 'color:violet')
-			})
-		/* aegis log demo */
-		if ($config.logReport) {
-			// 监控当前页面
-			this.$aegis.logE('aegis异常日志上报')
-			// 监控当前页面
-			this.$aegis.logI('aegis普通日志上报')
-		}
-	}
+	methods: {},
 }
 </script>
 

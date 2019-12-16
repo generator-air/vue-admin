@@ -1,28 +1,44 @@
 import $vue from 'vue'
 import $vueRouter from 'vue-router'
-// import $axios from 'axios'
+// import $request from '../mixin/request'
 import $Auth from '../util/authority'
 import $authDic from '../model/authDictionary'
-import $menu1 from './menu1'
-import $menu2 from './menu2'
+import $demo1 from './demo1'
+import $demo2 from './demo2'
+import $demo3 from './demo3'
 import $default from './default'
 import $menus from '../model/menu'
 import $store from '../vuex/index'
+
 const $notFound = () => import(/* webpackChunkName: "notFound" */ 'pages/notFound')
+
+const originalPush = $vueRouter.prototype.push
+$vueRouter.prototype.push = function push(location) {
+	return originalPush.call(this, location).catch(err => err)
+}
 
 $vue.use($vueRouter)
 
-const router = new $vueRouter()
+const router = new $vueRouter(
+	{
+		routes: [
+			{
+				path: '/',
+				redirect: '/home'
+			}
+		]
+	}
+)
 
 // 【勿删】拉取用户信息（【Replace】需替换为实际的接口地址）
-// $axios.get('/getUserInfo').then(userInfo => {
+// $request.get('/getUserInfo').then(userInfo => {
 // 	if (userInfo) {
 // 		// 将权限字典 + roleId传入权限组件
 // 		const auth = new $Auth($authDic, 101)
 // 		// 全局存储 auth 对象
 // 		$store.commit('user/setAuth', auth)
 // 		// 获取经过权限过滤后的路由
-// 		const routerList = auth.getRouterList([...$menu1, ...$menu2])
+// 		const routerList = auth.getRouterList([...$demo1, ...$demo2])
 // 		router.addRoutes([
 // 			...routerList,
 // 			...$default,
@@ -47,7 +63,7 @@ setTimeout(() => {
 	// 全局存储 auth 对象
 	$store.commit('user/setAuth', auth)
 	// 获取经过权限过滤后的路由
-	const routerList = auth.getRouterList([...$menu1, ...$menu2])
+	const routerList = auth.getRouterList([...$demo1, ...$demo2, ...$demo3])
 	router.addRoutes([
 		...routerList,
 		...$default,

@@ -5,10 +5,7 @@
   "scripts": {
     "dev": "gulp dev",
     "mock": "gulp mock",
-    "prod": "gulp prod",
     "build-dev": "gulp build-dev",
-    "build-mock": "gulp build-mock",
-    "build-prod": "gulp build-prod",
     "upload": "gulp upload",
     "lint": "vue-cli-service lint",
     "pageCreate": "node tools/pageCreate",

@@ -1,6 +1,6 @@
 
 <template lang="pug">
-	.p-list list 页面初始化
+	.p-common common 页面初始化
 </template>
 
 <script>
@@ -17,9 +17,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="less">
-.p-list {
-
-}
-</style>
