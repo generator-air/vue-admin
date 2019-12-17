@@ -1,6 +1,7 @@
 import axios from 'axios'
 import type from '@/util/type'
 import errorDict from '../model/errorDict'
+import $notify from '@/util/notify'
 import $env from '@/model/env'
 
 let raw = false
@@ -22,7 +23,9 @@ const useDict = (status, code, spare) => {
 	if (statusType === 'object') {
 		dictMatch = errorDict[status][code]
 	}
-	return Promise.reject(doWith(dictMatch) || spare)
+	const msg = doWith(dictMatch) || spare
+	$notify.error(msg)
+	return Promise.reject(msg)
 }
 
 // 全局拦截器
@@ -50,6 +53,7 @@ axios.interceptors.response.use(({ data, status }) => {
 		const { status, data } = err.response
 		return useDict(status, data.code, data.msg || err.message)
 	}
+	$notify.error(err.message)
 	return Promise.reject(err.message)
 })
 
