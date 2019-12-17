@@ -29,9 +29,10 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
+import $api from '@/model/api'
 import $date from '@/util/date'
-import $env from '@/model/env'
 import $config from  '../../../config'
+
 export default {
 		computed: {
 				...mapState('user', [
@@ -62,7 +63,7 @@ export default {
 				},
 				init() {
 						/* 网络请求接口示例，也可以参考table.vue中的update*/
-						this.url = $env.domain + '/word/list',
+						this.url = $api.getList,
 						this.$get(this.url,)
 								.then((rs) => {
 										this.list = rs

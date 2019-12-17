@@ -1,9 +1,10 @@
 const path = require('path')
 const $config = require('./config')
 const $env = require('./src/model/env')
-// 解决tencent内网代理问题
+// 解决内网代理问题
 const HttpsProxyAgent = require('https-proxy-agent')
-const proxyServer = 'http://127.0.0.1:12639'
+// 由开发者指定本地环境变量的代理配置字段名。这里以读取 HTTPS_PROXY/HTTP_PROXY 字段为例
+const proxyServer = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
 
 function resolve (dir) {
 	return path.join(__dirname, dir)
