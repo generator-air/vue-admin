@@ -1,6 +1,7 @@
 const path = require('path')
 const $config = require('./config')
 const $env = require('./src/model/env')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
 // 解决内网代理问题。（如不需要代理，请删除以下两行代码）
 const HttpsProxyAgent = require('https-proxy-agent')
@@ -109,8 +110,8 @@ module.exports = {
 							crossorigin: 'anonymous'
 						},
 						external: {
-							packageName: 'qs',
-							variableName: 'Qs'
+							packageName: 'element-ui',
+							variableName: 'ELEMENT'
 						},
 					},
 					{
@@ -122,7 +123,7 @@ module.exports = {
 					}
 				]
 			})
-		]
+		].concat(process.env.NODE_ENV === 'production' ? [new BundleAnalyzerPlugin()] : [])
 	},
 	devServer: {
 			port: $config.devServerPort,

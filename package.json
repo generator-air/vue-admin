@@ -9,7 +9,8 @@
     "upload": "gulp upload",
     "lint": "vue-cli-service lint",
     "page": "node tools/pageCreate",
-    "route": "node tools/routeCreate"
+    "route": "node tools/routeCreate",
+    "analyz": "npm_config_report=true npm run build"
   },
   "dependencies": {
     "aegis-web-sdk": "^0.9.13",
@@ -58,7 +59,8 @@
     "vue-cli-plugin-svg-sprite": "^1.0.0",
     "vue-router": "^3.1.3",
     "vue-template-compiler": "^2.6.10",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "webpack-bundle-analyzer": "^3.6.0"
   },
   "lint-staged": {
     "*.js": [
