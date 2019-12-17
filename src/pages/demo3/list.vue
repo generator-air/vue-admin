@@ -119,7 +119,6 @@ import $search from '@/components/list/search'
 import $filter from '@/components/list/filter';
 import $pagination from '@/components/list/pagination'
 import $table from '@/components/list/table'
-import $select from '@/util/select'
 import $api from '@/model/api'
 
 export default {
@@ -146,7 +145,20 @@ export default {
 						selectCount: 0,
 						selectRead: 0,
 						api: $api.getList,
-						stateOptions: $select.COMMON_STATE,
+						stateOptions: [
+                {
+                    id: '',
+                    label: '全部'
+                },
+                {
+                    id: '1',
+                    label: '待提交'
+                },
+                {
+                    id: '2',
+                    label: '已提交'
+                }
+            ],
 						operations: [],
 						tableSelections: [],
 						searchValue: '',
