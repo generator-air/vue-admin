@@ -1,6 +1,10 @@
 const path = require('path')
 const $config = require('./config')
 const $env = require('./src/model/env')
+// 解决tencent内网代理问题
+const HttpsProxyAgent = require('https-proxy-agent')
+const proxyServer = 'http://127.0.0.1:12639'
+
 function resolve (dir) {
 	return path.join(__dirname, dir)
 }
@@ -32,6 +36,7 @@ module.exports = {
 			proxy: {
 				'/dev': {
 					target: $env.domain,
+					agent: new HttpsProxyAgent(proxyServer),
 					changeOrigin: true,
 					pathRewrite: {
 						'^/dev': ''
