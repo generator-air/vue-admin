@@ -1,6 +1,7 @@
 const path = require('path')
 const $config = require('./config')
 const $env = require('./src/model/env')
+const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
 // 解决内网代理问题。（如不需要代理，请删除以下两行代码）
 const HttpsProxyAgent = require('https-proxy-agent')
 // 由开发者指定本地环境变量的代理配置字段名。这里以读取 HTTP_PROXY 字段为例
@@ -30,7 +31,98 @@ module.exports = {
 							exclude: /node_modules/
 					}
 			]
-		}
+		},
+		plugins: [
+			new HtmlWebpackTagsPlugin({
+				usePublicPath: false,
+				tags: [
+					{
+						// vue
+						path: 'https://lib.baomitu.com/vue/2.6.10/vue.js',
+						attributes: {
+							crossorigin: 'anonymous'
+						},
+						external: {
+							packageName: 'vue',
+							variableName: 'Vue'
+						},
+					},
+					{
+						// vuex
+						path: 'https://lib.baomitu.com/vuex/3.1.2/vuex.js',
+						attributes: {
+							crossorigin: 'anonymous'
+						},
+						external: {
+							packageName: 'vuex',
+							variableName: 'Vuex'
+						},
+					},
+					{
+						// vue-router
+						path: 'https://lib.baomitu.com/vue-router/3.1.3/vue-router.js',
+						attributes: {
+							crossorigin: 'anonymous'
+						},
+						external: {
+							packageName: 'vue-router',
+							variableName: 'VueRouter'
+						},
+					},
+					{
+						// axios
+						path: 'https://lib.baomitu.com/axios/0.19.0/axios.js',
+						attributes: {
+							crossorigin: 'anonymous'
+						},
+						external: {
+							packageName: 'axios',
+							variableName: 'axios'
+						},
+					},
+					{
+						// qs
+						path: 'https://lib.baomitu.com/qs/6.9.1/qs.js',
+						attributes: {
+							crossorigin: 'anonymous'
+						},
+						external: {
+							packageName: 'qs',
+							variableName: 'Qs'
+						},
+					},
+					{
+						// lodash
+						path: 'https://lib.baomitu.com/lodash.js/4.17.15/lodash.js',
+						attributes: {
+							crossorigin: 'anonymous'
+						},
+						external: {
+							packageName: 'lodash',
+							variableName: '_'
+						},
+					},
+					{
+						// element-ui
+						path: 'https://lib.baomitu.com/element-ui/2.12.0/index.js',
+						attributes: {
+							crossorigin: 'anonymous'
+						},
+						external: {
+							packageName: 'qs',
+							variableName: 'Qs'
+						},
+					},
+					{
+						// element-ui-css
+						path: 'https://lib.baomitu.com/element-ui/2.12.0/theme-chalk/index.css',
+						attributes: {
+							crossorigin: 'anonymous'
+						}
+					}
+				]
+			})
+		]
 	},
 	devServer: {
 			port: $config.devServerPort,
