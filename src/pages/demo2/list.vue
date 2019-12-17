@@ -62,7 +62,7 @@ export default {
 				},
 				init() {
 						/* 网络请求接口示例，也可以参考table.vue中的update*/
-						this.url = $env.domain + '/word/list',
+						this.url = $env.domain + '/list',
 						this.$get(this.url,)
 								.then((rs) => {
 										this.list = rs
