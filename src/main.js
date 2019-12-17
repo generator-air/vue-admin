@@ -12,6 +12,8 @@ import 'normalize.css';
 import 'css/common.less'
 
 $vue.config.productionTip = false
+// user老老实实用就行了莫乱搞事
+$vue.config.devtools = process.env.NODE_ENV === 'development'
 
 $vue.prototype.projectId = '887'; // 日志上报项目id
 

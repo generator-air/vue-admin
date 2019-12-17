@@ -38,7 +38,13 @@ export default {
 	data () {
 		return {}
 	},
-	methods: {}
+	methods: {},
+	mounted () {
+		this.$bus.on('notify', options => {
+			let para = Object.assign({}, options)
+			this.$notify(para)
+		})
+	}
 }
 </script>
 
