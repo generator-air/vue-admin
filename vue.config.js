@@ -1,6 +1,10 @@
 const path = require('path')
 const $config = require('./config')
 const $env = require('./src/model/env')
+// 解决tencent内网代理问题
+const HttpsProxyAgent = require('https-proxy-agent')
+const proxyServer = 'http://127.0.0.1:12639'
+
 function resolve (dir) {
 	return path.join(__dirname, dir)
 }
@@ -30,13 +34,14 @@ module.exports = {
 	devServer: {
 			port: $config.devServerPort,
 			proxy: {
-				'/api': {
-					target: $env.domain, // 设置你调用的接口域名和端口号
+				'/dev': {
+					target: $env.domain,
+					agent: new HttpsProxyAgent(proxyServer),
 					changeOrigin: true,
 					pathRewrite: {
-					  '^/api': '' // 这里理解成用‘/api’代替target里面的地址，后面组件中我们掉接口时直接用api代替 比如我要调用'https://api.douban.com/user/add'，直接写‘/api/user/add’即可，此处的‘api’可以设置为自己想要设置的任何词语，符合规范即可
+						'^/dev': ''
 					},
-					logLevel: 'debug' // 打开具体请求转发的日志
+					logLevel: 'debug'
 				}
 			}
 	},

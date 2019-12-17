@@ -1,33 +1,11 @@
 <template lang="pug">
-#app1
+.p-home
 	img(src="@/assets/logo.png")
-	div
-		p
-			| If Element is successfully added to this project, you'll see an
-			code(v-text="'<el-button>'")
-			| below
-		el-button(@click="changeUser") el-button
-		p state of user: {{ userInfo.name }}
+	.slogan 欢迎使用
 </template>
 
-<script>
-import { mapState, mapMutations } from 'vuex'
-
-export default {
-  computed: {
-		...mapState('user', [
-			'userInfo'
-		])
-	},
-	methods: {
-		...mapMutations('user', [
-			'setUserInfo'
-		]),
-		changeUser () {
-			this.setUserInfo({
-				name: 'Adam'
-			})
-		}
-	}
+<style lang="less">
+.p-home {
+	text-align: center;
 }
-</script>
+</style>

@@ -1,12 +1,12 @@
 <template lang="pug">
-	.u-style.l-content.p-list
-		.u-style.l-content-title
+	.p-list
+		.l-content-title
 			el-breadcrumb
 				el-breadcrumb-item 组件示例
 				el-breadcrumb-item 数据管理
-			.u-style.u-table-header
-				h1.u-style.header-title 数据列表
-		.u-style.u-table-header
+			.display-block
+				h1.header-title 数据列表
+		.display-block
 			v-search(
 				ref="search"
 				label="数据编号："
@@ -32,18 +32,18 @@
 								:key="item.label"
 								:value="item.id"
 							)
-			.u-style.header-aside
-				el-button.u-style.u-button(
+			.header-aside
+				el-button.u-button(
 					type="primary"
 					size="large"
 					@click="search"
 				) 查询
-				el-button.u-style.u-button.btn-filter(
+				el-button.u-button.btn-filter(
 					size="large"
 					@click="reset"
 				) 重置
-		.u-style.u-button-group
-			el-button.u-style.u-button(
+		.u-button-group
+			el-button.u-button(
 				type="primary"
 				icon="el-icon-plus"
 				size="large"
@@ -54,7 +54,7 @@
 					i.el-icon-arrow-down.el-icon--right
 				el-dropdown-menu(slot="dropdown")
 					el-dropdown-item(v-for="operation in operations" :command="operation.method" :key="operation.id") {{operation.label}}
-		.u-style.u-tip
+		.u-tip
 			span.tip-item 已选择 {{this.selectCount}} 项
 			span.tip-item  总计：{{this.total}} 条
 		v-table(
@@ -119,8 +119,8 @@ import $search from '@/components/list/search'
 import $filter from '@/components/list/filter';
 import $pagination from '@/components/list/pagination'
 import $table from '@/components/list/table'
-import $env from '@/model/env'
 import $select from '@/util/select'
+import $api from '@/model/api'
 
 export default {
 		components: {
@@ -145,8 +145,8 @@ export default {
 						id: 1,
 						selectCount: 0,
 						selectRead: 0,
-						api: $env.domain + '/word/list',
-            stateOptions: $select.COMMON_STATE,
+						api: $api.getList,
+						stateOptions: $select.COMMON_STATE,
 						operations: [],
 						tableSelections: [],
 						searchValue: '',
@@ -181,12 +181,6 @@ export default {
 				async submit(row) {
 						this.operationHandler(row, 'submit');
 				},
-				// 批量提交
-				batch(para) {
-						return this.$post($env.domain + '/word/batch', para).catch(
-								err => this.$message.error(err)
-						)
-				},
 				// 提交时触发
 				operationHandler(row, operation) {
 						let confirmText = '';
@@ -200,23 +194,23 @@ export default {
 								cancelButtonText: '取消',
 								type: 'warning'
 						}).then(async () => {
+						    let rs = {}
 								const para = {
 										operation: operationName,
 										id: row.id
 								};
 								if (operation === 'submit') {
-										this.$post($env.domain + '/word/batch', para).then(rs => {
-												if (rs) {
-														this.$message({
-																type: 'success',
-																message: messageText
-														});
-														// 刷新列表
-														this.$refs.list.update();
-												}
-										}).catch(
-												err => this.$message.error(err)
-										)
+                    rs = await this.$post('/batch', para).catch(err=> { console.error(err) })
+								}
+                if (rs) {
+                    this.$message({
+                        type: 'success',
+                        message: messageText
+                    });
+                    // 刷新列表
+                    this.$refs.list.update();
+                } else {
+                    this.$message.error("提交失败")
 								}
 						})
 				},
@@ -241,24 +235,24 @@ export default {
 								cancelButtonText: '取消',
 								type: 'warning'
 						}).then(async () => {
+                let rs = {}
 								const para = {
 										operation: operationName,
 										id_list: ids
 								};
 								if (operationName === 'submit') {
-										this.$post($env.domain + '/word/batch', para).then(rs => {
-												if (rs) {
-														this.$message({
-																type: 'success',
-																message: messageText
-														});
-														// 刷新列表
-														this.$refs.list.update();
-												}
-										}).catch(
-												err => this.$message.error(err)
-										)
+                    rs = await this.$post('/batch', para).catch(err=> { console.error(err) })
 								}
+                if (rs) {
+                    this.$message({
+                        type: 'success',
+                        message: messageText
+                    });
+                    // 刷新列表
+                    this.$refs.list.update();
+                } else {
+                    this.$message.error("提交失败")
+                }
 						});
 				},
 				// 列表选中项变更
@@ -316,7 +310,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.u-style {
+.p-list {
+	// 覆盖 el-ui 的默认样式（后面的元素会给一个 margin-left）
+	tbody button.el-button {
+		margin: 5px;
+	}
 	.u-button-group {
 		line-height: 80px;
 
@@ -346,7 +344,7 @@ export default {
 		}
 	}
 
-	.u-table-header {
+	.display-block {
 		display: flex;
 		justify-content: flex-start;
 		margin-bottom: 20px;
@@ -365,13 +363,6 @@ export default {
 			flex: 1 0 auto;
 			justify-content: flex-end;
 		}
-	}
-}
-
-.p-list {
-	// 覆盖 el-ui 的默认样式（后面的元素会给一个 margin-left）
-	tbody button.el-button {
-		margin: 5px;
 	}
 }
 </style>

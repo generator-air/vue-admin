@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "gulp dev",
-    "mock": "gulp mock",
-    "build-dev": "gulp build-dev",
+    "debug": "gulp debug",
+    "build": "gulp build",
     "upload": "gulp upload",
     "lint": "vue-cli-service lint",
-    "pageCreate": "node tools/pageCreate",
-    "routeCreate": "node tools/routeCreate"
+    "page": "node tools/pageCreate",
+    "route": "node tools/routeCreate"
   },
   "dependencies": {
     "aegis-web-sdk": "^0.9.13",
@@ -17,6 +17,7 @@
     "core-js": "^3.3.2",
     "element-ui": "^2.7.2",
     "inquirer": "^7.0.0",
+    "json-server": "^0.15.1",
     "lodash": "^4.17.11",
     "normalize.css": "^8.0.1",
     "qs": "^6.9.0",
@@ -44,6 +45,7 @@
     "gulp-confirm": "^1.0.8",
     "gulp-qcloud-cos-upload": "^1.0.4",
     "gulp-util": "^3.0.8",
+    "https-proxy-agent": "^4.0.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "lint-staged": "^7.2.2",

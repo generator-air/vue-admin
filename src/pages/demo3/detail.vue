@@ -1,12 +1,12 @@
 <template lang="pug">
-	.u-style.l-content.p-detail
-		.u-style.l-content-title
+	.l-content.p-detail
+		.l-content-title
 			el-breadcrumb
 				router-link(:to="'/demo3/list'")
 					el-breadcrumb-item 组件示例
 					el-breadcrumb-item 数据管理
-			.u-style.u-table-header
-				h1.u-style.header-title 数据详情
+			.display-block
+				h1.header-title 数据详情
 			.p-demo-info
 				mixin detailRow (title, content)
 					.detail-row
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import $env from '@/model/env'
+import $api from '@/model/api'
 
 export default {
 		components: {},
@@ -47,20 +47,18 @@ export default {
 		methods: {
 				// 根据id查询
 				searchId(id) {
-						return this.$get($env.domain + '/word/getId', { id }).catch(
-                err => this.$message.error(err)
-            )
+						return this.$get($api.getDetail, { id })
 				},
 				// 数据获取
-        async getList() {
+				async getList() {
 						this.id = this.qid
-						const rs = await this.searchId(this.id)
-						if (rs) {
-								this.form = Object.assign(this.form, rs)
-								this.form.brief = rs.brief
-								this.form.full = rs.full
-								this.form.mean = rs.mean
-								this.form.tips = rs.tips
+						const { data } = await this.searchId(this.id)
+						if (data) {
+								this.form = Object.assign(this.form, data)
+								this.form.brief = data.brief
+								this.form.full = data.full
+								this.form.mean = data.mean
+								this.form.tips = data.tips
 						}
 				},
 				init() {
@@ -80,6 +78,11 @@ export default {
 
 <style lang="less">
 	.p-detail{
+		.display-block {
+			display: flex;
+			justify-content: flex-start;
+			margin-bottom: 20px;
+		}
 		.p-demo-info{
 			background-color: #fff;
 			.p-demo-info-head{

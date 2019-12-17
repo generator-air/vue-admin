@@ -1,16 +1,16 @@
 <template lang="pug">
 	#app1
-		.u-style.u-table-header
+		.display-block
 			el-card(class="box-card")
-				h3.u-style.header-title 时间工具示例
+				h3.header-title 时间工具示例
 					div(class="text item")
-						h5.u-style.header-title {{"当前时间格式化: " +this.time}}
-						h5.u-style.header-title {{"秒: "  +this.sec}}
-						h5.u-style.header-title {{"天: " +this.day}}
-						h5.u-style.header-title {{"标准: " +this.sect}}
-						h5.u-style.header-title {{"年月日: " + this.quant}}
-		.u-style.u-table-header
-			h3.u-style.header-title 日志开关
+						h5.header-title {{"当前时间格式化: " +this.time}}
+						h5.header-title {{"秒: "  +this.sec}}
+						h5.header-title {{"天: " +this.day}}
+						h5.header-title {{"标准: " +this.sect}}
+						h5.header-title {{"年月日: " + this.quant}}
+		.display-block
+			h3.header-title 日志开关
 			el-switch(
 				style="display: block"
 				v-model="isOpened"
@@ -18,13 +18,13 @@
 				active-text="开启"
 				inactive-text="关闭"
 				@change='handleSwitch')
-			.u-style.u-table-header
+			.display-block
 			el-card(class="box-card")
-				h3.u-style.header-title 网络请求示例
+				h3.header-title 网络请求示例
 					div(class="text item")
-						h5.u-style.header-title {{"接口地址: " +this.url}}
-						h5.u-style.header-title 返回数据：
-						h5.u-style.header-title {{this.list}}
+						h5.header-title {{"接口地址: " +this.url}}
+						h5.header-title 返回数据：
+						h5.header-title {{this.list}}
 </template>
 
 <script>
@@ -95,3 +95,12 @@ export default {
 		}
 }
 </script>
+<style lang="less">
+	.p-edit {
+		.display-block {
+			display: flex;
+			justify-content: flex-start;
+			margin-bottom: 20px;
+		}
+	}
+</style>

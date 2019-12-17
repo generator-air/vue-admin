@@ -1,21 +1,21 @@
 <template lang="pug">
-	.u-style.l-content.p-edit
-		.u-style.l-content-title
+	.l-content.p-edit
+		.l-content-title
 			el-breadcrumb
-				router-link(:to="'/demo3/list'")
+				router-link(:to="'/demo3'")
 					el-breadcrumb-item 组件示例
 					el-breadcrumb-item 数据管理
-			.u-style.u-table-header
-				h1.u-style.header-title {{qid ? '编辑' : '创建'}}数据
-		.u-style.u-table-header
-				el-form.u-form(
+			.display-block
+				h1.header-title {{qid ? '编辑' : '创建'}}数据
+		.display-block
+				el-form(
 					:inline="true"
 					label-position="left"
 					:model="form"
 					:rules="rules"
 					ref="form"
 				)
-					.u-style.filter-block
+					.filter-block
 						el-form-item(label="数据缩写:" prop="brief")
 							el-input(
 								v-model="form.brief"
@@ -23,7 +23,7 @@
 								style="width: 480px"
 								placeholder="请输入数据缩写"
 							)
-					.u-style.filter-block
+					.filter-block
 						el-form-item(label="数据全称:" prop="full")
 							el-input(
 								v-model="form.full"
@@ -31,7 +31,7 @@
 								style="width: 480px"
 								placeholder="请输入数据全称"
 							)
-					.u-style.filter-block
+					.filter-block
 						el-form-item(label="数据含义:" prop="mean")
 							el-input(
 								v-model="form.mean"
@@ -39,7 +39,7 @@
 								style="width: 480px"
 								placeholder="请输入数据含义"
 							)
-					.u-style.filter-block
+					.filter-block
 						el-form-item(label="数据备注:" prop="tips")
 							el-input(
 								v-model="form.tips"
@@ -48,18 +48,17 @@
 								type="textarea"
 								:autosize="{ minRows: 2, maxRows: 100}"
 							)
-					.u-style.u-button-group
-						el-button.u-style.u-button(
-							type="primary"
-							size="large"
-							plain
-							@click="check('form')"
-						) 提交
-						el-button(
-							type="danger"
-							plain
-							@click="clear"
-						) 清空
+					el-button(
+						type="primary"
+						size="large"
+						plain
+						@click="check('form')"
+					) 提交
+					el-button(
+						type="danger"
+						plain
+						@click="clear"
+					) 清空
 
 </template>
 
@@ -67,7 +66,7 @@
 import $search from '@/components/list/search'
 import $filter from '@/components/list/filter'
 import $date from '@/util/date'
-import $env from '@/model/env'
+import $api from '@/model/api'
 
 export default {
 		components: {
@@ -117,56 +116,26 @@ export default {
 				},
 				// 根据id查询
 				searchId(id) {
-						return this.$get($env.domain + '/word/getId', { id }).catch(
-                err => this.$message.error(err)
-            )
+						return this.$get($api.getDetail, { id })
 				},
 				// 新增词条
         addInfo(para) {
-            return this.$post($env.domain + '/word/add', para).catch(
-								err => this.$message.error(err)
-						)
+            return this.$post($api.add, para)
 				},
 				// 更新词条
 			 updateInfo(para) {
-					return  this.$post($env.domain + '/word/modify', para).catch(
-							err => this.$message.error(err)
-					)
-				},
-
-				// 文件上传成功
-				handleSuccess(response, file) {
-						if (file && file.response.code === 0) {
-								this.$message.success('数据导入成功');
-						} else {
-								this.$message.error('数据导入失败');
-								this.fileList = {}
-						}
-				},
-				// 文件上传失败
-				handleError(err) {
-						if (err) {
-								this.$message.success('文件上传失败')
-						}
-				},
-				// 超过上限提示
-				handleExceed() {
-						this.$message.warning(`上传文件超过最大限制5个`);
-				},
-				// 移除前提示
-				beforeRemove(file) {
-						return this.$confirm(`确定移除 ${file.name}？`);
+					return  this.$post($api.update, para)
 				},
 				// 数据获取
         async getList() {
 						this.id = this.qid
-						const rs = await this.searchId(this.id)
-						if (rs) {
-								this.form = Object.assign(this.form, rs)
-								this.form.brief = rs.brief
-								this.form.full = rs.full
-								this.form.mean = rs.mean
-								this.form.tips = rs.tips
+						const { data } = await this.searchId(this.id)
+						if (data) {
+								this.form = Object.assign(this.form, data)
+								this.form.brief = data.brief
+								this.form.full = data.full
+								this.form.mean = data.mean
+								this.form.tips = data.tips
 						}
 				},
 				async submitForm() {
@@ -176,7 +145,7 @@ export default {
 								const rs = await this.updateInfo(para)
 								if (rs) {
 										this.$message.success('修改数据已提交')
-										this.$router.push({ path: '/demo3/list' })
+										this.$router.push({ path: '/demo3' })
 								} else {
 										this.$message.error("提交失败")
 								}
@@ -184,7 +153,7 @@ export default {
 								const rs = await this.addInfo(para)
 								if (rs) {
 										this.$message.success('新增数据已提交')
-										this.$router.push({ path: '/demo3/list' })
+										this.$router.push({ path: '/demo3' })
 								} else {
 										this.$message.error("提交失败")
 								}
@@ -243,6 +212,11 @@ export default {
 
 		.header-button {
 			display: flex;
+		}
+		.display-block {
+			display: flex;
+			justify-content: flex-start;
+			margin-bottom: 20px;
 		}
 	}
 </style>

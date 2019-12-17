@@ -1,7 +1,7 @@
 <template lang="pug">
 router-link.logo(to='/')
 	.logo-img
-		img(src='@/assets/avatar.svg')
+		img(src='@/assets/logo.png')
 	.name {{ title }}
 
 </template>

@@ -2,10 +2,12 @@
 	.u-style.u-table.v-table
 		el-table(
 			:data="list"
+		  :border="borders"
+			:span-method="objectSpanMethod"
 			:ref="withCheckbox ? 'multipleTable' : ''"
 			:tooltip-effect="withCheckbox ? 'dark' : ''"
-			:default-sort = "{ prop: 'date', order: 'descending' }"
 			style="width: 100%"
+			@data-format="dataFormat"
 			@selection-change="onSelectionChange"
 		)
 			slot
@@ -16,6 +18,14 @@ import $lodash from 'lodash'
 
 export default {
 		props: {
+				combine: {
+						type: Boolean,
+						default: false
+				},
+        borders: {
+            type: Boolean,
+            default: false
+        },
 				channel: {
 						type: String,
 						default: ''
@@ -31,12 +41,19 @@ export default {
 				onSelectionChange: {
 						type: Function,
 						default: () => true
+				},
+				// 对数据进行格式化
+				dataFormat: {
+						type: Function,
+						default: value => value
 				}
 		},
 		data() {
 				return {
 						logger: 'components/list/table',
-						list: []
+						list: [],
+						spanArr: [],
+						border: false,
 				}
 		},
 		watch: {
@@ -45,6 +62,43 @@ export default {
 				}
 		},
 		methods: {
+				// 按id聚合
+				getSpanArr(data) {
+						this.spanArr = []
+						let pos = 0
+						data.map((item, index) => {
+								if (index === 0) {
+										this.spanArr.push(1)
+										pos = 0
+								} else {
+										// 判断这一条和上一条id是否相同
+										if (item.id === data[index - 1].id) {
+												this.spanArr[pos] += 1
+												this.spanArr.push(0)
+										} else {
+												this.spanArr.push(1)
+												pos = index
+										}
+								}
+						})
+				},
+				objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+						if (!this.combine) {
+								return {
+										rowspan: row,
+										colspan: column
+								}
+						}
+						// 合并前两列
+						if (columnIndex === 0 || columnIndex === 1 || columnIndex === 2) {
+								const _row = this.spanArr[rowIndex]
+								const _col = _row > 0 ? 1 : 0
+								return {
+										rowspan: _row,
+										colspan: _col
+								}
+						}
+				},
 				checkUpdate(info) {
 						let path = this.$route.path
 						if (info && path === info.path && this.channel === info.channel) {
@@ -66,13 +120,16 @@ export default {
 						data.channel = channel
 						this.list = data.list
 						this.$emit('change', data)
-            this.$bus.emit('list-changed', data)
+						this.$bus.emit('list-changed', data)
 						return err
 				},
+
 				// 填充数据
 				fill(rs, path, channel) {
 						if (rs) {
+								rs = this.dataFormat(rs)
 								let data = {}
+								data.response = rs
 								data.list = rs.list
 								data.total = rs.total
 								data.page = rs.page
@@ -80,8 +137,9 @@ export default {
 								data.path = path
 								data.channel = channel
 								this.list = data.list
+								this.getSpanArr(this.list)
 								this.$emit('change', data)
-                this.$bus.emit('list-changed', data)
+								this.$bus.emit('list-changed', data)
 						}
 						return rs
 				},
@@ -89,9 +147,9 @@ export default {
 				async update() {
 						let api = this.api
 						let query = this.$route.query
-            let path = this.$route.path
-            let channel = this.channel
-						await this.$get(api, query).then(rs => this.fill(rs, path, channel)).catch(err => this.notify(err, path, channel))
+						let path = this.$route.path
+						let channel = this.channel
+						await this.$get(api, query).then(rs => this.fill(rs.data, path, channel)).catch(err => this.notify(err, path, channel))
 				}
 		},
 		mounted() {

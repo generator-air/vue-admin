@@ -86,19 +86,8 @@ $gulp.task('upload', () => $gulp.src([
 // common tasks
 // =================
 
-$gulp.task('mock', ()=>{ return switchMode($config.mock) });
-$gulp.task('development', ()=>{ return switchMode($config.development) });
-
-
-$gulp.task('build', done => {
-	$execa('vue-cli-service', [
-		'build'
-	], {
-		stdio: 'inherit'
-	});
-	done();
-});
-
+$gulp.task('config-dev', ()=>{ return switchMode($config.mock) });
+$gulp.task('config-debug', ()=>{ return switchMode($config.debug) });
 
 $gulp.task('serve', done => {
 	$execa('vue-cli-service', [
@@ -109,26 +98,38 @@ $gulp.task('serve', done => {
 	done();
 });
 
-// build 开发环境
-$gulp.task('build-dev', $gulp.series(
-	'development',
-	'build'
-));
-
+// json-server 启动
+$gulp.task('json-server', done => {
+	$execa('node', [
+		'./mock/mock-server.js'
+	], {
+		stdio: 'inherit'
+	});
+	done();
+});
 
 // serve 开发环境
 $gulp.task('dev', $gulp.series(
-	'development',
+	'config-dev',
 	'tool-kill-running',
 	'serve'
 ));
 
 // serve mock环境
-$gulp.task('mock', $gulp.series(
-	'mock',
+$gulp.task('debug', $gulp.series(
+	'config-debug',
 	'tool-kill-running',
+	// 'json-server',
 	'serve'
 ));
 
+$gulp.task('build', done => {
+	$execa('vue-cli-service', [
+		'build'
+	], {
+		stdio: 'inherit'
+	});
+	done();
+});
 
 $gulp.task('default', $gulp.series('serve'));
