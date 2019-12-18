@@ -69,136 +69,129 @@ import $date from '@/util/date'
 import $api from '@/model/api'
 
 export default {
-		components: {
-				'v-search': $search,
-				'v-filter': $filter,
-		},
-		computed: {},
-		data() {
-				return {
-						type: '',
-						qid: '',
-						list: {},
-						showUpload: false,
-						form: {
-								brief: '',
-								full: '',
-								mean: '',
-								tips: ''
-						},
-						rules: {
-								brief: [
-										{ required: true, message: '请输入数据缩写', trigger: 'blur' },
-										{ min: 1, message: '长度不少于1个汉字', trigger: 'blur' },
-										{ max: 50, message: '长度不超过50个汉字', trigger: 'blur' }
-								],
-								full: [
-										{ required: true, message: '请输入数据全称', trigger: 'blur' },
-										{ min: 1, message: '长度不少于1个汉字', trigger: 'blur' },
-										{ max: 50, message: '长度不超过50个汉字', trigger: 'blur' }
-								],
-								mean: [
-										{ required: true, message: '请输入数据含义', trigger: 'blur' },
-										{ min: 1, message: '长度不少于1个汉字', trigger: 'blur' },
-										{ max: 200, message: '长度不超过200个汉字', trigger: 'blur' }
-								],
-								tips: [
-										{ required: true, message: '请输入数据备注', trigger: 'blur' },
-										{ min: 1, message: '长度不少于1个汉字', trigger: 'blur' },
-										{ max: 200, message: '长度不超过200个汉字', trigger: 'blur' }
-								]
-						}
-				}
-		},
-		methods: {
-				dateFormat(time) {
-						return $date.formatSec(time)
-				},
-				// 根据id查询
-				searchId(id) {
-						return this.$get($api.getDetail, { id })
-				},
-				// 新增词条
-        addInfo(para) {
-            return this.$post($api.add, para)
-				},
-				// 更新词条
-			 updateInfo(para) {
-					return  this.$post($api.update, para)
-				},
-				// 数据获取
-        async getList() {
-						this.id = this.qid
-						const { data } = await this.searchId(this.id)
-						if (data) {
-								this.form = Object.assign(this.form, data)
-								this.form.brief = data.brief
-								this.form.full = data.full
-								this.form.mean = data.mean
-								this.form.tips = data.tips
-						}
-				},
-				async submitForm() {
-						const para = Object.assign({}, this.form)
-						if (this.qid) {
-								para.id = this.qid
-								const rs = await this.updateInfo(para)
-								if (rs) {
-										this.$message.success('修改数据已提交')
-										this.$router.push({ path: '/demo3' })
-								} else {
-										this.$message.error("提交失败")
-								}
-						} else {
-								const rs = await this.addInfo(para)
-								if (rs) {
-										this.$message.success('新增数据已提交')
-										this.$router.push({ path: '/demo3' })
-								} else {
-										this.$message.error("提交失败")
-								}
-						}
-				},
-				// 提交
-				check(formName) {
-						this.$refs[formName].validate(valid => {
-								// 数据外表单项验证通过
-								if (valid) {
-										this.confirm('确认提交？', this.submitForm)
-										return true
-								}
-								return false
-						})
-				},
-				// 清空输入，包括拖拽空间
-				clear() {
-						// 重置表单数据
-						this.$refs.form.resetFields()
-				},
-				// 弹窗提示
-				confirm(confirmText, operation) {
-						this.$confirm(confirmText, '提示', {
-								confirmButtonText: '确定',
-								cancelButtonText: '取消',
-								type: 'warning'
-						}).then(() => {
-								operation()
-						}).catch(() => {
-						})
-				},
-				init() {
-						// 从列表页进入已创建的数据，路由带id
-						this.qid = this.$route.query.id
-						this.showUpload = !this.qid
-						if (this.qid) {
-								this.getList()
-						}
-				}
-		},
-		mounted() {
-				this.init()
-		}
-
+	components: {
+			'v-search': $search,
+			'v-filter': $filter,
+	},
+	computed: {},
+	data() {
+			return {
+					type: '',
+					qid: '',
+					list: {},
+					showUpload: false,
+					form: {
+							brief: '',
+							full: '',
+							mean: '',
+							tips: ''
+					},
+					rules: {
+							brief: [
+									{ required: true, message: '请输入数据缩写', trigger: 'blur' },
+									{ min: 1, message: '长度不少于1个汉字', trigger: 'blur' },
+									{ max: 50, message: '长度不超过50个汉字', trigger: 'blur' }
+							],
+							full: [
+									{ required: true, message: '请输入数据全称', trigger: 'blur' },
+									{ min: 1, message: '长度不少于1个汉字', trigger: 'blur' },
+									{ max: 50, message: '长度不超过50个汉字', trigger: 'blur' }
+							],
+							mean: [
+									{ required: true, message: '请输入数据含义', trigger: 'blur' },
+									{ min: 1, message: '长度不少于1个汉字', trigger: 'blur' },
+									{ max: 200, message: '长度不超过200个汉字', trigger: 'blur' }
+							],
+							tips: [
+									{ required: true, message: '请输入数据备注', trigger: 'blur' },
+									{ min: 1, message: '长度不少于1个汉字', trigger: 'blur' },
+									{ max: 200, message: '长度不超过200个汉字', trigger: 'blur' }
+							]
+					}
+			}
+	},
+	methods: {
+			dateFormat(time) {
+					return $date.formatSec(time)
+			},
+			// 根据id查询
+			searchId(id) {
+					return this.$get($api.getDetail, { id })
+			},
+			// 新增词条
+			addInfo(para) {
+					return this.$post($api.add, para)
+			},
+			// 更新词条
+		 updateInfo(para) {
+				return  this.$post($api.update, para)
+			},
+			// 数据获取
+			async getList() {
+					this.id = this.qid
+					const { data } = await this.searchId(this.id)
+					if (data) {
+							this.form = Object.assign(this.form, data)
+							this.form.brief = data.brief
+							this.form.full = data.full
+							this.form.mean = data.mean
+							this.form.tips = data.tips
+					}
+			},
+			async submitForm() {
+					const para = Object.assign({}, this.form)
+					if (this.qid) {
+							para.id = this.qid
+							const rs = await this.updateInfo(para)
+							if (rs) {
+									this.$router.push({ path: '/demo3' })
+							}
+					} else {
+							const rs = await this.addInfo(para)
+							if (rs) {
+									this.$router.push({ path: '/demo3' })
+							}
+					}
+			},
+			// 提交
+			check(formName) {
+					this.$refs[formName].validate(valid => {
+							// 数据外表单项验证通过
+							if (valid) {
+									this.confirm('确认提交？', this.submitForm)
+									return true
+							}
+							return false
+					})
+			},
+			// 清空输入，包括拖拽空间
+			clear() {
+					// 重置表单数据
+					this.$refs.form.resetFields()
+			},
+			// 弹窗提示
+			confirm(confirmText, operation) {
+					this.$confirm(confirmText, '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+					}).then(() => {
+							operation()
+					}).catch(() => {
+					})
+			},
+			init() {
+					// 从列表页进入已创建的数据，路由带id
+					this.qid = this.$route.query.id
+					this.showUpload = !this.qid
+					if (this.qid) {
+							this.getList()
+					}
+			}
+	},
+	mounted() {
+			this.init()
+	}
 }
 </script>
 

@@ -38,13 +38,7 @@ export default {
 					let val = query[key]
 					this.$set(this.query, key, val)
 				})
-			} else {
-				this.reset()
 			}
-		},
-		reset() {
-			// 当query为{}时，为保证页面选择框回显正确，手动重置query（适配机场文章，多页面使用相同路由的情况）
-			this.query = {}
 		},
 		onChange() {
 			let query = Object.assign({}, this.query)
