@@ -12,6 +12,62 @@ function resolve (dir) {
 	return path.join(__dirname, dir)
 }
 
+function createExternals () {
+	const cdnBase = 'https://lib.baomitu.com'
+	const externals = [
+		{
+			path: '/vue/2.6.10/vue.js',
+			packageName: 'vue',
+			variableName: 'Vue'
+		},
+		{
+			path: '/vuex/3.1.2/vuex.js',
+			packageName: 'vuex',
+			variableName: 'Vuex'
+		},
+		{
+			path: '/vue-router/3.1.3/vue-router.js',
+			packageName: 'vue-router',
+			variableName: 'VueRouter'
+		},
+		{
+			path: '/axios/0.19.0/axios.js',
+			packageName: 'axios',
+			variableName: 'axios'
+		},
+		{
+			path: '/qs/6.9.1/qs.js',
+			packageName: 'qs',
+			variableName: 'Qs'
+		},
+		{
+			path: '/lodash.js/4.17.15/lodash.js',
+			packageName: 'lodash',
+			variableName: '_'
+		},
+		{
+			path: '/element-ui/2.12.0/index.js',
+			packageName: 'element-ui',
+			variableName: 'ELEMENT'
+		},
+		{
+			path: '/element-ui/2.12.0/theme-chalk/index.css'
+		}
+	]
+	return externals.map(external => {
+		const obj = {}
+		obj.path = cdnBase + external.path
+		obj.attributes = { crossorigin: 'anonymous' }
+		if (external.packageName) {
+			obj.external = {
+				packageName: external.packageName,
+				variableName: external.variableName
+			}
+		}
+		return obj
+	})
+}
+
 module.exports = {
 	lintOnSave: true,
 	productionSourceMap: false,
@@ -36,92 +92,7 @@ module.exports = {
 		plugins: [
 			new HtmlWebpackTagsPlugin({
 				usePublicPath: false,
-				tags: [
-					{
-						// vue
-						path: 'https://lib.baomitu.com/vue/2.6.10/vue.js',
-						attributes: {
-							crossorigin: 'anonymous'
-						},
-						external: {
-							packageName: 'vue',
-							variableName: 'Vue'
-						},
-					},
-					{
-						// vuex
-						path: 'https://lib.baomitu.com/vuex/3.1.2/vuex.js',
-						attributes: {
-							crossorigin: 'anonymous'
-						},
-						external: {
-							packageName: 'vuex',
-							variableName: 'Vuex'
-						},
-					},
-					{
-						// vue-router
-						path: 'https://lib.baomitu.com/vue-router/3.1.3/vue-router.js',
-						attributes: {
-							crossorigin: 'anonymous'
-						},
-						external: {
-							packageName: 'vue-router',
-							variableName: 'VueRouter'
-						},
-					},
-					{
-						// axios
-						path: 'https://lib.baomitu.com/axios/0.19.0/axios.js',
-						attributes: {
-							crossorigin: 'anonymous'
-						},
-						external: {
-							packageName: 'axios',
-							variableName: 'axios'
-						},
-					},
-					{
-						// qs
-						path: 'https://lib.baomitu.com/qs/6.9.1/qs.js',
-						attributes: {
-							crossorigin: 'anonymous'
-						},
-						external: {
-							packageName: 'qs',
-							variableName: 'Qs'
-						},
-					},
-					{
-						// lodash
-						path: 'https://lib.baomitu.com/lodash.js/4.17.15/lodash.js',
-						attributes: {
-							crossorigin: 'anonymous'
-						},
-						external: {
-							packageName: 'lodash',
-							variableName: '_'
-						},
-					},
-					{
-						// element-ui
-						path: 'https://lib.baomitu.com/element-ui/2.12.0/index.js',
-						attributes: {
-							crossorigin: 'anonymous'
-						},
-						external: {
-							packageName: 'element-ui',
-							variableName: 'ELEMENT'
-						},
-					},
-					{
-						// element-ui-css
-						path: 'https://lib.baomitu.com/element-ui/2.12.0/theme-chalk/index.css',
-						attributes: {
-							crossorigin: 'anonymous'
-						}
-					}
-				]
+				tags: createExternals()
 			})
 		].concat(process.env.NODE_ENV === 'production' ? [new BundleAnalyzerPlugin()] : [])
 	},
