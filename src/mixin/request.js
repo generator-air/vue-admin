@@ -1,10 +1,9 @@
 import axios from 'axios'
-import type from '@/util/type'
 import errorDict from '../model/errorDict'
 import $notify from '@/util/notify'
 
 const doWith = sth => {
-	const sType = type(sth)
+	const sType = typeof(sth)
 	if (sType === 'string') {
 		return sth
 	} else if (sType == 'function') {
@@ -16,8 +15,8 @@ const doWith = sth => {
 
 const useDict = (status, code, spare) => {
 	let dictMatch = errorDict[status]
-	const statusType = type(dictMatch)
-	if (statusType === 'object') {
+	const statusType = typeof(dictMatch)
+	if (dictMatch && statusType === 'object') {
 		dictMatch = errorDict[status][code]
 	}
 	const msg = doWith(dictMatch) || spare
