@@ -18,9 +18,6 @@ config.externals = 'externals'
 
 // 开发服务端口
 config.devServerPort = 8090
-// 本地mock服务端口
-config.mockServerPort = 8091
-
 
 config.debug = 'http://127.0.0.1:8000'
 
