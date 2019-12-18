@@ -22,6 +22,8 @@ config.devServerPort = 8090
 config.debug = 'http://127.0.0.1:8000'
 
 config.mock = 'https://www.fastmock.site/mock/5804566cbf92cb32bf29b622fdfe6138/word'
+// config.mock = 'http://127.0.0.1:3001'
+
 
 config.logReport = false // 日志全局开关
 

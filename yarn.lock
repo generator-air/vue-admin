@@ -1705,6 +1705,11 @@ atob@^2.1.1:
   resolved "https://registry.npm.taobao.org/atob/download/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha1-bZUX654DDSQ2ZmZR6GvZ9vE1M8k=
 
+authority-filter@^0.0.1:
+  version "0.0.1"
+  resolved "http://mirrors.cloud.tencent.com/npm/authority-filter/-/authority-filter-0.0.1.tgz#0d1350fe73541759810bd64f7603c576c5d58b39"
+  integrity sha512-kcnV4jynh/402/CnTp6j6emuFSSOtEJOB8lZoznEOSr02pUZgkFDypZLBGMOz5+Ac4az+lrT0Ro8EnB8PJk8SA==
+
 autoprefixer@^9.5.1:
   version "9.7.0"
   resolved "https://registry.npm.taobao.org/autoprefixer/download/autoprefixer-9.7.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fautoprefixer%2Fdownload%2Fautoprefixer-9.7.0.tgz#905ec19e50f04545fe9ff131182cc9ab25246901"
@@ -2869,6 +2874,11 @@ core-js@^3.3.2:
   version "3.3.3"
   resolved "https://registry.npm.taobao.org/core-js/download/core-js-3.3.3.tgz#b7048d3c6c1a52b5fe55a729c1d4ccdffe0891bb"
   integrity sha1-twSNPGwaUrX+VacpwdTM3/4Ikbs=
+
+core-js@^3.5.0:
+  version "3.5.0"
+  resolved "http://mirrors.cloud.tencent.com/npm/core-js/-/core-js-3.5.0.tgz#66df8e49be4bd775e6f952a9d083b756ad41c1ed"
+  integrity sha512-Ifh3kj78gzQ7NAoJXeTu+XwzDld0QRIwjBLRqAMhuLhP3d2Av5wmgE9ycfnvK6NAEjTkQ1sDPeoEZAWO3Hx1Uw==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -5147,6 +5157,15 @@ html-webpack-plugin@^3.2.0:
     tapable "^1.0.0"
     toposort "^1.0.0"
     util.promisify "1.0.0"
+
+html-webpack-tags-plugin@^2.0.17:
+  version "2.0.17"
+  resolved "https://registry.npm.taobao.org/html-webpack-tags-plugin/download/html-webpack-tags-plugin-2.0.17.tgz#1143cb41fa895eca6bc45207d3aadd914cee8b55"
+  integrity sha1-EUPLQfqJXsprxFIH06rdkUzui1U=
+  dependencies:
+    glob "^7.1.4"
+    minimatch "^3.0.4"
+    slash "^3.0.0"
 
 htmlparser2@^3.3.0, htmlparser2@^3.8.3:
   version "3.10.1"
