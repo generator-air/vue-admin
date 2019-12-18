@@ -16,14 +16,12 @@ const install = function (Vue) {
 					logI: (msg, opened) => {
 						if (opened && aegis) {
 							aegis.info(msg)
-							console.log('I: ', msg)
 						}
 					},
 					/* 上报错误日志 */
 					logE: (msg, opened) => {
 						if (opened && aegis) {
 							aegis.report(msg)
-							console.log('E: ', msg)
 						}
 					},
 					/* 上报测速日志 */
@@ -37,7 +35,6 @@ const install = function (Vue) {
 								ret: 0, // cgi 的状态码，如果是图片或其他的，则没有该字段
 								status: 200, // http 返回码
 							})
-							console.log('Report: ', url)
 						}
 					}
 				}

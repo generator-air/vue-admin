@@ -122,202 +122,195 @@ import $table from '@/components/list/table'
 import $api from '@/model/api'
 
 export default {
-		components: {
-				'v-search': $search,
-				'v-filter': $filter,
-				'v-table': $table,
-				'v-pagination': $pagination,
-		},
-		watch: {
-				$route() {
-						this.init();
-				}
-		},
-		computed: {
-				...mapState('user', {
-						auth: state => state.auth
-				})
-		},
-		data() {
-				return {
-						type: '',
-						id: 1,
-						selectCount: 0,
-						selectRead: 0,
-						api: $api.getList,
-						stateOptions: [
-                {
-                    id: '',
-                    label: '全部'
-                },
-                {
-                    id: '1',
-                    label: '待提交'
-                },
-                {
-                    id: '2',
-                    label: '已提交'
-                }
-            ],
-						operations: [],
-						tableSelections: [],
-						searchValue: '',
-						total: 0,
-						page: 0,
-						limit: 5,
-				};
-		},
-		methods: {
-				// 查询
-				search() {
-						this.$refs.search.search();
-				},
-				// 重置
-				reset() {
-						this.$refs.search.clear();
-						this.$router.push({ path: this.$route.path });
-				},
-				// 新建
-				create() {
-						this.$router.push({ path: '/demo3/edit' })
-				},
-				// 编辑
-				edit(row) {
-						this.$router.push({ path: '/demo3/edit', query: { id: row.id } })
-				},
-				// 详情
-				detail(row) {
-						this.$router.push({ path: '/demo3/detail', query: { id: row.id } })
-				},
-				// 提交
-				async submit(row) {
-						this.operationHandler(row, 'submit');
-				},
-				// 提交时触发
-				operationHandler(row, operation) {
-						let confirmText = '';
-						let messageText = '';
-						if (operation === 'submit') {
-								confirmText = '确认要提交选中项？';
-								messageText = '选中项已提交';
-						}
-						this.$confirm(confirmText, '提示', {
-								confirmButtonText: '确定',
-								cancelButtonText: '取消',
-								type: 'warning'
-						}).then(async () => {
-						    let rs = {}
-								const para = {
-										operation: operationName,
-										id: row.id
-								};
-								if (operation === 'submit') {
-                    rs = await this.$post('/batch', para).catch(err=> { console.error(err) })
-								}
-                if (rs) {
-                    this.$message({
-                        type: 'success',
-                        message: messageText
-                    });
-                    // 刷新列表
-                    this.$refs.list.update();
-                } else {
-                    this.$message.error("提交失败")
-								}
-						})
-				},
-				// 全选提交
-				batchHandler(command) {
-						let operationName = '';
-						let confirmText = '';
-						let messageText = '';
-						const ids = [];
-						// 操作名称确认
-						if (command.name.includes('submit')) {
-								operationName = 'submit';
-								confirmText = '确认要批量提交？';
-								messageText = '已批量提交';
-						}
-						// 操作数据id整合
-						this.tableSelections.forEach(item => {
-								ids.push(item.id);
-						});
-						this.$confirm(confirmText, '提示', {
-								confirmButtonText: '确定',
-								cancelButtonText: '取消',
-								type: 'warning'
-						}).then(async () => {
-                let rs = {}
-								const para = {
-										operation: operationName,
-										id_list: ids
-								};
-								if (operationName === 'submit') {
-                    rs = await this.$post('/batch', para).catch(err=> { console.error(err) })
-								}
-                if (rs) {
-                    this.$message({
-                        type: 'success',
-                        message: messageText
-                    });
-                    // 刷新列表
-                    this.$refs.list.update();
-                } else {
-                    this.$message.error("提交失败")
-                }
-						});
-				},
-				// 列表选中项变更
-				selectionChangeHandler(val) {
-						let countCommandOne = 0;
-						this.selectCount = val.length;
-						// 没有选中时清空一下数据
-						let selectRead = 0;
-						val.forEach(item => {
-								if (item.id) {
-										// 操作命令
-										++countCommandOne;
-								}
-								selectRead += item.id;
-						});
-						if (val.length > 0) {
-								if (countCommandOne === val.length) {
-										this.operations = [{ id: 'submit', method: this.submit, label: '批量提交' }];
-								} else {
-										this.operations = [];
-								}
-						} else {
-								this.operations = [];
-						}
-						this.tableSelections = val;
-						this.selectRead = selectRead / 10000;
-				},
-				// 列表数据变更
-				onListChange(rs) {
-						if (rs) {
-								this.total = rs.total;
-						}
-				},
-				notify($title, $message, $type) {
-						this.$notify({
-								title: $title,
-								message: $message,
-								type: $type
-						});
-				},
-				init() {
-						// 搜索项回显
-						this.searchValue = this.$route.query.search;
-				}
-		},
-		// 当前list页面挂载前赋值this.api，保证table挂载时拿到指定的api
-		created() {
-				this.init();
-		},
-		mounted() {
-				// 过滤项回显。mounted前无法通过 this.$refs 访问组件
-				this.$refs.filter.update();
-		}
+	components: {
+			'v-search': $search,
+			'v-filter': $filter,
+			'v-table': $table,
+			'v-pagination': $pagination,
+	},
+	watch: {
+			$route() {
+					this.init();
+			}
+	},
+	computed: {
+			...mapState('user', {
+					auth: state => state.auth
+			})
+	},
+	data() {
+			return {
+					type: '',
+					id: 1,
+					selectCount: 0,
+					selectRead: 0,
+					api: $api.getList,
+					stateOptions: [
+							{
+									id: '',
+									label: '全部'
+							},
+							{
+									id: '1',
+									label: '待提交'
+							},
+							{
+									id: '2',
+									label: '已提交'
+							}
+					],
+					operations: [],
+					tableSelections: [],
+					searchValue: '',
+					total: 0,
+					page: 0,
+					limit: 5,
+			};
+	},
+	methods: {
+			// 查询
+			search() {
+					this.$refs.search.search();
+			},
+			// 重置
+			reset() {
+					this.$refs.search.clear();
+					this.$router.push({ path: this.$route.path });
+			},
+			// 新建
+			create() {
+					this.$router.push({ path: '/demo3/edit' })
+			},
+			// 编辑
+			edit(row) {
+					this.$router.push({ path: '/demo3/edit', query: { id: row.id } })
+			},
+			// 详情
+			detail(row) {
+					this.$router.push({ path: '/demo3/detail', query: { id: row.id } })
+			},
+			// 提交
+			async submit(row) {
+					this.operationHandler(row, 'submit');
+			},
+			// 提交时触发
+			operationHandler(row, operation) {
+					let confirmText = '';
+					let messageText = '';
+					if (operation === 'submit') {
+							confirmText = '确认要提交选中项？';
+							messageText = '选中项已提交';
+					}
+					this.$confirm(confirmText, '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+					}).then(async () => {
+							let rs = {}
+							const para = {
+									operation: operationName,
+									id: row.id
+							};
+							if (operation === 'submit') {
+									rs = await this.$post('/batch', para).catch(err=> { console.error(err) })
+							}
+							if (rs) {
+									this.$message({
+											type: 'success',
+											message: messageText
+									});
+									// 刷新列表
+									this.$refs.list.update();
+							} else {
+									this.$message.error("提交失败")
+							}
+					})
+			},
+			// 全选提交
+			batchHandler(command) {
+					let operationName = '';
+					let confirmText = '';
+					let messageText = '';
+					const ids = [];
+					// 操作名称确认
+					if (command.name.includes('submit')) {
+							operationName = 'submit';
+							confirmText = '确认要批量提交？';
+							messageText = '已批量提交';
+					}
+					// 操作数据id整合
+					this.tableSelections.forEach(item => {
+							ids.push(item.id);
+					});
+					this.$confirm(confirmText, '提示', {
+							confirmButtonText: '确定',
+							cancelButtonText: '取消',
+							type: 'warning'
+					}).then(async () => {
+							let rs = {}
+							const para = {
+									operation: operationName,
+									id_list: ids
+							};
+							if (operationName === 'submit') {
+									rs = await this.$post('/batch', para).catch(err=> { console.error(err) })
+							}
+							if (rs) {
+									this.$message({
+											type: 'success',
+											message: messageText
+									});
+									// 刷新列表
+									this.$refs.list.update();
+							} else {
+									this.$message.error("提交失败")
+							}
+					});
+			},
+			// 列表选中项变更
+			selectionChangeHandler(val) {
+					let countCommandOne = 0;
+					this.selectCount = val.length;
+					// 没有选中时清空一下数据
+					let selectRead = 0;
+					val.forEach(item => {
+							if (item.id) {
+									// 操作命令
+									++countCommandOne;
+							}
+							selectRead += item.id;
+					});
+					if (val.length > 0) {
+							if (countCommandOne === val.length) {
+									this.operations = [{ id: 'submit', method: this.submit, label: '批量提交' }];
+							} else {
+									this.operations = [];
+							}
+					} else {
+							this.operations = [];
+					}
+					this.tableSelections = val;
+					this.selectRead = selectRead / 10000;
+			},
+			// 列表数据变更
+			onListChange(rs) {
+					if (rs) {
+							this.total = rs.total;
+					}
+			},
+			init() {
+					// 搜索项回显
+					this.searchValue = this.$route.query.search;
+			}
+	},
+	// 当前list页面挂载前赋值this.api，保证table挂载时拿到指定的api
+	created() {
+			this.init();
+	},
+	mounted() {
+			// 过滤项回显。mounted前无法通过 this.$refs 访问组件
+			this.$refs.filter.update();
+	}
 };
 </script>
 

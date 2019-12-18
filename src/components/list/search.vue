@@ -17,74 +17,74 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            channel: {
-                type: String,
-                default: ''
-            },
-            name: {
-                type: String,
-                default: 'kw'
-            },
-            label: {
-                type: String,
-                default: '请搜索'
-            },
-            value: String,
-            placeholder: String
-        },
-        data() {
-            return {
-                logger: 'components/list/fsearch',
-                inputValue: ''
-            }
-        },
-        computed: {
-            empty() {
-                return !this.inputValue
-            }
-        },
-        watch: {
-            value(val) {
-                this.inputValue = val
-            }
-        },
-        methods: {
-            search() {
-                let value = this.inputValue
-                if (value) {
-                    value = value.trim()
-                    this.inputValue = value
-                    this.$emit('search', value)
-                    this.setKeyword(value)
-                } else {
-                    this.clear()
-                }
-            },
-            clear() {
-                this.inputValue = ''
-                this.$emit('clear')
-                this.setKeyword('')
-            },
-            setKeyword(keyword) {
-                let name = this.name
-                let query = {}
-                query.page = 1
-                query[name] = keyword
-                this.setQuery(query)
-            },
-            setQuery(query) {
-                query = Object.assign({}, this.$route.query, query)
-                this.$router.push({
-                    query
-                })
-            }
-        },
-        mounted() {
-            this.inputValue = this.value
-        }
-    }
+export default {
+	props: {
+			channel: {
+					type: String,
+					default: ''
+			},
+			name: {
+					type: String,
+					default: 'kw'
+			},
+			label: {
+					type: String,
+					default: '请搜索'
+			},
+			value: String,
+			placeholder: String
+	},
+	data() {
+			return {
+					logger: 'components/list/fsearch',
+					inputValue: ''
+			}
+	},
+	computed: {
+			empty() {
+					return !this.inputValue
+			}
+	},
+	watch: {
+			value(val) {
+					this.inputValue = val
+			}
+	},
+	methods: {
+			search() {
+					let value = this.inputValue
+					if (value) {
+							value = value.trim()
+							this.inputValue = value
+							this.$emit('search', value)
+							this.setKeyword(value)
+					} else {
+							this.clear()
+					}
+			},
+			clear() {
+					this.inputValue = ''
+					this.$emit('clear')
+					this.setKeyword('')
+			},
+			setKeyword(keyword) {
+					let name = this.name
+					let query = {}
+					query.page = 1
+					query[name] = keyword
+					this.setQuery(query)
+			},
+			setQuery(query) {
+					query = Object.assign({}, this.$route.query, query)
+					this.$router.push({
+							query
+					})
+			}
+	},
+	mounted() {
+			this.inputValue = this.value
+	}
+}
 </script>
 
 <style lang="less">
