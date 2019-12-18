@@ -49,7 +49,7 @@ const VueBus = Vue => {
 		bus[cacheItem.method](...cacheItem.args)
 	}
 
-	let list =  [
+	let list = [
 		'notify',
 		'user-ready',
 		'user-signin',
