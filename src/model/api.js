@@ -1,5 +1,4 @@
 // 统一的接口管理
-
 const API = {
 	getUserInfo: '/getUserInfo',
 	getList: '/list',
