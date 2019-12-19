@@ -1,1 +1,1 @@
-// @param:domain 启动后切换环境后生成的域名const env = {};env.domain = "http://127.0.0.1:3001";module.exports = env;
+// @param:domain 启动后切换环境后生成的域名const env = {};env.domain = "https://www.fastmock.site/mock/cfbff5d79bd9ff49a81e04dde80521e3/admin";module.exports = env;
