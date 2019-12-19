@@ -15,13 +15,13 @@ import $notify from '@/util/notify'
 function useDict(status, code) {
 	let dictMatch = errorDict[status]
 	// 判断错误字典匹配值类型
-	const statusType = type(dictMatch)
+	const statusType = dictMatch && typeof(dictMatch)
 	// 如果是object，说明存在对指定code错误码的响应行为定义。拿到这个响应，赋值给 dictMatch
 	if (statusType === 'object') {
 		dictMatch = errorDict[status][code]
 	}
 	// 再次判断赋值后的 dictMatch 类型
-	const sType = type(dictMatch)
+	const sType = typeof(dictMatch)
 	// string类型，直接弹窗，提示给用户
 	if (sType === 'string') {
 		return dictMatch

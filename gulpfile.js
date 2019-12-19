@@ -112,6 +112,7 @@ $gulp.task('json-server', done => {
 $gulp.task('dev', $gulp.series(
 	'config-dev',
 	'tool-kill-running',
+	'json-server',
 	'serve'
 ));
 
@@ -119,7 +120,6 @@ $gulp.task('dev', $gulp.series(
 $gulp.task('debug', $gulp.series(
 	'config-debug',
 	'tool-kill-running',
-	// 'json-server',
 	'serve'
 ));
 
