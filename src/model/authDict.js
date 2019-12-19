@@ -1,4 +1,10 @@
 const dictionary = {
+	/**
+	 * roleId : [{
+	 * 	path: '/xxx',
+	 * 	operations: ['aaa', 'bbb', 'ccc']
+	 * }]
+	 */
 	101: [
 		{
 			path: '/demo1',
@@ -19,12 +25,6 @@ const dictionary = {
 		{
 			path: '/demo3/detail',
 			operations: ['delete']
-		},
-		{
-			path: '/home'
-		},
-		{
-			path: '/login'
 		}
 	],
 	102: [

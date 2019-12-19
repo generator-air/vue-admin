@@ -8,7 +8,7 @@ const install = function (Vue) {
 				let aegis = {}
 				if ($config.logReport) {
 					aegis = new Aegis({
-						id: this.projectId, // 在 aegis.qq.com 申请到的 id
+						id: '887', // 在 aegis.qq.com 申请到的 id
 					})
 				}
 				return {

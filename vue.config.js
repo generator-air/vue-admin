@@ -7,6 +7,8 @@ const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
 const HttpsProxyAgent = require('https-proxy-agent')
 // 由开发者指定本地环境变量的代理配置字段名。这里以读取 HTTP_PROXY 字段为例
 const proxyServer = process.env.HTTP_PROXY;
+// 使用cos存储的静态资源引用路径
+const publicPath = process.env.NODE_ENV === 'production' ? $config.cdnRoot : '';
 
 function resolve (dir) {
 	return path.join(__dirname, dir)
@@ -30,6 +32,7 @@ function createExternals () {
 }
 
 module.exports = {
+	publicPath,
 	lintOnSave: true,
 	productionSourceMap: false,
 	configureWebpack: {
