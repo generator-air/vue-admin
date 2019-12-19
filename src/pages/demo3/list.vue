@@ -23,7 +23,7 @@
 							v-model="query.state"
 							size="small"
 							placeholder="请选择"
-							style="width: 120px;"
+							style="width: 120px"
 							@change="change"
 						)
 							el-option(
@@ -114,9 +114,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
 import $search from '@/components/list/search'
-import $filter from '@/components/list/filter';
+import $filter from '@/components/list/filter'
 import $pagination from '@/components/list/pagination'
 import $table from '@/components/list/table'
 import $api from '@/model/api'
@@ -130,7 +130,7 @@ export default {
 	},
 	watch: {
 			$route() {
-					this.init();
+					this.init()
 			}
 	},
 	computed: {
@@ -165,17 +165,17 @@ export default {
 					total: 0,
 					page: 0,
 					limit: 5,
-			};
+			}
 	},
 	methods: {
 			// 查询
 			search() {
-					this.$refs.search.search();
+					this.$refs.search.search()
 			},
 			// 重置
 			reset() {
-					this.$refs.search.clear();
-					this.$router.push({ path: this.$route.path });
+					this.$refs.search.clear()
+					this.$router.push({ path: this.$route.path })
 			},
 			// 新建
 			create() {
@@ -191,15 +191,15 @@ export default {
 			},
 			// 提交
 			async submit(row) {
-					this.operationHandler(row, 'submit');
+					this.operationHandler(row, 'submit')
 			},
 			// 提交时触发
 			operationHandler(row, operation) {
-					let confirmText = '';
-					let messageText = '';
+					let confirmText = ''
+					let messageText = ''
 					if (operation === 'submit') {
-							confirmText = '确认要提交选中项？';
-							messageText = '选中项已提交';
+							confirmText = '确认要提交选中项？'
+							messageText = '选中项已提交'
 					}
 					this.$confirm(confirmText, '提示', {
 							confirmButtonText: '确定',
@@ -208,19 +208,18 @@ export default {
 					}).then(async () => {
 							let rs = {}
 							const para = {
-									operation: operationName,
 									id: row.id
-							};
+							}
 							if (operation === 'submit') {
-									rs = await this.$post('/batch', para).catch(err=> { console.error(err) })
+									rs = await this.$post('/batch', para)
 							}
 							if (rs) {
 									this.$message({
 											type: 'success',
 											message: messageText
-									});
+									})
 									// 刷新列表
-									this.$refs.list.update();
+									this.$refs.list.update()
 							} else {
 									this.$message.error("提交失败")
 							}
@@ -228,20 +227,20 @@ export default {
 			},
 			// 全选提交
 			batchHandler(command) {
-					let operationName = '';
-					let confirmText = '';
-					let messageText = '';
-					const ids = [];
+					let operationName = ''
+					let confirmText = ''
+					let messageText = ''
+					const ids = []
 					// 操作名称确认
 					if (command.name.includes('submit')) {
-							operationName = 'submit';
-							confirmText = '确认要批量提交？';
-							messageText = '已批量提交';
+							operationName = 'submit'
+							confirmText = '确认要批量提交？'
+							messageText = '已批量提交'
 					}
 					// 操作数据id整合
 					this.tableSelections.forEach(item => {
-							ids.push(item.id);
-					});
+							ids.push(item.id)
+					})
 					this.$confirm(confirmText, '提示', {
 							confirmButtonText: '确定',
 							cancelButtonText: '取消',
@@ -251,7 +250,7 @@ export default {
 							const para = {
 									operation: operationName,
 									id_list: ids
-							};
+							}
 							if (operationName === 'submit') {
 									rs = await this.$post('/batch', para).catch(err=> { console.error(err) })
 							}
@@ -259,59 +258,59 @@ export default {
 									this.$message({
 											type: 'success',
 											message: messageText
-									});
+									})
 									// 刷新列表
-									this.$refs.list.update();
+									this.$refs.list.update()
 							} else {
 									this.$message.error("提交失败")
 							}
-					});
+					})
 			},
 			// 列表选中项变更
 			selectionChangeHandler(val) {
-					let countCommandOne = 0;
-					this.selectCount = val.length;
+					let countCommandOne = 0
+					this.selectCount = val.length
 					// 没有选中时清空一下数据
-					let selectRead = 0;
+					let selectRead = 0
 					val.forEach(item => {
 							if (item.id) {
 									// 操作命令
-									++countCommandOne;
+									++countCommandOne
 							}
-							selectRead += item.id;
-					});
+							selectRead += item.id
+					})
 					if (val.length > 0) {
 							if (countCommandOne === val.length) {
-									this.operations = [{ id: 'submit', method: this.submit, label: '批量提交' }];
+									this.operations = [{ id: 'submit', method: this.submit, label: '批量提交' }]
 							} else {
-									this.operations = [];
+									this.operations = []
 							}
 					} else {
-							this.operations = [];
+							this.operations = []
 					}
-					this.tableSelections = val;
-					this.selectRead = selectRead / 10000;
+					this.tableSelections = val
+					this.selectRead = selectRead / 10000
 			},
 			// 列表数据变更
 			onListChange(rs) {
 					if (rs) {
-							this.total = rs.total;
+							this.total = rs.total
 					}
 			},
 			init() {
 					// 搜索项回显
-					this.searchValue = this.$route.query.search;
+					this.searchValue = this.$route.query.search
 			}
 	},
 	// 当前list页面挂载前赋值this.api，保证table挂载时拿到指定的api
 	created() {
-			this.init();
+			this.init()
 	},
 	mounted() {
 			// 过滤项回显。mounted前无法通过 this.$refs 访问组件
-			this.$refs.filter.update();
+			this.$refs.filter.update()
 	}
-};
+}
 </script>
 
 <style lang="less" scoped>

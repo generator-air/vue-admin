@@ -14,47 +14,8 @@ function resolve (dir) {
 
 function createExternals () {
 	const cdnBase = 'https://lib.baomitu.com'
-	const externals = [
-		{
-			path: '/vue/2.6.10/vue.js',
-			packageName: 'vue',
-			variableName: 'Vue'
-		},
-		{
-			path: '/vuex/3.1.2/vuex.js',
-			packageName: 'vuex',
-			variableName: 'Vuex'
-		},
-		{
-			path: '/vue-router/3.1.3/vue-router.js',
-			packageName: 'vue-router',
-			variableName: 'VueRouter'
-		},
-		{
-			path: '/axios/0.19.0/axios.js',
-			packageName: 'axios',
-			variableName: 'axios'
-		},
-		{
-			path: '/qs/6.9.1/qs.js',
-			packageName: 'qs',
-			variableName: 'Qs'
-		},
-		{
-			path: '/lodash.js/4.17.15/lodash.js',
-			packageName: 'lodash',
-			variableName: '_'
-		},
-		{
-			path: '/element-ui/2.12.0/index.js',
-			packageName: 'element-ui',
-			variableName: 'ELEMENT'
-		},
-		{
-			path: '/element-ui/2.12.0/theme-chalk/index.css'
-		}
-	]
-	return externals.map(external => {
+	// 公共库的cdn引入处理（webpack externals功能启用 + index.html中cdn资源的引入）
+	return $config.externals.map(external => {
 		const obj = {}
 		obj.path = cdnBase + external.path
 		obj.attributes = { crossorigin: 'anonymous' }
