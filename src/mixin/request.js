@@ -1,5 +1,4 @@
 import axios from 'axios'
-import type from '@/util/type'
 import errorDict from '../model/errorDict'
 import $notify from '@/util/notify'
 
