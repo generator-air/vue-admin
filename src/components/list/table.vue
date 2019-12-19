@@ -62,19 +62,6 @@ export default {
 			find(fn) {
 					return $lodash.find(this.list, fn)
 			},
-			// 更新数据
-			notify(err, path, channel) {
-					let data = {}
-					data.list = []
-					data.total = 0
-					data.path = path
-					data.channel = channel
-					this.list = data.list
-					this.$emit('change', data)
-					this.$bus.emit('list-changed', data)
-					return err
-			},
-
 			// 填充数据
 			fill(rs, path, channel) {
 					if (rs) {
@@ -99,7 +86,10 @@ export default {
 					let query = this.$route.query
 					let path = this.$route.path
 					let channel = this.channel
-					await this.$get(api, query).then(rs => this.fill(rs.data, path, channel)).catch(err => this.notify(err, path, channel))
+          const rs = await this.$get(api, query)
+          if (rs && rs.data) {
+              this.fill(rs.data, path, channel)
+          }
 			}
 	},
 	mounted() {
