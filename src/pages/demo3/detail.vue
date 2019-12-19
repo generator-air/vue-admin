@@ -31,48 +31,47 @@
 import $api from '@/model/api'
 
 export default {
-		components: {},
-		computed: {},
-		data() {
-				return {
-						qid: '',
-						form: {
-								brief: '',
-								full: '',
-								mean: '',
-								tips: ''
-						}
-				}
-		},
-		methods: {
-				// 根据id查询
-				searchId(id) {
-						return this.$get($api.getDetail, { id })
-				},
-				// 数据获取
-				async getList() {
-						this.id = this.qid
-						const { data } = await this.searchId(this.id)
-						if (data) {
-								this.form = Object.assign(this.form, data)
-								this.form.brief = data.brief
-								this.form.full = data.full
-								this.form.mean = data.mean
-								this.form.tips = data.tips
-						}
-				},
-				init() {
-						// 从列表页进入已创建的数据，路由带id
-						this.qid = this.$route.query.id
-						if (this.qid) {
-								this.getList()
-						}
-				}
-		},
-		mounted() {
-				this.init()
-		}
-
+	components: {},
+	computed: {},
+	data() {
+			return {
+					qid: '',
+					form: {
+							brief: '',
+							full: '',
+							mean: '',
+							tips: ''
+					}
+			}
+	},
+	methods: {
+			// 根据id查询
+			searchId(id) {
+					return this.$get($api.getDetail, { id })
+			},
+			// 数据获取
+			async getList() {
+					this.id = this.qid
+					const { data } = await this.searchId(this.id)
+					if (data) {
+							this.form = Object.assign(this.form, data)
+							this.form.brief = data.brief
+							this.form.full = data.full
+							this.form.mean = data.mean
+							this.form.tips = data.tips
+					}
+			},
+			init() {
+					// 从列表页进入已创建的数据，路由带id
+					this.qid = this.$route.query.id
+					if (this.qid) {
+							this.getList()
+					}
+			}
+	},
+	mounted() {
+			this.init()
+	}
 }
 </script>
 
