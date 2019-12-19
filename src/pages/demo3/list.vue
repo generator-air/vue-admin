@@ -252,7 +252,7 @@ export default {
 									id_list: ids
 							}
 							if (operationName === 'submit') {
-									rs = await this.$post('/batch', para).catch(err=> { console.error(err) })
+									rs = await this.$post($api.batch, para).catch(err=> { console.error(err) })
 							}
 							if (rs) {
 									this.$message({

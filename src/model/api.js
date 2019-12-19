@@ -4,7 +4,8 @@ const API = {
 	getList: '/list',
 	getDetail: '/getId',
 	add: '/add',
-	update: '/modify'
+	update: '/modify',
+	batch: '/batch'
 }
 
 // 如果是开发模式，为接口路径手动添加./dev前缀，用于proxy代理匹配
