@@ -4,10 +4,9 @@ import $app from '@/App.vue';
 import $store from './vuex';
 import $router from './router';
 import './mixin';
-import './assets/icon';
+// 引入静态资源（svg + common less）
+import './assets';
 import 'normalize.css';
-// 引入项目通用样式
-import 'css/common.less'
 
 $vue.config.productionTip = false
 // user老老实实用就行了莫乱搞事
