@@ -1,12 +1,12 @@
 import $vue from 'vue'
 import $vueRouter from 'vue-router'
+import $Auth from 'authority-filter'
 import $request from '../mixin/request'
-import $Auth from '../util/authority'
-import $authDic from '../model/authDictionary'
+import $authDic from '../model/authDict'
 import $demo1 from './demo1'
 import $demo2 from './demo2'
 import $demo3 from './demo3'
-import $menus from '../model/menu'
+import $allMenus from '../model/menu'
 import $store from '../vuex/index'
 import $api from '../model/api'
 
@@ -49,7 +49,7 @@ $request.$get($api.getUserInfo).then(res => {
 			}
 		])
 		// 获取经过权限过滤后的菜单
-		const menuList = auth.getMenuList($menus)
+		const menuList = auth.getMenuList($allMenus)
 		// 权限过滤后的菜单保存至vuex
 		$store.commit('menu/setMenu', menuList)
 	}

@@ -19,26 +19,29 @@
 						) {{bread}}
 					h3 {{$route.name}}
 				router-view.l-route
-			//- v-copyright
 </template>
 
 <script>
 import navHead from '@/components/nav/navHead'
 import navSide from '@/components/nav/navSide'
-import copyright from '@/components/global/copyright'
 import logo from '@/components/global/logo'
 
 export default {
 	components: {
 		'v-head': navHead,
 		'v-side': navSide,
-		'v-copyright': copyright,
 		'v-logo': logo
 	},
 	data () {
 		return {}
 	},
-	methods: {}
+	methods: {},
+	mounted () {
+		this.$bus.on('notify', options => {
+			let para = Object.assign({}, options)
+			this.$notify(para)
+		})
+	}
 }
 </script>
 
