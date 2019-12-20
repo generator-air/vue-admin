@@ -37,6 +37,7 @@ export default {
 	},
 	methods: {},
 	mounted () {
+		// 全局注册 notify 响应事件
 		this.$bus.on('notify', options => {
 			let para = Object.assign({}, options)
 			this.$notify(para)
