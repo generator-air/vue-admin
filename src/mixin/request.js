@@ -1,114 +1,109 @@
 import axios from 'axios'
-import type from '@/util/type'
 import errorDict from '../model/errorDict'
-import $env from '@/model/env'
+import $notify from '@/util/notify'
 
-let raw = false
-
-const doWith = sth => {
-	const sType = type(sth)
-	if (sType === 'string') {
-		return sth
-	} else if (sType == 'function') {
-		return sth()
-	} else {
-		return false
-	}
-}
-
-const useDict = (status, code, spare) => {
+/**
+ * 我们默认处理的字段，假定服务器返回数据结构形如：
+ * {
+ * 	code: 0,
+ * 	msg: '成功',
+ * 	data: xxx
+ * }
+ * 这里，code、msg字段名称，开发者可根据实际项目的约定，自行修改。
+ * 具体需要修改的位置，见以下【自定义】标注
+ */
+function useDict(status, code) {
 	let dictMatch = errorDict[status]
-	const statusType = type(dictMatch)
+	// 判断错误字典匹配值类型
+	const statusType = dictMatch && typeof(dictMatch)
+	// 如果是object，说明存在对指定code错误码的响应行为定义。拿到这个响应，赋值给 dictMatch
 	if (statusType === 'object') {
 		dictMatch = errorDict[status][code]
 	}
-	return Promise.reject(doWith(dictMatch) || spare)
+	// 再次判断赋值后的 dictMatch 类型
+	const sType = typeof(dictMatch)
+	// string类型，直接弹窗，提示给用户
+	if (sType === 'string') {
+		return dictMatch
+	}
+	// function类型，执行 funciton
+	if (sType == 'function') {
+		dictMatch()
+	}
 }
 
-// 全局拦截器
-axios.interceptors.request.use(config => {
-	raw = !!config.source
-	if (/^https?:\/\//.test(config.url)) {
-		return config
-	}
-	config.url = $env.domain + config.url
-	return config
-})
+function getErrorMsg(httpCode, resData) {
+	// 【自定义】resData.code、resData.msg 的 code、msg 字段名称，根据项目约定，自行定义
+	const errMsg = useDict(httpCode, resData.code) || resData.msg
+	return Promise.reject(errMsg)
+}
 
 axios.interceptors.response.use(({ data, status }) => {
-	if (data.code === 0 && status === 200) {
-		if (raw) {
-			return data
-		}
-		// 没有错误的理想情况直接返回 payload
-		return data.data || data
+	// 【自定义】code字段名称，根据项目约定，自行定义
+	if (data.code === 0) {
+		// 没有错误的理想情况直接返回数据
+		return data
 	}
-	// 不是理想情况的，需要使用错误码字典
-	return useDict(status, data.code, data.msg || data)
+	return getErrorMsg(status, data)
 }, err => {
+	// httpCode非200情况
 	if (err.response) {
 		const { status, data } = err.response
-		return useDict(status, data.code, data.msg || err.message)
+		return getErrorMsg(status, data)
 	}
-	return Promise.reject(err)
+	return Promise.reject('网络错误')
 })
 
-const exportObj = {
-	$request: options => axios({
+function $request(options) {
+	return axios({
 		headers: {
 			// ajax 请求标识，部分服务器会区别对待 ajax 请求和普通请求
 			'X-Requested-With': 'XMLHttpRequest'
 		},
 		...options
-	}),
-	$get: (url, params, source) => axios({
-		url,
-		params: typeof params === 'boolean' ? {} : params,
-		source: typeof params === 'boolean' ? params : source,
-		method: 'get',
-		headers: {
-			// ajax 请求标识，部分服务器会区别对待 ajax 请求和普通请求
-			'X-Requested-With': 'XMLHttpRequest'
-		},
 		// 跨域携带cookie
 		// withCredentials: true
-	}),
-	$post: (url, data, source) => axios({
+	}).catch(
+		err => {
+			// 如果有errMsg，弹窗提示。如果没有，静默处理
+			if (err) {
+				$notify.error(err)
+			}
+			// 返回reject，防止进入页面调用处的.then
+			return Promise.reject(err)
+		}
+	)
+}
+
+const postHeaders = {
+	'X-Requested-With': 'XMLHttpRequest',
+	// 标准 HTML form 格式
+	'Content-Type': 'application/x-www-form-urlencoded'
+}
+
+const exportObj = {
+	$get: (url, params) => $request({
 		url,
-		params: typeof data === 'boolean' ? {} : data,
-		source: typeof data === 'boolean' ? data : source,
+		params,
+		method: 'get'
+	}),
+	$post: (url, data) => $request({
+		url,
+		data,
 		method: 'post',
-		headers: {
-			'X-Requested-With': 'XMLHttpRequest',
-			// 标准 HTML form 格式
-			'Content-Type': 'application/x-www-form-urlencoded'
-		},
-		// 跨域携带cookie
-		// withCredentials: true
+		headers: postHeaders
 	}),
-	$put: (url, data, source) => axios({
+	$put: (url, data) => $request({
 		url,
-		params: typeof data === 'boolean' ? {} : data,
-		source: typeof data === 'boolean' ? data : source,
+		data,
 		method: 'put',
-		headers: {
-			'X-Requested-With': 'XMLHttpRequest',
-			'Content-Type': 'application/x-www-form-urlencoded'
-		},
-		// 跨域携带cookie
-		// withCredentials: true
+		headers: postHeaders
 	}),
-	$delete: (url, data, source) => axios({
+	$delete: (url, data) => $request({
 		url,
-		params: typeof data === 'boolean' ? {} : data,
-		source: typeof data === 'boolean' ? data : source,
+		data,
 		method: 'delete',
-		headers: {
-			'X-Requested-With': 'XMLHttpRequest',
-			'Content-Type': 'application/x-www-form-urlencoded'
-		},
-		// 跨域携带cookie
-		// withCredentials: true
+		headers: postHeaders
 	})
 }
 
@@ -121,5 +116,6 @@ const install = Vue => {
 
 export default {
 	install,
+	$request,
 	...exportObj
 }

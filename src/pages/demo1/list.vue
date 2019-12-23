@@ -1,6 +1,8 @@
 <template lang="pug">
-	.p-page1 页面操作过滤demo
+	.p-page
+		.title 页面操作过滤demo
 		.buttons
+			//- 这里读取的字段，取决于 authDict.js 内的定义
 			el-button(v-if="operations.includes('create')") 创建
 			el-button(v-if="operations.includes('edit')") 编辑
 			el-button(v-if="operations.includes('delete')") 删除
@@ -12,7 +14,7 @@ import { mapState } from 'vuex'
 export default {
 	computed: {
 		...mapState('user', [
-			'userInfo', 'auth'
+			'auth'
 		])
 	},
 	data() {
@@ -30,7 +32,9 @@ export default {
 </script>
 
 <style lang="less">
-.p-page1 {
-
+.p-page {
+	.title {
+		margin-bottom: 20px;
+	}
 }
 </style>

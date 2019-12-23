@@ -1,12 +1,13 @@
+const template = `
 <template lang="pug">
 	.l-content.p-detail
 		.l-content-title
 			el-breadcrumb
-				router-link(:to="'/demo3/list'")
-					el-breadcrumb-item 组件示例
-					el-breadcrumb-item 数据管理
+				router-link(:to="'/demo3'")
+					el-breadcrumb-item 一级菜单
+					el-breadcrumb-item $pageName$
 			.display-block
-				h1.header-title 数据详情
+				h1.header-title $pageName$
 			.p-demo-info
 				mixin detailRow (title, content)
 					.detail-row
@@ -116,4 +117,6 @@ export default {
 		}
 	}
 </style>
+`
 
+module.exports = template

@@ -1,12 +1,13 @@
+const template = `
 <template lang="pug">
 	.l-content.p-edit
 		.l-content-title
 			el-breadcrumb
 				router-link(:to="'/demo3'")
-					el-breadcrumb-item 组件示例
-					el-breadcrumb-item 数据管理
+					el-breadcrumb-item 一级菜单
+					el-breadcrumb-item $pageName$
 			.display-block
-				h1.header-title {{qid ? '编辑' : '创建'}}数据
+				h1.header-title {{qid ? '编辑' : '创建'}}页
 		.display-block
 				el-form(
 					:inline="true"
@@ -213,3 +214,6 @@ export default {
 		}
 	}
 </style>
+`
+
+module.exports = template

@@ -1,11 +1,12 @@
+const template = `
 <template lang="pug">
 	.p-list
 		.l-content-title
 			el-breadcrumb
-				el-breadcrumb-item 组件示例
-				el-breadcrumb-item 数据管理
+				el-breadcrumb-item 一级菜单
+				el-breadcrumb-item $pageName$
 			.display-block
-				h1.header-title 数据列表
+				h1.header-title $pageName$
 		.display-block
 			v-search(
 				ref="search"
@@ -56,7 +57,7 @@
 					el-dropdown-item(v-for="operation in operations" :command="operation.method" :key="operation.id") {{operation.label}}
 		.u-tip
 			span.tip-item 已选择 {{this.selectCount}} 项
-			span.tip-item  总计：{{this.total}} 条
+			span.tip-item 总计：{{this.total}} 条
 		v-table(
 			:api="api"
 			ref="list"
@@ -370,3 +371,6 @@ export default {
 	}
 }
 </style>
+`
+
+module.exports = template
