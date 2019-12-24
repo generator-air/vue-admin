@@ -13,6 +13,7 @@ import $api from '../model/api'
 const $home = () => import(/* webpackChunkName: "home" */ 'pages/home')
 const $notFound = () => import(/* webpackChunkName: "notFound" */ 'pages/notFound')
 
+// vue-router v3.1.x 版本，两次点击相同路由引起的报错问题处理
 const originalPush = $vueRouter.prototype.push
 $vueRouter.prototype.push = function push(location) {
 	return originalPush.call(this, location).catch(err => err)

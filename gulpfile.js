@@ -86,7 +86,7 @@ $gulp.task('upload', () => $gulp.src([
 // common tasks
 // =================
 
-$gulp.task('config-dev', ()=>{ return switchMode($config.mock) });
+$gulp.task('config-dev', ()=>{ return switchMode($config.dev) });
 $gulp.task('config-debug', ()=>{ return switchMode($config.debug) });
 
 $gulp.task('serve', done => {

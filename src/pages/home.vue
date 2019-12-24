@@ -1,6 +1,6 @@
 <template lang="pug">
 .p-home
-	img(src="@/assets/logo.png")
+	img(src="@/assets/image/logo.png")
 	.slogan 欢迎使用
 </template>
 
