@@ -103,6 +103,9 @@ export default {
 				}
 			})
 		}
+	},
+	created() {
+		this.getFormatMenuList(this.menuList)
 	}
 }
 </script>
