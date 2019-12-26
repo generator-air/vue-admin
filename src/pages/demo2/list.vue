@@ -33,64 +33,64 @@ import $config from  '../../../config'
 
 export default {
 	computed: {
-			...mapState('user', [
-					'userInfo'
-			])
+        ...mapState('user', [
+                'userInfo'
+        ])
 	},
 	data() {
-			return {
-					time: '',
-					sec: '',
-					day: '',
-					quant: '',
-					sect: '',
-					list: {},
-					url: '',
-					isOpened: false,
-					interval: ''
-			}
+        return {
+                time: '',
+                sec: '',
+                day: '',
+                quant: '',
+                sect: '',
+                list: {},
+                url: '',
+                isOpened: false,
+                interval: ''
+        }
 	},
 	methods: {
-			...mapMutations('user', [
-					'setUserInfo'
-			]),
-			changeUser() {
-					this.setUserInfo({
-							name: 'Adam'
-					})
-			},
-			init() {
-					/* 网络请求接口示例，也可以参考table.vue中的update*/
-					this.url = $api.getList,
-					this.$get(this.url,)
-							.then((rs) => {
-									this.list = rs
-							})
-					/* 时间处理工具类示例 */
-					this.time = Date.parse(new Date()) / 1000
-					const time = this.time
-					this.sec = $date.formatSec(time)
-					this.day = $date.formatDay(time)
-					this.sect = $date.formatSecText(time)
-					this.quant = $date.formatQuantum(time)
-			},
-			/* 日志上报系统 aegis，详见 aegis.ivweb.io */
-			handleSwitch(value) {
-					if (value && $config.logReport) {
-							/* 日志监听结果在日志/项目实时日志中选择开始监听 */
-							this.interval = setInterval(() => {
-									this.$BJ_REPORT.report('badjs手动日志上报', value)
-									// 监控当前页面
-									this.$BJ_REPORT.logI('badjs普通日志上报', value)
-							}, 1000)
-					} else {
-							clearInterval(this.interval)
-					}
-			}
+        ...mapMutations('user', [
+                'setUserInfo'
+        ]),
+        changeUser() {
+            this.setUserInfo({
+                    name: 'Adam'
+            })
+        },
+        init() {
+            /* 网络请求接口示例，也可以参考table.vue中的update*/
+            this.url = $api.getList,
+            this.$get(this.url,)
+                    .then((rs) => {
+                            this.list = rs
+                    })
+            /* 时间处理工具类示例 */
+            this.time = Date.parse(new Date()) / 1000
+            const time = this.time
+            this.sec = $date.formatSec(time)
+            this.day = $date.formatDay(time)
+            this.sect = $date.formatSecText(time)
+            this.quant = $date.formatQuantum(time)
+        },
+        /* 日志上报系统 aegis，详见 aegis.ivweb.io */
+        handleSwitch(value) {
+            if (value && $config.logReport) {
+                /* 日志监听结果在日志/项目实时日志中选择开始监听 */
+                this.interval = setInterval(() => {
+                    this.$bjReport.report('badjs手动日志上报', value)
+                    // 监控当前页面
+                    this.$bjReport.logI('badjs普通日志上报', value)
+                }, 1000)
+            } else {
+                    clearInterval(this.interval)
+            }
+        }
 	},
 	created() {},
 	mounted() {
-			this.init()
+        this.init()
 	}
 }
 </script>
