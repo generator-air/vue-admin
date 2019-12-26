@@ -60,10 +60,11 @@ config.devServerPort = 8090
 
 config.debug = 'http://127.0.0.1:8000'
 
-config.mock = 'https://www.fastmock.site/mock/cfbff5d79bd9ff49a81e04dde80521e3/admin'
+config.dev = 'https://www.fastmock.site/mock/cfbff5d79bd9ff49a81e04dde80521e3'
+// config.mock = 'http://127.0.0.1:3001'
 
 
-config.logReport = false // 日志全局开关
+config.logReport = true // 日志全局开关
 
 // cdn部署路径
 config.cdnBase = '//cdn.xx.yy.com' // 使用cdn的域名，以//开头，自动匹配站点协议

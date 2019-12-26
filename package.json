@@ -13,8 +13,8 @@
     "analyz": "npm_config_report=true npm run build"
   },
   "dependencies": {
-    "aegis-web-sdk": "^0.9.13",
     "authority-filter": "^0.0.1",
+    "badjs-report": "^1.3.3",
     "core-js": "^3.5.0",
     "inquirer": "^7.0.0",
     "normalize.css": "^8.0.1",

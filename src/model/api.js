@@ -9,10 +9,9 @@ const API = {
 }
 
 // 如果是开发模式，为接口路径手动添加./dev前缀，用于proxy代理匹配
-if (document.domain.indexOf('.com') === -1) {
-	Object.keys(API).forEach(key => {
-		API[key] = '/dev' + API[key]
-	})
-}
-
+const prefix = document.domain.indexOf('.com') === -1 ? '/dev/api' : '/admin'
+Object.keys(API).forEach(key => {
+	API[key] = prefix + API[key]
+})
 export default API
+
