@@ -27,8 +27,9 @@ function useDict(status, code) {
 		return dictMatch
 	}
 	// function类型，执行 funciton
-	if (sType == 'function') {
-		dictMatch()
+	if (sType === 'function') {
+		// 方法执行可能有返回值
+		return dictMatch()
 	}
 }
 
@@ -66,7 +67,7 @@ function $request(options) {
 	}).catch(
 		err => {
 			// 如果有errMsg，弹窗提示。如果没有，静默处理
-			if (err) {
+			if (typeof err === 'string') {
 				$notify.error(err)
 			}
 			// 返回reject，防止进入页面调用处的.then
