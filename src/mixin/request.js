@@ -28,8 +28,8 @@ function useDict(status, code) {
 	}
 	// function类型，执行 funciton
 	if (sType === 'function') {
-		// 方法执行可能有返回值
-		return dictMatch()
+		// 方法执行可能有返回值。无返回值时，直接执行处理函数。如需弹窗提示，在处理函数中添加
+		return dictMatch() || true
 	}
 }
 

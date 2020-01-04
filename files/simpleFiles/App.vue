@@ -1,27 +1,33 @@
 <template lang="pug">
 #app
-	.l-left
-		v-logo(title="平台logo")
-		v-side
-	.l-right
-		v-head.l-header(title="后台管理系统")
-		.l-body
-			.body-content
-				.l-bread
-					el-breadcrumb(
-						separator="/"
-						v-if="$route.meta.breadcrumb"
-					)
-						el-breadcrumb-item(
-							v-for="bread in $route.meta.breadcrumb"
-							:key="bread"
-							:to="{ name: bread }"
-						) {{bread}}
-					h3 {{$route.name}}
-				router-view.l-route
+	//- 已登录、有权限用户
+	.login(v-if="user && !user.unAuth")
+		.l-left
+			v-logo(title="平台logo")
+			v-side
+		.l-right
+			v-head.l-header(title="后台管理系统")
+			.l-body
+				.body-content
+					.l-bread
+						el-breadcrumb(
+							separator="/"
+							v-if="$route.meta.breadcrumb"
+						)
+							el-breadcrumb-item(
+								v-for="bread in $route.meta.breadcrumb"
+								:key="bread"
+								:to="{ name: bread }"
+							) {{bread}}
+						h3 {{$route.name}}
+					router-view.l-route
+	//- 已登录、无权限用户
+	.un-auth(v-else-if="user")
+		router-view
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import navHead from '@/components/nav/navHead'
 import navSide from '@/components/nav/navSide'
 import logo from '@/components/global/logo'
@@ -32,8 +38,20 @@ export default {
 		'v-side': navSide,
 		'v-logo': logo
 	},
+	computed: {
+		...mapState('user', [
+			'userInfo'
+		])
+	},
+	watch: {
+		userInfo(val) {
+			this.user = val
+		}
+	},
 	data () {
-		return {}
+		return {
+			user: false
+		}
 	},
 	methods: {},
 	mounted () {
