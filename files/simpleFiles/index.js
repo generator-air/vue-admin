@@ -3,15 +3,27 @@ import $vueRouter from 'vue-router'
 import $Auth from 'authority-filter'
 import $request from '../mixin/request'
 import $authDic from '../model/authDict'
-import $demo1 from './demo1'
-import $demo2 from './demo2'
-import $demo3 from './demo3'
 import $allMenus from '../model/menu'
 import $store from '../vuex/index'
 import $api from '../model/api'
 
 const $home = () => import(/* webpackChunkName: "home" */ 'pages/home')
 const $notFound = () => import(/* webpackChunkName: "notFound" */ 'pages/notFound')
+
+// 批量引入 @/router 下的所有文件
+const routerContext = require.context('@/router', false, /\.js$/i)
+// 存放所有路由
+let routers = []
+const importAllRouters = requireContext => requireContext.keys().forEach(
+	item => {
+		if (item.indexOf('index.js') > -1) {
+			return
+		}
+		// 收集所有路由
+		routers = routers.concat(requireContext(item).default)
+	}
+)
+importAllRouters(routerContext)
 
 // vue-router v3.1.x 版本，两次点击相同路由引起的报错问题处理
 const originalPush = $vueRouter.prototype.push
@@ -33,7 +45,7 @@ $request.$get($api.getUserInfo).then(res => {
 		// 全局存储 auth 对象
 		$store.commit('user/setAuth', auth)
 		// 获取经过权限过滤后的路由
-		const routerList = auth.getRouterList([...$demo1, ...$demo2, ...$demo3])
+		const routerList = auth.getRouterList(routers)
 		router.addRoutes([
 			...routerList,
 			{
