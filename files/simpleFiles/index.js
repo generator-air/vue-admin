@@ -8,6 +8,7 @@ import $store from '../vuex/index'
 import $api from '../model/api'
 
 const $home = () => import(/* webpackChunkName: "home" */ 'pages/home')
+const $unAuth = () => import(/* webpackChunkName: "unAuth" */ 'pages/unAuth')
 const $notFound = () => import(/* webpackChunkName: "notFound" */ 'pages/notFound')
 
 // 批量引入 @/router 下的所有文件
@@ -65,6 +66,21 @@ $request.$get($api.getUserInfo).then(res => {
 		const menuList = auth.getMenuList($allMenus)
 		// 权限过滤后的菜单保存至vuex
 		$store.commit('menu/setMenu', menuList)
+	}
+}).catch(err => {
+	if (err.unAuth) {
+		// 全局存储 errorDict 构造的用户信息
+		$store.commit('user/setUserInfo', err)
+		router.addRoutes([
+			{
+				path: '*',
+				redirect: '/unAuth'
+			},
+			{
+				path: '/unAuth',
+				component: $unAuth
+			}
+		])
 	}
 })
 

@@ -40,12 +40,6 @@ export default {
 		'v-side': navSide,
 		'v-logo': logo
 	},
-	data () {
-		return {
-			user: false,
-			leftStatus: false
-		}
-	},
 	computed: {
 		...mapState('user', [
 			'userInfo'
@@ -56,7 +50,20 @@ export default {
 			this.user = val
 		}
 	},
-	methods: {}
+	data () {
+		return {
+			user: false,
+			leftStatus: false
+		}
+	},
+	methods: {},
+	mounted () {
+		// 全局注册 notify 响应事件
+		this.$bus.on('notify', options => {
+			let para = Object.assign({}, options)
+			this.$notify(para)
+		})
+	}
 }
 </script>
 
