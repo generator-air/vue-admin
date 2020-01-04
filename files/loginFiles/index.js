@@ -16,7 +16,7 @@ const $notFound = () => import(/* webpackChunkName: "notFound" */ 'pages/notFoun
 const routerContext = require.context('@/router', false, /\.js$/i)
 // 存放所有路由
 let routers = []
-const importAllRouters = requireContext => requireContext.keys().forEach(
+const importAll = requireContext => requireContext.keys().forEach(
 	item => {
 		if (item.indexOf('index.js') > -1) {
 			return
@@ -25,7 +25,7 @@ const importAllRouters = requireContext => requireContext.keys().forEach(
 		routers = routers.concat(requireContext(item).default)
 	}
 )
-importAllRouters(routerContext)
+importAll(routerContext)
 
 // vue-router v3.1.x 版本，两次点击相同路由引起的报错问题处理
 const originalPush = $vueRouter.prototype.push
@@ -49,7 +49,10 @@ const router = new $vueRouter({
 })
 
 function getUserInfo() {
-	// 拉取用户信息（【Replace】需替换为实际的接口地址）
+	if ($store.state.user.userInfo) {
+		return Promise.resolve($store.state.user.userInfo)
+	}
+	// 拉取用户信息
 	return $request.$get($api.getUserInfo).then(res => {
 		if (res && res.data) {
 			const userInfo = Object.assign({}, res.data)
@@ -92,7 +95,6 @@ function getUserInfo() {
 	})
 }
 
-// 使用导航守卫，控制各种用户行为下的重定向
 router.beforeEach((to, from, next) => {
 	getUserInfo().then(userInfo => {
 		if (userInfo && userInfo.unLogin) { // 当前未登录
@@ -116,9 +118,10 @@ router.beforeEach((to, from, next) => {
 			} else {
 				next()
 			}
+		} else {
+			next()
 		}
 	})
-	next()
 })
 
 export default router
