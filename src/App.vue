@@ -1,7 +1,7 @@
 <template lang="pug">
 #app
-	//- 已登录、有权限用户
-	.login(v-if="user && !user.unAuth")
+	//- 已登录、有权限用户（如使用第三方登录，可删除 && !user.unLogin 判断）
+	.login(v-if="user && !user.unAuth && !user.unLogin")
 		.l-left
 			v-logo(title="平台logo")
 			v-side
