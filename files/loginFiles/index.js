@@ -38,12 +38,24 @@ $vue.use($vueRouter)
 const router = new $vueRouter({
 	routes: [
 		{
+			path: '/',
+			redirect: '/home'
+		},
+		{
+			path: '/home',
+			component: $home
+		},
+		{
 			path: '/login',
 			component: $login
 		},
 		{
 			path: '/unAuth',
 			component: $unAuth
+		},
+		{
+			path: '*',
+			component: $notFound
 		}
 	]
 })
@@ -64,21 +76,8 @@ function getUserInfo() {
 			$store.commit('user/setAuth', auth)
 			// 获取经过权限过滤后的路由
 			const routerList = auth.getRouterList(routers)
-			router.addRoutes([
-				...routerList,
-				{
-					path: '/',
-					redirect: '/home'
-				},
-				{
-					path: '/home',
-					component: $home
-				},
-				{
-					path: '*',
-					component: $notFound
-				}
-			])
+			// 添加过滤后的路由
+			router.addRoutes([...routerList])
 			// 获取经过权限过滤后的菜单
 			const menuList = auth.getMenuList($menus)
 			// 权限过滤后的菜单保存至vuex
