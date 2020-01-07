@@ -66,7 +66,7 @@ $inquirer.prompt(questions).then(answers => {
 		}
 	]).then(answer => {
 		if (answer.confirm) {
-			$fse.readFile(`${url}.vue`, 'binary', function(err, data) {
+			$fse.readFile(url, 'binary', function(err, data) {
 				if (data) {
 					return
 				}
@@ -75,7 +75,7 @@ $inquirer.prompt(questions).then(answers => {
 				const end = index > -1 && index || answers.path.length
 				const pageName = answers.path.substring(start + 1, end)
 				const template = getTemplate(answers.type).replace(/\$pageName\$/g, pageName)
-				$fse.outputFile(`${url}.vue`, template, function(err) {
+				$fse.outputFile(url, template, function(err) {
 					if (err) {
 						return
 					}

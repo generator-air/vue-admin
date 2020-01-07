@@ -30,4 +30,3 @@ Object.keys(errDict).forEach(arrString => {
 })
 
 export default dictionary
-
