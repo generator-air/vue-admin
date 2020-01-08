@@ -35,6 +35,7 @@ $vueRouter.prototype.push = function push(location) {
 
 $vue.use($vueRouter)
 
+// 定义初始路由
 const router = new $vueRouter({
 	routes: [
 		{
@@ -52,36 +53,40 @@ const router = new $vueRouter({
 		{
 			path: '/unAuth',
 			component: $unAuth
-		},
-		{
-			path: '*',
-			component: $notFound
 		}
 	]
 })
 
+// 进行权限过滤
+function authFilter(userInfo) {
+		// 将权限字典 + roleId传入权限组件
+		const auth = new $Auth($authDic, userInfo.roleId)
+		// 全局存储 auth 对象
+		$store.commit('user/setAuth', auth)
+		// 获取经过权限过滤后的路由
+		const routerList = auth.getRouterList(routers)
+		// 添加过滤后的路由
+		router.addRoutes([
+			...routerList,
+			{
+				path: '*',
+				component: $notFound
+			}
+		])
+		// 获取经过权限过滤后的菜单
+		const menuList = auth.getMenuList($menus)
+		// 权限过滤后的菜单保存至vuex
+		$store.commit('menu/setMenu', menuList)
+}
+
+// 拉取用户信息
 function getUserInfo() {
-	if ($store.state.user.userInfo) {
-		return Promise.resolve($store.state.user.userInfo)
-	}
 	// 拉取用户信息
 	return $request.$get($api.getUserInfo).then(res => {
 		if (res && res.data) {
 			const userInfo = Object.assign({}, res.data)
 			// 全局存储用户信息
 			$store.commit('user/setUserInfo', userInfo)
-			// 将权限字典 + roleId传入权限组件
-			const auth = new $Auth($authDic, userInfo.roleId)
-			// 全局存储 auth 对象
-			$store.commit('user/setAuth', auth)
-			// 获取经过权限过滤后的路由
-			const routerList = auth.getRouterList(routers)
-			// 添加过滤后的路由
-			router.addRoutes([...routerList])
-			// 获取经过权限过滤后的菜单
-			const menuList = auth.getMenuList($menus)
-			// 权限过滤后的菜单保存至vuex
-			$store.commit('menu/setMenu', menuList)
 			return userInfo
 		}
 	}).catch(err => {
@@ -94,33 +99,47 @@ function getUserInfo() {
 	})
 }
 
-router.beforeEach((to, from, next) => {
-	getUserInfo().then(userInfo => {
-		if (userInfo && userInfo.unLogin) { // 当前未登录
-			// 正常进入登录页
-			if (to.path === '/login') {
-				next()
-			} else {
-				next('/login')
-			}
-		} else if (userInfo && userInfo.unAuth) { // 已登录，无权访问系统
-			// 正常进入无权访问页
-			if (to.path === '/unAuth' || to.path === '/login') {
-				next()
-			} else {
-				next('/unAuth')
-			}
-		} else if (userInfo) { // 已登录，有权访问系统
-			// 用户手动访问登录页 / 无权访问页，重定向到首页
-			if (to.path === '/login' || to.path === '/unAuth') {
-				next('/')
-			} else {
-				next()
-			}
+// 导航守卫重定向逻辑
+function redirect(userInfo, to, next, filter) {
+	if (userInfo && userInfo.unLogin) { // 当前未登录
+		// 正常进入登录页
+		if (to.path === '/login') {
+			next()
+		} else {
+			next('/login')
+		}
+	} else if (userInfo && userInfo.unAuth) { // 已登录，无权访问系统
+		// 正常进入无权访问页
+		if (to.path === '/unAuth' || to.path === '/login') {
+			next()
+		} else {
+			next('/unAuth')
+		}
+	} else if (userInfo) { // 已登录，有权访问系统
+		// 用户手动访问登录页 / 无权访问页，重定向到首页
+		if (to.path === '/login' || to.path === '/unAuth') {
+			next('/')
 		} else {
 			next()
 		}
-	})
+		// 【注意顺序】要在导航守卫逻辑后，添加 addRoutes 逻辑。否则 addRoutes 的路由，无法正常加载
+		filter && filter(userInfo)
+	} else {
+		next()
+	}
+}
+
+// 导航守卫入口
+router.beforeEach((to, from, next) => {
+	const userInfo = $store.state.user.userInfo
+	// 如果已存在全局的用户信息
+	if (userInfo) {
+		redirect(userInfo, to, next)
+	} else {
+		getUserInfo().then(res => {
+			redirect(res, to, next, authFilter)
+		})
+	}
 })
 
 export default router
