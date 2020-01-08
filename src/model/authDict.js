@@ -1,3 +1,15 @@
+// 当多个角色具有部分完全相同的权限，统一定义
+const commonAuth = [
+	{
+		path: '/demo1',
+		operations: ['create', 'edit', 'delete']
+	},
+	{
+		path: '/demo2',
+		operations: ['create', 'edit']
+	}
+]
+
 const dictionary = {
 	/**
 	 * roleId : [{
@@ -6,14 +18,7 @@ const dictionary = {
 	 * }]
 	 */
 	101: [
-		{
-			path: '/demo1',
-			operations: ['create', 'edit', 'delete']
-		},
-		{
-			path: '/demo2',
-			operations: ['create', 'edit']
-		},
+		...commonAuth,
 		{
 			path: '/demo3',
 			operations: ['create', 'edit', 'delete']
@@ -27,13 +32,12 @@ const dictionary = {
 			operations: ['delete']
 		}
 	],
-	102: [
+	102: commonAuth,
+	103: [
+		...commonAuth,
 		{
-			path: '/demo1/edit',
-			operations: ['edit', 'delete']
-		},
-		{
-			path: '/demo2'
+			path: '/demo3',
+			operations: ['edit']
 		}
 	]
 }
