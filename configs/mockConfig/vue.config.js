@@ -1,11 +1,10 @@
 const path = require('path')
 const $config = require('./config')
-const $env = require('./src/model/env')
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
-// 解决内网代理问题。（如不需要代理，请删除以下两行代码）
-const HttpsProxyAgent = require('https-proxy-agent')
-// 由开发者指定本地环境变量的代理配置字段名。这里以读取 HTTP_PROXY 字段为例
-const proxyServer = process.env.HTTP_PROXY;
+// 解决内网代理问题。（如不需要代理，请删除以下一行代码）
+// const HttpsProxyAgent = require('https-proxy-agent')
+// 由开发者指定本地环境变量的代理配置字段名。这里以读取 HTTP_PROXY 字段为例（如不需要代理，请删除以下一行代码）
+// const proxyServer = process.env.HTTP_PROXY;
 // 使用cos存储的静态资源引用路径
 const publicPath = process.env.NODE_ENV === 'production' ? $config.cdnRoot : '';
 
@@ -63,9 +62,9 @@ module.exports = {
 			port: $config.devServerPort,
 			proxy: {
 				'/dev': {
-					target: $env.domain,
+					target: $config.debug,
 					// 解决内网代理问题。（如不需要代理，请删除以下agent代码）
-					agent: new HttpsProxyAgent(proxyServer),
+					// agent: new HttpsProxyAgent(proxyServer),
 					changeOrigin: true,
 					pathRewrite: {
 						'^/dev': ''
