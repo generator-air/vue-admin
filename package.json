@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "gulp dev",
-    "debug": "gulp debug",
+    "dev": "cross-env APIMODE=mock gulp dev",
+    "debug": "cross-env APIMODE=debug gulp debug",
     "build": "gulp build",
     "upload": "gulp upload",
     "lint": "vue-cli-service lint",
@@ -19,8 +19,7 @@
     "inquirer": "^7.0.0",
     "normalize.css": "^8.0.1",
     "rxjs": "^6.5.3",
-    "spore-kit-cookie": "^0.2.4",
-    "spore-kit-date": "^0.2.3"
+    "spore-kit-cookie": "^0.2.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
@@ -31,6 +30,7 @@
     "babel-eslint": "^10.0.3",
     "babel-plugin-component": "^1.1.1",
     "chalk": "^3.0.0",
+    "cross-env": "^6.0.3",
     "element-ui": "^2.7.2",
     "eslint": "^5.16.0",
     "eslint-loader": "^3.0.2",

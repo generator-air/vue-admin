@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const path = require('path')
 const $config = require('./config')
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
@@ -55,6 +56,9 @@ module.exports = {
 			new HtmlWebpackTagsPlugin({
 				usePublicPath: false,
 				tags: createExternals()
+			}),
+			new webpack.DefinePlugin({
+				'process.env.APIMODE': JSON.stringify(process.env.APIMODE)
 			})
 		]
 	},
@@ -62,7 +66,7 @@ module.exports = {
 			port: $config.devServerPort,
 			proxy: {
 				'/dev': {
-					target: $config.debug,
+					target: process.env.APIMODE === 'mock' ? $config.mock : $config.debug,
 					// 解决内网代理问题。（如不需要代理，请删除以下agent代码）
 					// agent: new HttpsProxyAgent(proxyServer),
 					changeOrigin: true,
