@@ -66,7 +66,7 @@ module.exports = {
 			port: $config.devServerPort,
 			proxy: {
 				'/dev': {
-					target: process.env.APIMODE === 'mock' ? $config.mock : $config.debug,
+					target: $config.debug,
 					// 解决内网代理问题。（如不需要代理，请删除以下agent代码）
 					// agent: new HttpsProxyAgent(proxyServer),
 					changeOrigin: true,

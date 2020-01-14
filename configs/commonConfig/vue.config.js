@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const path = require('path')
 const $config = require('./config')
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
@@ -55,6 +56,9 @@ module.exports = {
 			new HtmlWebpackTagsPlugin({
 				usePublicPath: false,
 				tags: createExternals()
+			}),
+			new webpack.DefinePlugin({
+				'process.env.APIMODE': JSON.stringify(process.env.APIMODE)
 			})
 		]
 	},
