@@ -2,10 +2,11 @@ import $vue from 'vue'
 import $vueRouter from 'vue-router'
 import $Auth from 'authority-filter'
 import $authDic from '../model/authDict'
-import $request from '../mixin/request'
-import $menus from '../model/menu'
-import $store from '../vuex/index'
+import $allMenus from '../model/menu'
 import $api from '../model/api'
+import $request from '../mixin/request'
+import $store from '../vuex/index'
+
 
 const $home = () => import(/* webpackChunkName: "home" */ 'pages/home')
 const $login = () => import(/* webpackChunkName: "login" */ 'pages/login.vue')
@@ -74,7 +75,7 @@ function authFilter(userInfo) {
 			}
 		])
 		// 获取经过权限过滤后的菜单
-		const menuList = auth.getMenuList($menus)
+		const menuList = auth.getMenuList($allMenus)
 		// 权限过滤后的菜单保存至vuex
 		$store.commit('menu/setMenu', menuList)
 }
