@@ -1,4 +1,6 @@
 // 统一的接口管理
+import config from '../../config'
+
 const API = {
 	getUserInfo: '/getUserInfo',
 	getList: '/list',
@@ -7,11 +9,11 @@ const API = {
 	update: '/modify',
 	batch: '/batch'
 }
-
-// 如果是开发模式，为接口路径手动添加./dev前缀，用于proxy代理匹配
-if (process.env.NODE_ENV === 'development') {
+// 只有开发模式才会有APIMODE变量
+if (process.env.APIMODE) {
+	const prefix = process.env.APIMODE === 'mock' ? config.mock : '/dev'
 	Object.keys(API).forEach(key => {
-		API[key] = '/dev' + API[key]
+		API[key] = prefix + API[key]
 	})
 }
 
