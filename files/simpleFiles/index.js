@@ -1,11 +1,12 @@
 import $vue from 'vue'
 import $vueRouter from 'vue-router'
 import $Auth from 'authority-filter'
-import $request from '../mixin/request'
 import $authDic from '../model/authDict'
 import $allMenus from '../model/menu'
-import $store from '../vuex/index'
 import $api from '../model/api'
+import $request from '../mixin/request'
+import $store from '../vuex/index'
+
 
 const $home = () => import(/* webpackChunkName: "home" */ 'pages/home')
 const $unAuth = () => import(/* webpackChunkName: "unAuth" */ 'pages/unAuth')
