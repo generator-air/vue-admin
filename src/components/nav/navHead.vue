@@ -9,11 +9,12 @@ nav.p-navHead
 				i.el-icon-arrow-down.el-icon--right
 			el-dropdown-menu(slot="dropdown")
 				el-dropdown-item
-					span.logout(@click="signout") 退出
+					span.logout(@click="logout") 退出
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import $api from '@/model/api'
 
 export default {
 	props: ['title'],
@@ -26,7 +27,9 @@ export default {
 		])
 	},
 	methods: {
-		signout () {}
+		logout () {
+			this.$post($api.logout)
+		}
 	}
 }
 

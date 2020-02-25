@@ -1,6 +1,5 @@
 {
-	"code": 3000,
-	"msg": "未登录",
-	"data": null
-  }
-  
+  "code": 3000,
+  "msg": "未登录",
+  "data": null
+}

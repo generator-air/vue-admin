@@ -28,8 +28,8 @@ function useDict(status, code) {
 	}
 	// function类型，执行 funciton
 	if (sType === 'function') {
-		// 方法执行可能有返回值。无返回值时，直接执行处理函数。如需弹窗提示，在处理函数中添加
-		return dictMatch() || true
+		// 方法执行可能有返回值
+		return dictMatch()
 	}
 }
 
@@ -57,11 +57,12 @@ axios.interceptors.response.use(({ data, status }) => {
 
 function $request(options) {
 	return axios({
+		...options,
 		headers: {
 			// ajax 请求标识，部分服务器会区别对待 ajax 请求和普通请求
-			'X-Requested-With': 'XMLHttpRequest'
+			'X-Requested-With': 'XMLHttpRequest',
+			...options.headers
 		},
-		...options
 		// 跨域携带cookie
 		// withCredentials: true
 	}).catch(
@@ -76,12 +77,6 @@ function $request(options) {
 	)
 }
 
-const postHeaders = {
-	'X-Requested-With': 'XMLHttpRequest',
-	// 标准 HTML form 格式
-	'Content-Type': 'application/x-www-form-urlencoded'
-}
-
 const exportObj = {
 	$get: (url, params) => $request({
 		url,
@@ -91,20 +86,17 @@ const exportObj = {
 	$post: (url, data) => $request({
 		url,
 		data,
-		method: 'post',
-		headers: postHeaders
+		method: 'post'
 	}),
 	$put: (url, data) => $request({
 		url,
 		data,
-		method: 'put',
-		headers: postHeaders
+		method: 'put'
 	}),
 	$delete: (url, data) => $request({
 		url,
 		data,
-		method: 'delete',
-		headers: postHeaders
+		method: 'delete'
 	})
 }
 
