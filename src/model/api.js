@@ -1,7 +1,10 @@
-// 统一的接口管理
 import config from '../../config'
 
+// 统一的接口管理
 const API = {
+	login: '/login',
+	logout: '/logout',
+	getCaptcha: '/getCaptcha',
 	getUserInfo: '/getUserInfo',
 	getList: '/list',
 	getDetail: '/getId',

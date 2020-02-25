@@ -1,4 +1,5 @@
 const jsonServer = require('json-server');
+const $fs = require('fs');
 
 const $db = require('./db');
 
@@ -20,9 +21,17 @@ server.use((req, res, next) => {
 	if (req.url.indexOf('fail') === -1) {
 		req.url = `/success${req.url}`;
 	}
-	// 手动映射，更改请求url（/demo1/list => /demo1_list）
-	req.url = req.url.replace(/\//g, '_').replace('_', '/');
-	next();
+	// 手动处理非 get 请求，读取 mock/data 中定义的 json 数据。确保返回自定义的 mock data
+	if (req.method !== 'GET') {
+		const filePath = `mock/data${req.url}.json`
+		const contentText = $fs.readFileSync(filePath, 'utf-8');
+		res.set('Content-Type', 'application/json')
+		res.send(contentText);
+	} else {
+		// 手动映射，更改请求url（/demo1/list => /demo1_list）
+		req.url = req.url.replace(/\//g, '_').replace('_', '/');
+		next();
+	}
 });
 
 server.use(router);

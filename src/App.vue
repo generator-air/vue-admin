@@ -33,6 +33,11 @@ import navSide from '@/components/nav/navSide'
 import logo from '@/components/global/logo'
 
 export default {
+	provide () {
+		return {
+			reload: this.reload
+		}
+	},
 	components: {
 		'v-head': navHead,
 		'v-side': navSide,
@@ -53,7 +58,14 @@ export default {
 			user: false
 		}
 	},
-	methods: {},
+	methods: {
+		reload () {
+			this.isRouterAlive = false
+			this.$nextTick(function () {
+				this.isRouterAlive = true
+			})
+		}
+	},
 	mounted () {
 		// 全局注册 notify 响应事件
 		this.$bus.on('notify', options => {

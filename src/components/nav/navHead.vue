@@ -9,11 +9,13 @@ nav.p-navHead
 				i.el-icon-arrow-down.el-icon--right
 			el-dropdown-menu(slot="dropdown")
 				el-dropdown-item
-					span.logout(@click="signout") 退出
+					span.logout(@click="logout") 退出
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import $api from '@/model/api'
+import $store from '../../vuex/index'
 
 export default {
 	props: ['title'],
@@ -26,7 +28,15 @@ export default {
 		])
 	},
 	methods: {
-		signout () {}
+		async logout () {
+			const rs = await this.$post($api.logout)
+			if (rs) {
+				// 删除全局的用户信息
+				$store.commit('user/setUserInfo', null)
+				// 跳转去登录页
+				this.$router.push('/login')
+			}
+		}
 	}
 }
 

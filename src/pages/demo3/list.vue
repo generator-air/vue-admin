@@ -122,6 +122,8 @@ import $table from '@/components/list/table'
 import $api from '@/model/api'
 
 export default {
+	// 注入页面刷新功能（定义见layout）
+	inject: ['reload'],
 	components: {
 			'v-search': $search,
 			'v-filter': $filter,
@@ -192,6 +194,8 @@ export default {
 			// 提交
 			async submit(row) {
 					this.operationHandler(row, 'submit')
+					// 页面刷新 demo
+					this.reload()
 			},
 			// 提交时触发
 			operationHandler(row, operation) {
