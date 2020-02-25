@@ -58,7 +58,6 @@ export default {
 		},
 		async login() {
 			const rs = await this.$post($api.login, this.form);
-			console.log('rs:', rs)
 			if (rs) {
 				// 重新加载
 				location.reload()

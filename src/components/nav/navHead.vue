@@ -15,6 +15,7 @@ nav.p-navHead
 <script>
 import { mapState } from 'vuex'
 import $api from '@/model/api'
+import $store from '../../vuex/index'
 
 export default {
 	props: ['title'],
@@ -27,8 +28,14 @@ export default {
 		])
 	},
 	methods: {
-		logout () {
-			this.$post($api.logout)
+		async logout () {
+			const rs = await this.$post($api.logout)
+			if (rs) {
+				// 删除全局的用户信息
+				$store.commit('user/setUserInfo', null)
+				// 跳转去登录页
+				this.$router.push('/login')
+			}
 		}
 	}
 }
