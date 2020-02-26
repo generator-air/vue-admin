@@ -9,7 +9,7 @@ function isFolder(path) {
 }
 
 // 生成指定路由文件（${folderName}.js）的内容 => pages下的 folderName 对应 router 下生成的 fileName
-function createFile(rootPath, folderName, overwrite) {
+function createFile(rootPath, folderName, overwrite, indexName) {
 	const arr = []
 	let routerList = ''
 	let imports = ''
@@ -18,7 +18,7 @@ function createFile(rootPath, folderName, overwrite) {
 	if (!overwrite) {
 		fileStr = $fse.readFileSync(`src/router/${folderName}.js`).toString()
 	}
-	// 拿到当前文件夹下，所有文件的路径
+	// 拿到当前文件夹下，所有文件的路径（存于arr）
 	getPagePaths(rootPath, folderName, arr)
 	arr.forEach(path => {
 		// 将路由的 / 替换成 _ ，作为页面组件变量名（页面路径不会重复，因此，这样的设计，可以防止变量重名）
@@ -30,13 +30,13 @@ function createFile(rootPath, folderName, overwrite) {
 		// 获取.vue页面名称
 		const fileName = name.substring(name.lastIndexOf('_') + 1)
 		let routerPath = ''
-		// list/index 页，路由设计：直接对应文件夹名称
-		if (fileName !== 'list' && fileName !== 'index') {
-			// 路由默认使用 pages 下的文件夹目录结构（将 path pages/ 及之前的路径截掉。将.vue字符截掉）
-			routerPath = path.substring(9, path.lastIndexOf('.'))
+		// 对一级页面组件的处理：使用组件所在文件夹的路径，作为当前页面、及其子页面的路由命名空间（例如：/content/article、/content/article/edit、/content/notice、/content/notice/detail）
+		if (fileName === indexName) {
+			const index = path.indexOf(indexName) - 1
+			routerPath = path.substring(9, index)
 		} else {
-			// 默认 list/index 页为菜单对应的一级页面。路由直接对应所在文件夹名，以其作为一个命名空间。其下的编辑、详情等二级页面，均在这个命名空间下（设计规则如：/menu1，/menu1/edit）
-			routerPath = `/${folderName}`
+			// 非一级页面，路由默认使用 pages 下的文件夹目录结构（将 path pages/ 及之前的路径截掉。将.vue字符截掉）
+			routerPath = path.substring(9, path.lastIndexOf('.'))
 		}
 		// 构造路由描述字符串
 		const routerStr = `\t{\n\t\tpath: '${routerPath}',\n\t\tcomponent: ${name}\n\t},\n`
@@ -100,6 +100,12 @@ $inquirer.prompt([
 		default: true
 	},
 	{
+		type: 'input',
+		name: 'indexName',
+		message: '请输入一级页面组件名（即菜单栏对应的页面组件名称。请确保统一命名）',
+		default: 'index'
+	},
+	{
 		type: 'confirm',
 		name: 'confirm',
 		message: '即将执行路由生成，请确认',
@@ -115,10 +121,10 @@ $inquirer.prompt([
 					$fse.pathExists(`src/router/${pageItem}.js`, (err, exists) => {
 						// 如果路由文件已存在
 						if (exists) {
-								createFile('src/pages', pageItem, answer.rewrite)
+								createFile('src/pages', pageItem, answer.rewrite, answer.indexName)
 						} else {
 							// 不存在，直接创建新的路由文件
-							createFile('src/pages', pageItem, true)
+							createFile('src/pages', pageItem, true, answer.indexName)
 						}
 					})
 				}
@@ -128,4 +134,3 @@ $inquirer.prompt([
 		console.log($chalk.yellow('\n结束路由创建\n'))
 	}
 })
-

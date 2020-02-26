@@ -42,8 +42,8 @@ $request.$get($api.getUserInfo).then(res => {
 	if (res && res.data) {
 		// 全局存储用户信息
 		$store.commit('user/setUserInfo', res.data)
-		// 将权限字典 + roleId传入权限组件
-		const auth = new $Auth($authDic, res.data.roleId)
+		// 将权限字典 + roleId传入权限组件（{ dev: true }开发使用。跳过权限过滤，开启所有权限。正式环境删除即可）
+		const auth = new $Auth($authDic, res.data.roleId, { dev: true })
 		// 全局存储 auth 对象
 		$store.commit('user/setAuth', auth)
 		// 获取经过权限过滤后的路由

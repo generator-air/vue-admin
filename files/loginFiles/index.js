@@ -60,8 +60,8 @@ const router = new $vueRouter({
 
 // 进行权限过滤
 function authFilter(userInfo) {
-		// 将权限字典 + roleId传入权限组件
-		const auth = new $Auth($authDic, userInfo.roleId)
+		// 将权限字典 + roleId传入权限组件（{ dev: true }开发使用。跳过权限过滤，开启所有权限。正式环境删除即可）
+		const auth = new $Auth($authDic, userInfo.roleId, { dev: true })
 		// 全局存储 auth 对象
 		$store.commit('user/setAuth', auth)
 		// 获取经过权限过滤后的路由
