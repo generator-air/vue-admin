@@ -5,17 +5,7 @@ const $gulpConfirm = require('gulp-confirm');
 const $qcloudUpload = require('gulp-qcloud-cos-upload');
 const $config = require('./config');
 const $colors = $gulpUtil.colors;
-// 生成filename文件，存入string内容
-string_src = (filename, string) => {
-	// eslint-disable-next-line new-cap
-	let src = require('stream').Readable({ objectMode: true })
-	src._read = function ()
-	{
-		this.push(new $gulpUtil.File({ cwd: "", base: "", path: filename, contents: new Buffer(string) }))
-		this.push(null);
-	}
-	return src
-}
+
 // 杀掉正在执行的 server 进程，确保同一时间只有一个开发服务存在
 $gulp.task('tool-kill-running', done => {
 	let getPids = (rs, keyword) => rs.stdout.split(/\n/).filter(
