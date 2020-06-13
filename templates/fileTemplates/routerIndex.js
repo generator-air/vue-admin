@@ -1,19 +1,23 @@
-module.exports = ({ notifyImport, loginPageImport, loginPageRoute, redirectHandler }) => `import $vue from 'vue';
-import $vueRouter from 'vue-router';
-import $Auth from 'authority-filter';
-import $authDic from '../model/authDict';
-import $allMenus from '../model/menu';
+module.exports = ({
+  authImport,
+  notifyImport,
+  loginPageImport,
+  loginPageRoute,
+  redirectHandler,
+  routeHandler,
+  menuHandler
+}) => `import $vue from 'vue';
+import $vueRouter from 'vue-router';${authImport}
 import $api from '../model/api';
 import $request from '../mixin/request';
 import $store from '../vuex/index';
+import $menus from '../model/menu';
 ${notifyImport}
 
 ${loginPageImport}
 const $home = () => import(/* webpackChunkName: "home" */ 'pages/home');
 const $unAuth = () => import(/* webpackChunkName: "unAuth" */ 'pages/unAuth');
 const $notFound = () => import(/* webpackChunkName: "notFound" */ 'pages/notFound');
-
-const isDev = process.env.NODE_ENV === 'development'
 
 // 批量引入 @/router 下的所有文件
 const routerContext = require.context('@/router', false, /\.js$/i);
@@ -73,25 +77,15 @@ function getUserInfo() {
   });
 }
 
-function getRouteAndMenu(user) {
-  // 将权限字典 + roleId传入权限组件（{ dev: true }开发使用。跳过权限过滤，开启所有权限。正式环境删除即可）
-  const auth = new $Auth($authDic, user.roleId, { dev: isDev });
-  // 全局存储 auth 对象
-  $store.commit('user/setAuth', auth);
-  // 获取经过权限过滤后的路由
-  const routerList = auth.getRouterList(routers);
-  // 添加过滤后的路由
+function setRouteAndMenu(user) {${routeHandler}
   router.addRoutes([
-    ...routerList,
+    ...routers,
     {
       path: '*',
       component: $notFound
     }
   ]);
-  // 获取经过权限过滤后的菜单
-  const menuList = auth.getMenuList($allMenus);
-  // 权限过滤后的菜单保存至vuex
-  $store.commit('menu/setMenu', menuList);
+  ${menuHandler}
 }
 ${redirectHandler}
 // 导航守卫入口
@@ -102,7 +96,7 @@ router.beforeEach((to, from, next) => {
     redirect(userInfo, to, next);
   } else {
     getUserInfo().then(res => {
-      redirect(res, to, next, getRouteAndMenu);
+      redirect(res, to, next, setRouteAndMenu);
     })
   }
 })

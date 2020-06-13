@@ -1,16 +1,11 @@
 const menus = [
 	{
-		title: '操作过滤',
-		icon: 'clock',
-		url: '/demo1'
-	},
-	{
 		title: '工具示例',
 		icon: 'gear',
 		submenu: [
 			{
 				title: '使用示例',
-				url: '/demo2'
+				url: '/demo1'
 			}
 		]
 	},
@@ -24,7 +19,7 @@ const menus = [
 				submenu: [
 					{
 						title: '数据列表',
-						url: '/demo3'
+						url: '/demo2'
 					}
 				]
 			}

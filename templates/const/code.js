@@ -8,7 +8,11 @@ $gulp.task('json-server', done => {
   done();
 });`;
 
-const notifyImport = "import $notify from '../util/notify';"
+const authImport = `
+import $Auth from 'authority-filter';
+import $authDic from '../model/authDict';`;
+
+const notifyImport = "import $notify from '../util/notify';";
 
 const loginPageImport = `const $login = () => import(/* webpackChunkName: "login" */ 'pages/login.vue');`;
 
@@ -32,7 +36,7 @@ function doLogin() {
 }
 
 // 导航守卫重定向逻辑
-function redirect(userInfo, to, next, getRouteAndMenu) {
+function redirect(userInfo, to, next, setRouteAndMenu) {
   if (userInfo && userInfo.unLogin) { // 未登录/登录过期
     doLogin()
   } else if (userInfo && userInfo.unAuth) { // 已登录，无权访问系统
@@ -48,7 +52,7 @@ function redirect(userInfo, to, next, getRouteAndMenu) {
       next();
     }
     // 【注意顺序】要在导航守卫逻辑后，添加 addRoutes 逻辑。否则 addRoutes 的路由，无法正常加载
-    getRouteAndMenu && getRouteAndMenu(userInfo);
+    setRouteAndMenu && setRouteAndMenu(userInfo);
   } else {
     next();
   }
@@ -56,7 +60,7 @@ function redirect(userInfo, to, next, getRouteAndMenu) {
 `;
 
 const selfLoginRedirectHandler = `
-function redirect(userInfo, to, next, getRouteAndMenu) {
+function redirect(userInfo, to, next, setRouteAndMenu) {
   if (userInfo && userInfo.unLogin) { // 当前未登录
     // 正常进入登录页
     if (to.path === '/login') {
@@ -79,20 +83,40 @@ function redirect(userInfo, to, next, getRouteAndMenu) {
       next();
     }
     // 【注意顺序】要在导航守卫逻辑后，添加 addRoutes 逻辑。否则 addRoutes 的路由，无法正常加载
-    getRouteAndMenu && getRouteAndMenu(userInfo);
+    setRouteAndMenu && setRouteAndMenu(userInfo);
   } else {
     next();
   }
 }
 `;
 
+const routeHandler = `
+  // 将权限字典 + roleId传入权限组件（{ dev: true }开发使用。跳过权限过滤，开启所有权限。正式环境删除即可）
+  const auth = new $Auth($authDic, user.roleId, { dev: true });
+  // 全局存储 auth 对象
+  $store.commit('user/setAuth', auth);
+  // 获取经过权限过滤后的路由
+  routers = auth.getRouterList(routers);
+`;
+
+const authMenuHandler = `// 获取经过权限过滤后的菜单
+  const menuList = auth.getMenuList($menus);
+  // 权限过滤后的菜单保存至vuex
+  $store.commit('menu/setMenu', menuList);`;
+
+const menuHandler = "$store.commit('menu/setMenu', $menus);";
+
 module.exports = {
   mockServerTask,
   notifyImport,
+  authImport,
   loginPageImport,
   authDicImport,
   allMenusImport,
   loginPageRoute,
   thirdLoginRedirectHandler,
-  selfLoginRedirectHandler
+  selfLoginRedirectHandler,
+  routeHandler,
+  menuHandler,
+  authMenuHandler,
 };
