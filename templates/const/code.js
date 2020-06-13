@@ -8,6 +8,8 @@ $gulp.task('json-server', done => {
   done();
 });`;
 
+const notifyImport = "import $notify from '../util/notify';"
+
 const loginPageImport = `const $login = () => import(/* webpackChunkName: "login" */ 'pages/login.vue');`;
 
 const authDicImport = "import $authDic from '../model/authDict';";
@@ -86,6 +88,7 @@ function redirect(userInfo, to, next, getRouteAndMenu) {
 
 module.exports = {
   mockServerTask,
+  notifyImport,
   loginPageImport,
   authDicImport,
   allMenusImport,

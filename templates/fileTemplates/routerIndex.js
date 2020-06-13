@@ -1,4 +1,4 @@
-module.exports = ({ loginPageImport, loginPageRoute, redirectHandler }) => `import $vue from 'vue';
+module.exports = ({ notifyImport, loginPageImport, loginPageRoute, redirectHandler }) => `import $vue from 'vue';
 import $vueRouter from 'vue-router';
 import $Auth from 'authority-filter';
 import $authDic from '../model/authDict';
@@ -6,6 +6,7 @@ import $allMenus from '../model/menu';
 import $api from '../model/api';
 import $request from '../mixin/request';
 import $store from '../vuex/index';
+${notifyImport}
 
 ${loginPageImport}
 const $home = () => import(/* webpackChunkName: "home" */ 'pages/home');
