@@ -25,6 +25,12 @@ const menus = [
 			}
 		]
 	},
+	// 按钮访问权限控制示例，如开启权限控制，可参考
+	// {
+	// 	title: '操作过滤',
+	// 	icon: 'clock',
+	// 	url: '/demo3'
+	// }
 ]
 
 export default menus
