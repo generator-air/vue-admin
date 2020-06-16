@@ -2,7 +2,7 @@
 	.l-content.p-edit
 		.l-content-title
 			el-breadcrumb
-				router-link(:to="'/demo3'")
+				router-link(:to="'/demo'")
 					el-breadcrumb-item 组件示例
 					el-breadcrumb-item 数据管理
 			.display-block
@@ -144,12 +144,12 @@ export default {
 							para.id = this.qid
 							const rs = await this.updateInfo(para)
 							if (rs) {
-									this.$router.push({ path: '/demo3' })
+									this.$router.push({ path: '/demo' })
 							}
 					} else {
 							const rs = await this.addInfo(para)
 							if (rs) {
-									this.$router.push({ path: '/demo3' })
+									this.$router.push({ path: '/demo' })
 							}
 					}
 			},

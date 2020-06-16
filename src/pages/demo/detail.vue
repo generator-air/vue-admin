@@ -2,7 +2,7 @@
 	.l-content.p-detail
 		.l-content-title
 			el-breadcrumb
-				router-link(:to="'/demo3/list'")
+				router-link(:to="'/demo'")
 					el-breadcrumb-item 组件示例
 					el-breadcrumb-item 数据管理
 			.display-block

@@ -1,13 +1,9 @@
 // 当多个角色具有部分完全相同的权限，统一定义
 const commonAuth = [
 	{
-		path: '/demo1',
-		operations: ['create', 'edit', 'delete']
-	},
-	{
-		path: '/demo2',
+		path: '/demo',
 		operations: ['create', 'edit']
-	}
+	},
 ]
 
 const dictionary = {
@@ -20,26 +16,23 @@ const dictionary = {
 	101: [
 		...commonAuth,
 		{
-			path: '/demo3',
+			path: '/demo',
 			operations: ['create', 'edit', 'delete']
 		},
 		{
-			path: '/demo3/edit',
+			path: '/demo/edit',
 			operations: ['create', 'edit']
 		},
 		{
-			path: '/demo3/detail',
+			path: '/demo/detail',
 			operations: ['delete']
-		}
+		},
+		{
+      path: '/operation',
+      operations: ['create', 'edit', 'delete']
+    }
 	],
 	102: commonAuth,
-	103: [
-		...commonAuth,
-		{
-			path: '/demo3',
-			operations: ['edit']
-		}
-	]
 }
 
 export default dictionary;
