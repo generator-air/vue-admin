@@ -28,7 +28,7 @@ server.use((req, res, next) => {
 		res.set('Content-Type', 'application/json')
 		res.send(contentText);
 	} else {
-		// 手动映射，更改请求url（/demo1/list => /demo1_list）
+		// 手动映射，更改请求url（/demo/edit => /demo_edit）
 		req.url = req.url.replace(/\//g, '_').replace('_', '/');
 		next();
 	}

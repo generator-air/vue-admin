@@ -181,15 +181,15 @@ export default {
 			},
 			// 新建
 			create() {
-					this.$router.push({ path: '/demo3/edit' })
+					this.$router.push({ path: '/demo/edit' })
 			},
 			// 编辑
 			edit(row) {
-					this.$router.push({ path: '/demo3/edit', query: { id: row.id } })
+					this.$router.push({ path: '/demo/edit', query: { id: row.id } })
 			},
 			// 详情
 			detail(row) {
-					this.$router.push({ path: '/demo3/detail', query: { id: row.id } })
+					this.$router.push({ path: '/demo/detail', query: { id: row.id } })
 			},
 			// 提交
 			async submit(row) {
