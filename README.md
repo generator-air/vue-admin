@@ -389,7 +389,7 @@ this.$bjReport.offline("badjs离线日志记录", value);
 
 访问http://{your server ip}:8081/
 
-![image](assets/log.png)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/log.png?sign=8a593960405cebf586e9e5b1a36669e9&t=1592294032)
 
 #### 4.10 启动开发
 
