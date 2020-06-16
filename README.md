@@ -37,7 +37,7 @@ yarn route
 
 ### 2.启动效果：
 
-![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/home.png?sign=ff0b2dc7620829cb30a48606409836d1&t=1592294609)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/home.png?sign=91a31d65ac90e9c5a45daf8bf4831a86&t=1592310637)
 
 <br>
 
@@ -84,11 +84,11 @@ yarn page
 
 按需选择：
 
-![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/page_create_1.png?sign=a1e442fd894010a6acd82980a133a43e&t=1592295030)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/page_create_1.png?sign=f995422ea3300009da6fd89c5872b465&t=1592310700)
 
 执行生成后，效果如下：
 
-![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/page_create_2.png?sign=7b2de9ea220eecbd01e74fbb8ac4e397&t=1592295047)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/page_create_2.png?sign=d803d31c5f6f4c4b0a9d24fc10039701&t=1592310727)
 
 <br>
 
@@ -123,7 +123,7 @@ demo1/edit、demo1/detail、demo2/edit、demo3/article/edit。
 yarn route
 ```
 
-![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/route_create.png?sign=b6ebe174e60ca2d96ea020b352178309&t=1592295065)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/route_create.png?sign=82c3859e25604b9feee9b10893abad9e&t=1592310772)
 
 <br>
 按照我们当前模拟的场景，这是我们第一次创建路由。因此，选择覆盖/不覆盖，皆可。
@@ -132,11 +132,11 @@ yarn route
 
 以内置 demo 为例。pages 文件夹结构如下：
 
-![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/pages.png?sign=5eaa45adf6b10d1668422b80b8a71141&t=1592295313)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/pages.png?sign=fee3e3cc74a78e03bac52dea2c95786b&t=1592310785)
 
 routeCreate 生成的路由文件如下：
 
-![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/router.png?sign=26c34e8187e05680b25d5adcdf922a97&t=1592295372)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/router.png?sign=c862991bc8cab25ae672baea54c52bdf&t=1592310795)
 
 <br>
 
@@ -389,7 +389,7 @@ this.$bjReport.offline("badjs离线日志记录", value);
 
 访问http://{your server ip}:8081/
 
-<img src="https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/log.png?sign=8a593960405cebf586e9e5b1a36669e9&t=1592294032">
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/log.png?sign=91eea87ecc188dfe361ff48ad45d1d48&t=1592310939)
 
 #### 4.10 启动开发
 
@@ -550,7 +550,7 @@ $store.commit("menu/setMenu", menuList);
 
 ##### 1.逻辑流程图
 
-![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/login.png?sign=653b7611583231c578998e0fe9587879&t=1592309576)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/login.png?sign=308680262fc76b0d84fe402fcbfaeefe&t=1592310820)
 
 ##### 2.核心逻辑说明
 
@@ -763,7 +763,7 @@ Badjs 是腾讯开源的一站式前端监控解决方案，涵盖了日志上�
 - 用户行为分析：细粒度追踪真实的用户行为操作及流程，前端崩溃、加载缓慢及错误问题，可关联到后端进行深度诊断。
 - 产品质量的保障：浏览器百花齐放，用户环境复杂，巨大的差异导致开发人员难以重现用户遇到的问题。无法像后台一样上报所有用户操作日志。通过 BadJS，上报用户端脚本错误，为产品质量保驾护航。
 
-![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/badjs.png?sign=81a1ec653755181627f82fe12bc12834&t=1592295452)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/badjs.png?sign=3cf9961b73b6c4e9efa1c2f7037c9428&t=1592310832)
 
 #### 5.4.1 使用 demo
 
@@ -924,13 +924,13 @@ this.$get($api.list).then((res) => {
 yarn page
 ```
 
-![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/page_create_1.png?sign=fd889965a867e887618cc85cb205d054&t=1592295472)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/page_create_1.png?sign=707c92f07b206af44b37915619cb8fb5&t=1592310879)
 
 <br>
 
 效果如图：
 
-![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/page_create_2.png?sign=e5c3473fd131c82f82c6ea945dcadf23&t=1592295484)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/page_create_2.png?sign=bba4e569ee819a51ebec58a781af6347&t=1592310890)
 
 <br>
 
@@ -942,7 +942,7 @@ yarn page
 yarn route
 ```
 
-![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/route_create.png?sign=2a1e672ee579b2a7fd9fdf74a64189a0&t=1592295499)
+![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/route_create.png?sign=53e2cd60e5d5baaf00b442f5bcdc02d0&t=1592310918)
 
 我们支持全覆盖式路由创建、附加式路由创建，两种选择。
 
