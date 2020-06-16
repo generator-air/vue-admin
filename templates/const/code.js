@@ -106,6 +106,32 @@ const authMenuHandler = `// 获取经过权限过滤后的菜单
 
 const menuHandler = "$store.commit('menu/setMenu', $menus);";
 
+const logMenu = `
+  {
+    title: '日志示例',
+    icon: 'clock',
+    submenu: [
+      {
+        title: '日志管理',
+        icon: 'clock',
+        submenu: [
+          {
+            title: '日志页',
+            url: '/log'
+          }
+        ]
+      }
+    ]
+  },`;
+
+const operationMenu = `
+  {
+    title: '操作过滤',
+    icon: 'clock',
+    url: '/operation'
+  },
+`;
+
 module.exports = {
   mockServerTask,
   notifyImport,
@@ -119,4 +145,6 @@ module.exports = {
   routeHandler,
   menuHandler,
   authMenuHandler,
+  logMenu,
+  operationMenu
 };
