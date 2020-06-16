@@ -5,7 +5,7 @@ module.exports = ({ logMenu, operationMenu }) => `const menus = [
 		submenu: [
 			{
 				title: '列表页',
-				url: '/demo1'
+				url: '/demo'
 			}
 		]
 	},${logMenu}${operationMenu}

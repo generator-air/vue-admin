@@ -129,8 +129,7 @@ const operationMenu = `
     title: '操作过滤',
     icon: 'clock',
     url: '/operation'
-  },
-`;
+  },`;
 
 module.exports = {
   mockServerTask,
