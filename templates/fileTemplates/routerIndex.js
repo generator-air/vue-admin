@@ -77,7 +77,8 @@ function getUserInfo() {
   });
 }
 
-function setRouteAndMenu(user) {${routeHandler}
+function setRouteAndMenu(user) {
+  console.log('user:', user);${routeHandler}
   router.addRoutes([
     ...routers,
     {
