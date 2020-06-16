@@ -62,8 +62,6 @@ config.debug = 'http://127.0.0.1:8000';
 
 config.mock = '${mockHost}';
 
-config.logReport = true; // 日志全局开关
-
 // cdn部署路径
 config.cdnBase = '//cdn.xx.yy.com'; // 使用cdn的域名，以//开头，自动匹配站点协议
 config.uploadUrl = '/2019/test-project'; // 上传cdn的路径
