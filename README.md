@@ -37,7 +37,7 @@ yarn route
 
 ### 2.启动效果：
 
-![image](assets/home.png)
+![avatar](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/air-vue-admin/home.png?sign=ff0b2dc7620829cb30a48606409836d1&t=1592294609)
 
 <br>
 
