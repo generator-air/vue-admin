@@ -35,14 +35,12 @@ $gulp.task('serve', done => {
 ${mockServerTask}
 
 // serve 开发环境
-$gulp.task('dev', $gulp.series(
-  'tool-kill-running',${mockServerName}
+$gulp.task('dev', $gulp.series(${mockServerName}
   'serve'
 ));
 
 // serve mock环境
 $gulp.task('debug', $gulp.series(
-  'tool-kill-running',
   'serve'
 ));
 
