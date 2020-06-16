@@ -127,36 +127,36 @@ routeCreate 生成的路由文件如下：
 ```javascript
 // model/menu.js —— 根据如下内置示例，配置项目的菜单
 const menus = [
+	{
+		title: '页面示例',
+		icon: 'gear',
+		submenu: [
+			{
+				title: '列表页',
+				url: '/demo'
+			}
+		]
+	},
   {
-    title: "操作过滤",
-    icon: "clock",
-    url: "/demo1",
-  },
-  {
-    title: "工具示例",
-    icon: "gear",
+    title: '日志示例',
+    icon: 'clock',
     submenu: [
       {
-        title: "使用示例",
-        url: "/demo2",
-      },
-    ],
-  },
-  {
-    title: "组件示例",
-    icon: "clock",
-    submenu: [
-      {
-        title: "数据管理",
-        icon: "clock",
+        title: '日志管理',
+        icon: 'clock',
         submenu: [
           {
-            title: "数据列表",
-            url: "/demo3",
-          },
-        ],
-      },
-    ],
+            title: '日志页',
+            url: '/log'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    title: '操作过滤',
+    icon: 'clock',
+    url: '/operation'
   },
 ];
 
@@ -173,40 +173,38 @@ export default menus;
 定义权限字典（model/authDict）：
 
 ```javascript
+// 当多个角色具有部分完全相同的权限，统一定义
+const commonAuth = [
+	{
+		path: '/demo',
+		operations: ['create', 'edit']
+	},
+]
+
 const dictionary = {
-  // 101：角色id（roleId）
-  101: [
-    {
-      path: "/demo1", // 有权访问的路由
-      operations: ["create", "edit", "delete"], // 对当前路由有权进行的操作
-    },
-    {
-      path: "/demo2",
-      operations: ["create", "edit"],
-    },
-    {
-      path: "/demo3",
-      operations: ["create", "edit", "delete"],
-    },
-    {
-      path: "/demo3/edit",
-      operations: ["create", "edit"],
-    },
-    {
-      path: "/demo3/detail",
-      operations: ["delete"],
-    },
-  ],
-  102: [
-    {
-      path: "/demo1/edit",
-      operations: ["edit", "delete"],
-    },
-    {
-      path: "/demo2",
-    },
-  ],
-};
+	/**
+	 * roleId : [{
+	 * 	path: '/xxx',
+	 * 	operations: ['aaa', 'bbb', 'ccc']
+	 * }]
+	 */
+	101: [
+		...commonAuth,
+		{
+			path: '/demo',
+			operations: ['create', 'edit', 'delete']
+		},
+		{
+			path: '/demo/edit',
+			operations: ['create', 'edit']
+		},
+		{
+			path: '/demo/detail',
+			operations: ['delete']
+		}
+	],
+	102: commonAuth,
+}
 
 export default dictionary;
 ```
@@ -247,104 +245,11 @@ export default API;
 因此，对于权限控制，你只需要按需进行页面操作权限的过滤操作即可。
 <br>
 
-脚手架内置的权限处理（router/index.js）：
-
-```javascript
-import $vue from "vue";
-import $vueRouter from "vue-router";
-import $Auth from "authority-filter"; // npm 包
-import $request from ".mixin/request";
-import $authDic from ".model/authDict";
-import $demo1 from "demo1";
-import $demo2 from "demo2";
-import $demo3 from "demo3";
-import $allMenus from ".model/menu";
-import $store from ".vuex/index";
-import $api from ".model/api";
-
-const $home = () => import(/* webpackChunkName: "home" */ "pages/home");
-const $notFound = () =>
-  import(/* webpackChunkName: "notFound" */ "pages/notFound");
-
-$vue.use($vueRouter);
-
-const router = new $vueRouter();
-
-// 拉取用户信息（【Replace】需替换为实际的接口地址）
-$request.$get($api.getUserInfo).then((res) => {
-  if (res && res.data) {
-    // 全局存储用户信息
-    $store.commit("user/setUserInfo", res.data);
-    // 将权限字典 + roleId传入权限组件
-    const auth = new $Auth($authDic, res.data.roleId);
-    // 全局存储 auth 对象
-    $store.commit("user/setAuth", auth);
-    // 获取经过权限过滤后的路由
-    const routerList = auth.getRouterList([...$demo1, ...$demo2, ...$demo3]);
-    router.addRoutes([
-      ...routerList,
-      {
-        path: "/",
-        redirect: "/home",
-      },
-      {
-        path: "/home",
-        component: $home,
-      },
-      {
-        path: "*",
-        component: $notFound,
-      },
-    ]);
-    // 获取经过权限过滤后的菜单
-    const menuList = auth.getMenuList($allMenus);
-    // 权限过滤后的菜单保存至vuex
-    $store.commit("menu/setMenu", menuList);
-  }
-});
-```
+脚手架内置的权限处理，见 router/index.js
 
 <br>
-对页面的操作权限进行过滤，请参考 pages/demo1/list.vue：
 
-```html
-<template lang="pug">
-	.p-page
-		.title 页面操作过滤demo
-		.buttons
-			//- 这里读取的字段，取决于 authDict.js 内的定义
-			el-button(v-if="operations.includes('create')") 创建
-			el-button(v-if="operations.includes('edit')") 编辑
-			el-button(v-if="operations.includes('delete')") 删除
-</template>
-
-<script>
-  import { mapState } from "vuex";
-
-  export default {
-    computed: {
-      ...mapState("user", ["auth"]),
-    },
-    data() {
-      return {
-        operations: [],
-      };
-    },
-    methods: {},
-    mounted() {
-      this.operations = this.auth.getPageOperations(this.$route.path);
-    },
-  };
-</script>
-
-<style lang="less">
-  .p-page {
-    .title {
-      margin-bottom: 20px;
-    }
-  }
-</style>
-```
+对页面的操作权限进行过滤，请参考 pages/operation/index.vue
 
 <br>
 
@@ -561,18 +466,30 @@ export default {
 ```javascript
 // router/index.js
 import $Auth from "authority-filter";
-import $authDic from ".model/authDict";
-import $demo1 from "demo1";
-import $demo2 from "demo2";
-import $demo3 from "demo3";
-import $allMenus from ".model/menu";
+import $authDic from "../model/authDict";
+import $allMenus from "../model/menu";
+
+// 批量引入 @/router 下的所有文件
+const routerContext = require.context('@/router', false, /.js$/i);
+// 存放所有路由
+let routers = [];
+const importAllRouters = requireContext => requireContext.keys().forEach(
+  item => {
+    if (item.indexOf('index.js') > -1) {
+      return;
+    }
+    // 收集所有路由
+    routers = routers.concat(requireContext(item).default);
+  }
+);
+importAllRouters(routerContext);
 
 // $authDic 是需要开发者自行定义的权限字典。roleId 是从 userInfo 中获取的用户角色 id
 const auth = new $Auth($authDic, roleId);
 // 全局存储 auth 对象（我们建议这样做。如果有页面操作权限控制需求，那么必须这样做）
 $store.commit("user/setAuth", auth);
 // 进行路由过滤（传入项目定义的所有路由。详见 5.2）
-const routerList = auth.getRouterList([...$demo1, ...$demo2, ...$demo3]);
+const routerList = auth.getRouterList(routers);
 // 生成当前用户有权访问的路由配置。其中，'/' '/home' '*' 为默认路由配置，所有用户皆有权限访问
 router.addRoutes([
   ...routerList,
@@ -590,7 +507,7 @@ router.addRoutes([
   },
 ]);
 // 进行菜单过滤（传入项目定义的所有菜单。详见 5.2）
-const menuList = auth.getMenuList(allMenus);
+const menuList = auth.getMenuList($allMenus);
 // 全局存储 menuList（这里全局存储，在生成菜单时，就可以通过vuex访问到menuList数据）
 $store.commit("menu/setMenu", menuList);
 ```
@@ -669,36 +586,36 @@ router/index.js 路由生成逻辑：
 
 ```javascript
 const menus = [
+	{
+		title: '页面示例',
+		icon: 'gear',
+		submenu: [
+			{
+				title: '列表页',
+				url: '/demo'
+			}
+		]
+	},
   {
-    title: "操作过滤",
-    icon: "clock",
-    url: "/demo1",
-  },
-  {
-    title: "工具示例",
-    icon: "gear",
+    title: '日志示例',
+    icon: 'clock',
     submenu: [
       {
-        title: "使用示例",
-        url: "/demo2",
-      },
-    ],
-  },
-  {
-    title: "组件示例",
-    icon: "clock",
-    submenu: [
-      {
-        title: "数据管理",
-        icon: "clock",
+        title: '日志管理',
+        icon: 'clock',
         submenu: [
           {
-            title: "数据列表",
-            url: "/demo3",
-          },
-        ],
-      },
-    ],
+            title: '日志页',
+            url: '/log'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    title: '操作过滤',
+    icon: 'clock',
+    url: '/operation'
   },
 ];
 
@@ -722,27 +639,27 @@ router 下的每一个路由文件，**与菜单页一一对应**。也就是，
 在入口文件 router/index.js 中，引入 vue-router，和所有的路由文件。同时，根据当前登录用户权限，动态生成可访问的路由文件。
 
 例如：
-有菜单页/demo1，命名空间为 demo1，则应有一个 router/demo1.js，内容形如：
+有菜单页/demo，命名空间为 demo，则应有一个 router/demo.js，内容形如：
 
 ```javascript
-const pages_demo1_detail = () => import("pages/demo1/detail.vue");
-const pages_demo1_edit = () => import("pages/demo1/edit.vue");
-const pages_demo1_list = () => import("pages/demo1/list.vue");
+const pages_demo_detail = () => import("pages/demo/detail.vue");
+const pages_demo_edit = () => import("pages/demo/edit.vue");
+const pages_demo_index = () => import('pages/demo/index.vue')
 
 const routerList = [
-  {
-    path: "/demo1/detail",
-    component: pages_demo1_detail,
-  },
-  {
-    path: "/demo1/edit",
-    component: pages_demo1_edit,
-  },
-  {
-    path: "/demo1",
-    component: pages_demo1_list,
-  },
-];
+	{
+		path: '/demo/detail',
+		component: pages_demo_detail
+	},
+	{
+		path: '/demo/edit',
+		component: pages_demo_edit
+	},
+	{
+		path: '/demo',
+		component: pages_demo_index
+	}
+]
 
 export default routerList;
 ```
@@ -965,11 +882,11 @@ config.mock = "http://127.0.0.1:3001";
 ```javascript
 ├── data                    // 存放mock数据
 |  ├── fail                  // 模拟调用失败的mock数据
-|  |  └── demo1
+|  |  └── demo
 |  |     ├── edit.json
 |  |     └── list.json
 |  └── success           // 模拟调用成功的mock数据
-|     └── demo1
+|     └── demo
 |        ├── edit.json
 |        └── list.json
 ├── db.js                    // 用于生成mock数据结构
@@ -979,13 +896,13 @@ config.mock = "http://127.0.0.1:3001";
 【使用方式】
 
 **step1：根据接口 url 层级，创建 mock 用 json 文件**
-例如：接口 url 为 /demo1/list
-创建模拟请求成功的 mock 文件：/mock/data/success**/demo1/list.json**
-创建模拟请求失败的 mock 文件：/mock/data/fail**/demo1/list.json**
+例如：接口 url 为 /demo/list
+创建模拟请求成功的 mock 文件：/mock/data/demo/list.json**
+创建模拟请求失败的 mock 文件：/mock/data/**fail**/demo/list.json**
 
 **step2：统一在 api.js 进行接口配置**
-模拟请求成功，直接使用真实接口：const API = { list: '/demo1/list' }
-模拟请求失败，改造真实接口为：const API = { list: '**/fail**/demo1/list' }
+模拟请求成功，直接使用真实接口：const API = { list: '/demo/list' }
+模拟请求失败，改造真实接口为：const API = { list: '**/fail**/demo/list' }
 
 **step3：页面中使用真实的接口请求逻辑**
 
