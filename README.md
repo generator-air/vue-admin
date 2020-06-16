@@ -1,5 +1,36 @@
 # vue-admin
 
+## 基础命令
+
+### 启动开发（调用mock接口）
+
+```shell
+yarn dev
+```
+
+### 启动联调（调用测试机 or 后端本地接口）
+```shell
+yarn debug
+```
+
+### 执行打包
+```shell
+yarn build
+```
+
+### 页面创建
+```shell
+yarn page
+```
+
+### 路由生成
+```shell
+yarn route
+```
+
+
+## 详细介绍
+
 ### 1.技术栈：vue + element-ui
 
 <br>
@@ -35,7 +66,6 @@
 |  ├── util         // 存放项目逻辑用的工具方法
 |  └── vuex      // vuex使用demo
 ├── tools          // 用于项目创建的工具方法（命令行使用的方法。为提高开发者开发效率提供）
-|  ├── answersStore.js
 |  ├── pageCreate.js   // 页面创建工具（yarn page）
 |  └── routeCreate.js   // 路由创建工具（yarn route）
 ├── vue.config.js
