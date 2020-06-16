@@ -26,7 +26,11 @@ const dictionary = {
 		{
 			path: '/demo/detail',
 			operations: ['delete']
-		}
+		},
+		{
+      path: '/operation',
+      operations: ['create', 'edit', 'delete']
+    }
 	],
 	102: commonAuth,
 }
