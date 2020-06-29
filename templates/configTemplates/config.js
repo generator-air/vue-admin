@@ -5,7 +5,7 @@ config.devServerPort = 8090;
 
 config.debug = 'http://127.0.0.1:8000';
 
-config.mock = ${mockHost};
+config.mock = '${mockHost}';
 
 // 版本库外部引入文件路径
 config.externals = [

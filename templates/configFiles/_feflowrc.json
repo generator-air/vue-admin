@@ -1,0 +1,26 @@
+{
+  "devkit": {
+    "commands": {
+      "dev": {
+        "builder": "feflow-devkit-air:dev",
+        "options": {}
+      },
+      "debug": {
+        "builder": "feflow-devkit-air:debug",
+        "options": {}
+      },
+      "build": {
+        "builder": "feflow-devkit-air:build",
+        "options": {}
+      },
+      "page": {
+        "builder": "feflow-devkit-air:page",
+        "options": {}
+      },
+      "route": {
+        "builder": "feflow-devkit-air:route",
+        "options": {}
+      }
+    }
+  }
+}
