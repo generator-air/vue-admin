@@ -20,7 +20,7 @@ const $unAuth = () => import(/* webpackChunkName: "unAuth" */ 'pages/unAuth');
 const $notFound = () => import(/* webpackChunkName: "notFound" */ 'pages/notFound');
 
 // 批量引入 @/router 下的所有文件
-const routerContext = require.context('@/router', false, /\.js$/i);
+const routerContext = require.context('@/router', false, /\\.js$/i);
 // 存放所有路由
 let routers = [];
 const importAllRouters = requireContext => requireContext.keys().forEach(
