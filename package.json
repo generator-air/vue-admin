@@ -26,15 +26,9 @@
     }
   },
   "lint-staged": {
-    "*": [
-      "npm run prettier",
-      "git add"
-    ],
-    "*.js": [
-      "npm run lint",
-      "git add"
-    ],
-    "*.vue": [
+    "*": "npm run prettier",
+    "*.js": "npm run lint",
+    "**/*.vue": [
       "npm run lint",
       "git add"
     ]
