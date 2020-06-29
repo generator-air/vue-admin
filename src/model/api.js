@@ -1,4 +1,4 @@
-import config from '../../config';
+import config from '../../config/config';
 
 // 统一的接口管理
 const API = {
