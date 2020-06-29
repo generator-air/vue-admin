@@ -1,118 +1,122 @@
 const template = `
-<template lang="pug">
-	.p-list
-		.l-content-title
-			el-breadcrumb
-				el-breadcrumb-item 一级菜单
-				el-breadcrumb-item $pageName$
-			.display-block
-				h1.header-title $pageName$
-		.display-block
-			v-search(
-				ref="search"
-				label="数据编号："
-				name="search"
-				placeholder="请输入"
-				:value="searchValue"
-			)
-			v-filter(
-				ref="filter"
-			)
-				template(v-slot="{ query, change }")
-					el-form-item(label="状态：")
-						el-select(
-							v-model="query.state"
-							size="small"
-							placeholder="请选择"
-							style="width: 120px"
-							@change="change"
-						)
-							el-option(
-								v-for="item in stateOptions"
-								:label="item.label"
-								:key="item.label"
-								:value="item.id"
-							)
-			.header-aside
-				el-button.u-button(
-					type="primary"
-					size="large"
-					@click="search"
-				) 查询
-				el-button.u-button.btn-filter(
-					size="large"
-					@click="reset"
-				) 重置
-		.u-button-group
-			el-button.u-button(
-				type="primary"
-				icon="el-icon-plus"
-				size="large"
-				@click="create()"
-			) 新建
-			el-dropdown(@command="batchHandler" trigger="click")
-				el-button( type="primary" :disabled="operations.length === 0 ? true : false") 批量操作
-					i.el-icon-arrow-down.el-icon--right
-				el-dropdown-menu(slot="dropdown")
-					el-dropdown-item(v-for="operation in operations" :command="operation.method" :key="operation.id") {{operation.label}}
-		.u-tip
-			span.tip-item 已选择 {{this.selectCount}} 项
-			span.tip-item 总计：{{this.total}} 条
-		v-table(
-			:api="api"
-			ref="list"
-			@change="onListChange"
-			:onSelectionChange="selectionChangeHandler"
-		)
-			el-table-column(
-				type="selection"
-				width="55"
-			)
-			el-table-column(
-				prop="id"
-				label="名词编号"
-				width="100"
-				sortable
-			)
-			el-table-column(
-				prop="brief"
-				label="缩写"
-				width="100"
-				sortable
-			)
-			el-table-column(
-				prop="full"
-				label="全称"
-				min-width="55"
-			)
-			el-table-column(
-				prop="mean"
-				label="含义"
-				min-width="55"
-			)
-			el-table-column(
-				prop="tips"
-				label="备注"
-				min-width="200"
-			)
-			el-table-column(
-				label="操作"
-				width="180"
-			)
-				template(v-slot="{ row }")
-					el-button.op-button(
-						type="success"
-						size="small"
-						@click="edit(row)"
-					) 编辑
-					el-button.op-button(
-						type="primary"
-						size="small"
-						@click="detail(row)"
-					) 详情
-
-		v-pagination
+<template>
+  <div class="p-list">
+    <div class="l-content-title">
+      <el-breadcrumb>
+        <el-breadcrumb-item>一级菜单</el-breadcrumb-item>
+        <el-breadcrumb-item>$pageName$</el-breadcrumb-item>
+      </el-breadcrumb>
+      <div class="display-block">
+        <h1 class="header-title">$pageName$</h1>
+      </div>
+    </div>
+    <div class="display-block">
+      <v-search
+        ref="search"
+        label="数据编号："
+        name="search"
+        placeholder="请输入"
+        :value="searchValue"
+      />
+      <v-filter ref="filter">
+        <template v-slot="{ query, change }">
+          <el-form-item label="状态：">
+            <el-select
+              v-model="query.state"
+              size="small"
+              placeholder="请选择"
+              style="width: 120px;"
+              @change="change"
+            >
+              <el-option
+                v-for="item in stateOptions"
+                :label="item.label"
+                :key="item.label"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+        </template>
+      </v-filter>
+      <div class="header-aside">
+        <el-button class="u-button" type="primary" size="large" @click="search">
+          查询
+        </el-button>
+        <el-button class="u-button btn-filter" size="large" @click="reset">
+          重置
+        </el-button>
+      </div>
+    </div>
+    <div class="u-button-group">
+      <el-button
+        class="u-button"
+        type="primary"
+        icon="el-icon-plus"
+        size="large"
+        @click="create()"
+      >
+        新建
+      </el-button>
+      <el-dropdown @command="batchHandler" trigger="click">
+        <el-button
+          type="primary"
+          :disabled="operations.length === 0 ? true : false"
+        >
+          批量操作
+          <i class="el-icon-arrow-down el-icon--right"></i>
+        </el-button>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item
+            v-for="operation in operations"
+            :command="operation.method"
+            :key="operation.id"
+          >
+            {{ operation.label }}
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
+    <div class="u-tip">
+      <span class="tip-item">已选择 {{ this.selectCount }} 项</span>
+      <span class="tip-item">总计：{{ this.total }} 条</span>
+    </div>
+    <v-table
+      :api="api"
+      ref="list"
+      @change="onListChange"
+      :onSelectionChange="selectionChangeHandler"
+    >
+      <el-table-column type="selection" width="55" />
+      <el-table-column prop="id" label="名词编号" width="100" sortable />
+      <el-table-column prop="brief" label="缩写" width="100" sortable />
+      <el-table-column prop="full" label="全称" min-width="55" />
+      <el-table-column prop="mean" label="含义" min-width="55" />
+      <el-table-column prop="tips" label="备注" min-width="200" />
+      <el-table-column label="操作" width="180">
+        <template v-slot="{ row }">
+          <el-button
+            class="op-button"
+            type="success"
+            size="small"
+            @click="edit(row)"
+          >
+            编辑
+          </el-button>
+          <el-button
+            class="op-button"
+            type="primary"
+            size="small"
+            @click="detail(row)"
+          >
+            详情
+          </el-button>
+        </template>
+      </el-table-column>
+    </v-table>
+    <v-pagination />
+  </div>
 </template>
+
 
 <script>
 import { mapState } from 'vuex'
@@ -371,6 +375,6 @@ export default {
 	}
 }
 </style>
-`
+`;
 
-module.exports = template
+module.exports = template;

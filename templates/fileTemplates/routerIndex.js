@@ -5,7 +5,7 @@ module.exports = ({
   loginPageRoute,
   redirectHandler,
   routeHandler,
-  menuHandler
+  menuHandler,
 }) => `import $vue from 'vue';
 import $vueRouter from 'vue-router';${authImport}
 import $api from '../model/api';

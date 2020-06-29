@@ -22,73 +22,71 @@
  * }
  */
 
-let bus = null
-let whiteList = null
-const cacheList = []
+let bus = null;
+let whiteList = null;
+const cacheList = [];
 
+const VueBus = (Vue) => {
+  if (!bus) {
+    bus = new Vue();
+  }
+  bus.on = (...args) => {
+    bus.$on(...args);
+  };
+  bus.once = bus.$once;
+  bus.off = bus.$off;
+  bus.emit = (...args) => {
+    if (!whiteList || whiteList[args[0]]) {
+      bus.$emit(...args);
+    }
+  };
 
-const VueBus = Vue => {
-	if (!bus) {
-		bus = new Vue()
-	}
-	bus.on = (...args) => {
-		bus.$on(...args)
-	}
-	bus.once = bus.$once
-	bus.off = bus.$off
-	bus.emit = (...args) => {
-		if (!whiteList || whiteList[args[0]]) {
-			bus.$emit(...args)
-		}
-	}
+  Vue.prototype.$bus = bus;
 
-	Vue.prototype.$bus = bus
+  while (cacheList.length > 0) {
+    let cacheItem = cacheList.shift();
+    bus[cacheItem.method](...cacheItem.args);
+  }
 
-	while (cacheList.length > 0) {
-		let cacheItem = cacheList.shift()
-		bus[cacheItem.method](...cacheItem.args)
-	}
+  let list = [
+    'notify',
+    'user-ready',
+    'user-signin',
+    'user-signout',
+    'require-signin',
+    'require-signout',
+    'progress-start',
+    'progress-end',
+    'progress-fail',
+    'list-update',
+    'list-changed',
+    'set-router',
+  ];
+  if (!whiteList) {
+    whiteList = {};
+  }
+  if (Array.isArray(list)) {
+    list.forEach((name) => {
+      whiteList[name] = true;
+    });
+  }
+};
 
-	let list = [
-		'notify',
-		'user-ready',
-		'user-signin',
-		'user-signout',
-		'require-signin',
-		'require-signout',
-		'progress-start',
-		'progress-end',
-		'progress-fail',
-		'list-update',
-		'list-changed',
-		'set-router'
-	]
-	if (!whiteList) {
-		whiteList = {}
-	}
-	if (Array.isArray(list)) {
-		list.forEach(name => {
-			whiteList[name] = true
-		})
-	}
-}
-
-
-['on', 'once', 'off', 'emit'].forEach(method => {
-	VueBus[method] = (...args) => {
-		if (!bus) {
-			let cacheItem = {}
-			cacheItem.method = method
-			cacheItem.args = args
-			cacheList.push(cacheItem)
-		} else {
-			bus[method](...args)
-		}
-	}
-})
+['on', 'once', 'off', 'emit'].forEach((method) => {
+  VueBus[method] = (...args) => {
+    if (!bus) {
+      let cacheItem = {};
+      cacheItem.method = method;
+      cacheItem.args = args;
+      cacheList.push(cacheItem);
+    } else {
+      bus[method](...args);
+    }
+  };
+});
 
 if (typeof window !== 'undefined' && window.Vue) {
-	window.Vue.use(VueBus)
+  window.Vue.use(VueBus);
 }
 
-export default VueBus
+export default VueBus;

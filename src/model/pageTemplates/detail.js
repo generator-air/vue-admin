@@ -1,31 +1,28 @@
 const template = `
-<template lang="pug">
-	.l-content.p-detail
-		.l-content-title
-			el-breadcrumb
-				router-link(:to="'/demo3'")
-					el-breadcrumb-item 一级菜单
-					el-breadcrumb-item $pageName$
-			.display-block
-				h1.header-title $pageName$
-			.p-demo-info
-				mixin detailRow (title, content)
-					.detail-row
-						.detail-title #{title}：
-						if block
-							block
-				.p-demo-info-head
-					h3 数据信息
-				.p-demo-info-content
-					+detailRow('简称')
-						.detail-content {{form.brief}}
-					+detailRow('全称')
-						.detail-content {{form.full}}
-					+detailRow('含义')
-						.detail-content {{form.mean}}
-					+detailRow('备注')
-						.detail-content {{form.tips}}
-
+<template>
+  <div class="l-content p-detail">
+    <div class="l-content-title">
+      <el-breadcrumb>
+        <router-link :to="'/demo'">
+          <el-breadcrumb-item>一级菜单</el-breadcrumb-item>
+          <el-breadcrumb-item>$pageName$</el-breadcrumb-item>
+        </router-link>
+      </el-breadcrumb>
+      <div class="display-block">
+        <h1 class="header-title">$pageName$</h1>
+      </div>
+      <div class="p-demo-info">
+        <h3>数据信息</h3>
+        <div>
+          <label>简称</label>
+          <div class="detail-content">{{ form.brief }}</div>
+          <div class="detail-content">{{ form.full }}</div>
+          <div class="detail-content">{{ form.mean }}</div>
+          <div class="detail-content">{{ form.tips }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -117,6 +114,6 @@ export default {
 		}
 	}
 </style>
-`
+`;
 
-module.exports = template
+module.exports = template;

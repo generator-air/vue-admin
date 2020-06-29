@@ -1,6 +1,6 @@
 const template = `
-<template lang="pug">
-	.p-$pageName$ $pageName$ 页面初始化
+<template>
+  <div class=".p-$pageName$">$pageName$ 页面初始化</div>
 </template>
 
 <script>
@@ -23,6 +23,6 @@ export default {
 
 }
 </style>
-`
+`;
 
-module.exports = template
+module.exports = template;

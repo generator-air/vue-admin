@@ -1,67 +1,77 @@
 const template = `
-<template lang="pug">
-	.l-content.p-edit
-		.l-content-title
-			el-breadcrumb
-				router-link(:to="'/demo3'")
-					el-breadcrumb-item 一级菜单
-					el-breadcrumb-item $pageName$
-			.display-block
-				h1.header-title {{qid ? '编辑' : '创建'}}页
-		.display-block
-				el-form(
-					:inline="true"
-					label-position="left"
-					:model="form"
-					:rules="rules"
-					ref="form"
-				)
-					.filter-block
-						el-form-item(label="数据缩写:" prop="brief")
-							el-input(
-								v-model="form.brief"
-								size="small"
-								style="width: 480px"
-								placeholder="请输入数据缩写"
-							)
-					.filter-block
-						el-form-item(label="数据全称:" prop="full")
-							el-input(
-								v-model="form.full"
-								size="small"
-								style="width: 480px"
-								placeholder="请输入数据全称"
-							)
-					.filter-block
-						el-form-item(label="数据含义:" prop="mean")
-							el-input(
-								v-model="form.mean"
-								size="small"
-								style="width: 480px"
-								placeholder="请输入数据含义"
-							)
-					.filter-block
-						el-form-item(label="数据备注:" prop="tips")
-							el-input(
-								v-model="form.tips"
-								size="small"
-								placeholder="请输入数据备注"
-								type="textarea"
-								:autosize="{ minRows: 2, maxRows: 100}"
-							)
-					el-button(
-						type="primary"
-						size="large"
-						plain
-						@click="check('form')"
-					) 提交
-					el-button(
-						type="danger"
-						plain
-						@click="clear"
-					) 清空
-
+<template>
+  <div class="l-content p-edit">
+    <div class="l-content-title">
+      <el-breadcrumb>
+        <router-link :to="'/demo'">
+          <el-breadcrumb-item>一级菜单</el-breadcrumb-item>
+          <el-breadcrumb-item>$pageName$</el-breadcrumb-item>
+        </router-link>
+      </el-breadcrumb>
+      <div class="display-block">
+        <h1 class="header-title">{{ qid ? '编辑' : '创建' }}数据</h1>
+      </div>
+    </div>
+    <div class="display-block">
+      <el-form
+        :inline="true"
+        label-position="left"
+        :model="form"
+        :rules="rules"
+        ref="form"
+      >
+        <div class="filter-block">
+          <el-form-item label="数据缩写:" prop="brief">
+            <el-input
+              v-model="form.brief"
+              size="small"
+              style="width: 480px;"
+              placeholder="请输入数据缩写"
+            />
+          </el-form-item>
+        </div>
+        <div class="filter-block">
+          <el-form-item label="数据全称:" prop="full">
+            <el-input
+              v-model="form.full"
+              size="small"
+              style="width: 480px;"
+              placeholder="请输入数据全称"
+            />
+          </el-form-item>
+        </div>
+        <div class="filter-block">
+          <el-form-item label="数据含义:" prop="mean">
+            <el-input
+              v-model="form.mean"
+              size="small"
+              style="width: 480px;"
+              placeholder="请输入数据含义"
+            />
+          </el-form-item>
+        </div>
+        <div class="filter-block">
+          <el-form-item label="数据备注:" prop="tips">
+            <el-input
+              v-model="form.tips"
+              size="small"
+              placeholder="请输入数据备注"
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 100 }"
+            />
+          </el-form-item>
+        </div>
+        <el-button type="primary" size="large" plain @click="check('form')">
+          提交
+        </el-button>
+        <el-button type="danger" plain @click="clear">
+          清空
+        </el-button>
+      </el-form>
+    </div>
+  </div>
 </template>
+
 
 <script>
 import $search from '@/components/list/search'
@@ -214,6 +224,6 @@ export default {
 		}
 	}
 </style>
-`
+`;
 
-module.exports = template
+module.exports = template;

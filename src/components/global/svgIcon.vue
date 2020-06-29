@@ -1,6 +1,7 @@
-<template lang="pug">
-svg.svg-icon
-	use(:xlink:href="'#' + name")
+<template>
+  <svg class="svg-icon">
+    <use :xlink:href="'#' + name"></use>
+  </svg>
 </template>
 
 <script>
@@ -9,8 +10,8 @@ export default {
   props: {
     name: {
       type: String,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>

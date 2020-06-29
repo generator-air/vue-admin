@@ -1,5 +1,14 @@
 .DS_Store
 node_modules
+dist
+
+.gitignore
+.eslintignore
+.prettierignore
+
+LICENSE
+README.md
+yarn.lock
 
 # local env files
 .env.local

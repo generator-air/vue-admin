@@ -1,13 +1,3 @@
-const mockServerTask = `// json-server 启动
-$gulp.task('json-server', done => {
-  $execa('node', [
-    './mock/mock-server.js'
-  ], {
-    stdio: 'inherit'
-  });
-  done();
-});`;
-
 const authImport = `
 import $Auth from 'authority-filter';
 import $authDic from '../model/authDict';`;
@@ -132,7 +122,6 @@ const operationMenu = `
   },`;
 
 module.exports = {
-  mockServerTask,
   notifyImport,
   authImport,
   loginPageImport,
@@ -145,5 +134,5 @@ module.exports = {
   menuHandler,
   authMenuHandler,
   logMenu,
-  operationMenu
+  operationMenu,
 };
