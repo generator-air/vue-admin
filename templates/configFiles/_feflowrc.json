@@ -2,23 +2,23 @@
   "devkit": {
     "commands": {
       "dev": {
-        "builder": "@generator-air/feflow-devkit-air:dev",
+        "builder": "@generator-air/feflow-devkit-vue:dev",
         "options": {}
       },
       "debug": {
-        "builder": "@generator-air/feflow-devkit-air:debug",
+        "builder": "@generator-air/feflow-devkit-vue:debug",
         "options": {}
       },
       "build": {
-        "builder": "@generator-air/feflow-devkit-air:build",
+        "builder": "@generator-air/feflow-devkit-vue:build",
         "options": {}
       },
       "page": {
-        "builder": "@generator-air/feflow-devkit-air:page",
+        "builder": "@generator-air/feflow-devkit-vue:page",
         "options": {}
       },
       "route": {
-        "builder": "@generator-air/feflow-devkit-air:route",
+        "builder": "@generator-air/feflow-devkit-vue:route",
         "options": {}
       }
     }
