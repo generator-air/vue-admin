@@ -1,7 +1,12 @@
 const path = require('path');
 
-// cdn部署路径
-const cdnRoot = '//cdn.xx.yy.com/2020/test-project';
+// cdn 配置
+const cdn = {};
+// cdn域名
+cdn.cdnBase = '//cdn.xx.yy.com/';
+// 上传cdn的路径
+cdn.uploadUrl = '2020/test-project';
+cdn.cdnRoot = cdn.cdnBase + cdn.uploadUrl;
 
 // cos上传配置
 const cos = {
@@ -16,14 +21,12 @@ const cos = {
   // 地域名称
   Region: '',
   // 上传cos的路径。所有文件上传到这个路径下
-  prefix: '',
+  prefix: cdn.uploadUrl,
   // 本地静态资源路径
-  localPath: path.resolve(__dirname, '../src/assets'),
-  // 上传cos的路径。所有文件上传到这个路径下
-  // prefix: cdn.uploadUrl
+  localPath: path.resolve(__dirname, '../dist'),
 };
 
 module.exports = {
-  cdnRoot,
+  cdn,
   cos,
 };
