@@ -20,6 +20,10 @@
       "route": {
         "builder": "@generator-air/feflow-devkit-vue:route",
         "options": {}
+      },
+      "upload": {
+        "builder": "@generator-air/feflow-devkit-vue:upload",
+        "options": {}
       }
     }
   }
