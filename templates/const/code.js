@@ -3,8 +3,7 @@ import $Auth from 'authority-filter';
 import $authDic from '../model/authDict';`;
 
 const loginPageImport = `
-const $login = () => import(/* webpackChunkName: "login" */ 'pages/login.vue');
-`;
+const $login = () => import(/* webpackChunkName: "login" */ 'pages/login.vue');`;
 
 const authDicImport = "import $authDic from '../model/authDict';";
 

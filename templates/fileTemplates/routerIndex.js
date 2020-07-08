@@ -12,6 +12,7 @@ import $request from '../mixin/request';
 import $store from '../vuex/index';
 import $menus from '../model/menu';
 import $notify from '../util/notify';${loginPageImport}
+
 const $home = () => import(/* webpackChunkName: "home" */ 'pages/home');
 const $unAuth = () => import(/* webpackChunkName: "unAuth" */ 'pages/unAuth');
 const $notFound = () =>
