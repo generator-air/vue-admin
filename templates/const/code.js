@@ -2,7 +2,9 @@ const authImport = `
 import $Auth from 'authority-filter';
 import $authDic from '../model/authDict';`;
 
-const loginPageImport = `const $login = () => import(/* webpackChunkName: "login" */ 'pages/login.vue');`;
+const loginPageImport = `
+const $login = () => import(/* webpackChunkName: "login" */ 'pages/login.vue');
+`;
 
 const authDicImport = "import $authDic from '../model/authDict';";
 
@@ -19,21 +21,25 @@ function doLogin() {
   $notify.error('身份验证失败，请重新登录');
   setTimeout(() => {
     // 【自定义】跳转到第三方登录，地址由开发者与后端确认
-    location.href = 'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=APPID&agentid=AGENTID&redirect_uri=REDIRECT_URI';
+    location.href = '
+      https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=APPID&agentid=AGENTID&redirect_uri=REDIRECT_URI';
   }, 2000);
 }
 
 // 导航守卫重定向逻辑
 function redirect(userInfo, to, next, setRouteAndMenu) {
-  if (userInfo && userInfo.unLogin) { // 未登录/登录过期
-    doLogin()
-  } else if (userInfo && userInfo.unAuth) { // 已登录，无权访问系统
+  if (userInfo && userInfo.unLogin) {
+    // 未登录/登录过期
+    doLogin();
+  } else if (userInfo && userInfo.unAuth) {
+    // 已登录，无权访问系统
     if (to.path === '/unAuth') {
       next();
     } else {
       next('/unAuth');
     }
-  } else if (userInfo) { // 已登录，有权访问系统
+  } else if (userInfo) {
+    // 已登录，有权访问系统
     if (to.path === '/unAuth') {
       next('/');
     } else {
