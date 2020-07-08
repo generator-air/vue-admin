@@ -20,8 +20,7 @@ function doLogin() {
   $notify.error('身份验证失败，请重新登录');
   setTimeout(() => {
     // 【自定义】跳转到第三方登录，地址由开发者与后端确认
-    location.href = '
-      https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=APPID&agentid=AGENTID&redirect_uri=REDIRECT_URI';
+    location.href = 'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=APPID&agentid=AGENTID&redirect_uri=REDIRECT_URI';
   }, 2000);
 }
 
