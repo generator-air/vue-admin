@@ -40,7 +40,7 @@ function getErrorMsg(httpCode, resData) {
 }
 
 axios.interceptors.response.use(
-  ({ data, status }) => {
+  ({ status, data }) => {
     // 【自定义】code字段名称，根据项目约定，自行定义
     if (data.code === 0) {
       // 没有错误的理想情况直接返回数据

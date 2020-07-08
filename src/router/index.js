@@ -6,6 +6,7 @@ import $allMenus from '../model/menu';
 import $api from '../model/api';
 import $request from '../mixin/request';
 import $store from '../vuex/index';
+import $notify from '../util/notify';
 
 const $login = () => import(/* webpackChunkName: "login" */ 'pages/login.vue');
 const $home = () => import(/* webpackChunkName: "home" */ 'pages/home');
@@ -131,7 +132,7 @@ function redirect(userInfo, to, next, filter) {
     // 【注意顺序】要在导航守卫逻辑后，添加 addRoutes 逻辑。否则 addRoutes 的路由，无法正常加载
     filter && filter(userInfo);
   } else {
-    next();
+    $notify.error('用户信息数据错误');
   }
 }
 
