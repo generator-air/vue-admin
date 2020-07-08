@@ -2,8 +2,6 @@ const authImport = `
 import $Auth from 'authority-filter';
 import $authDic from '../model/authDict';`;
 
-const notifyImport = "import $notify from '../util/notify';";
-
 const loginPageImport = `const $login = () => import(/* webpackChunkName: "login" */ 'pages/login.vue');`;
 
 const authDicImport = "import $authDic from '../model/authDict';";
@@ -44,7 +42,7 @@ function redirect(userInfo, to, next, setRouteAndMenu) {
     // 【注意顺序】要在导航守卫逻辑后，添加 addRoutes 逻辑。否则 addRoutes 的路由，无法正常加载
     setRouteAndMenu && setRouteAndMenu(userInfo);
   } else {
-    next();
+    $notify.error('用户信息数据错误');
   }
 }
 `;
@@ -75,7 +73,7 @@ function redirect(userInfo, to, next, setRouteAndMenu) {
     // 【注意顺序】要在导航守卫逻辑后，添加 addRoutes 逻辑。否则 addRoutes 的路由，无法正常加载
     setRouteAndMenu && setRouteAndMenu(userInfo);
   } else {
-    next();
+    $notify.error('用户信息数据错误');
   }
 }
 `;
@@ -122,7 +120,6 @@ const operationMenu = `
   },`;
 
 module.exports = {
-  notifyImport,
   authImport,
   loginPageImport,
   authDicImport,

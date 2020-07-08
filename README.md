@@ -2,32 +2,35 @@
 
 ## 基础命令
 
-### 启动开发（调用mock接口）
+### 启动开发（调用 mock 接口）
 
 ```shell
 yarn dev
 ```
 
 ### 启动联调（调用测试机 or 后端本地接口）
+
 ```shell
 yarn debug
 ```
 
 ### 执行打包
+
 ```shell
 yarn build
 ```
 
 ### 页面创建
+
 ```shell
 yarn page
 ```
 
 ### 路由生成
+
 ```shell
 yarn route
 ```
-
 
 ## 详细介绍
 
@@ -157,16 +160,16 @@ routeCreate 生成的路由文件如下：
 ```javascript
 // model/menu.js —— 根据如下内置示例，配置项目的菜单
 const menus = [
-	{
-		title: '页面示例',
-		icon: 'gear',
-		submenu: [
-			{
-				title: '列表页',
-				url: '/demo'
-			}
-		]
-	},
+  {
+    title: '页面示例',
+    icon: 'gear',
+    submenu: [
+      {
+        title: '列表页',
+        url: '/demo',
+      },
+    ],
+  },
   {
     title: '日志示例',
     icon: 'clock',
@@ -177,16 +180,16 @@ const menus = [
         submenu: [
           {
             title: '日志页',
-            url: '/log'
-          }
-        ]
-      }
-    ]
+            url: '/log',
+          },
+        ],
+      },
+    ],
   },
   {
     title: '操作过滤',
     icon: 'clock',
-    url: '/operation'
+    url: '/operation',
   },
 ];
 
@@ -205,36 +208,36 @@ export default menus;
 ```javascript
 // 当多个角色具有部分完全相同的权限，统一定义
 const commonAuth = [
-	{
-		path: '/demo',
-		operations: ['create', 'edit']
-	},
-]
+  {
+    path: '/demo',
+    operations: ['create', 'edit'],
+  },
+];
 
 const dictionary = {
-	/**
-	 * roleId : [{
-	 * 	path: '/xxx',
-	 * 	operations: ['aaa', 'bbb', 'ccc']
-	 * }]
-	 */
-	101: [
-		...commonAuth,
-		{
-			path: '/demo',
-			operations: ['create', 'edit', 'delete']
-		},
-		{
-			path: '/demo/edit',
-			operations: ['create', 'edit']
-		},
-		{
-			path: '/demo/detail',
-			operations: ['delete']
-		}
-	],
-	102: commonAuth,
-}
+  /**
+   * roleId : [{
+   * 	path: '/xxx',
+   * 	operations: ['aaa', 'bbb', 'ccc']
+   * }]
+   */
+  101: [
+    ...commonAuth,
+    {
+      path: '/demo',
+      operations: ['create', 'edit', 'delete'],
+    },
+    {
+      path: '/demo/edit',
+      operations: ['create', 'edit'],
+    },
+    {
+      path: '/demo/detail',
+      operations: ['delete'],
+    },
+  ],
+  102: commonAuth,
+};
 
 export default dictionary;
 ```
@@ -253,13 +256,13 @@ model/api.js：
 ```javascript
 // 统一的接口管理
 const API = {
-  getUserInfo: "/getUserInfo",
+  getUserInfo: '/getUserInfo',
 };
 
 // 如果是开发模式，为接口路径手动添加dev前缀，用于proxy代理匹配
-if (document.domain.indexOf(".com") === -1) {
+if (document.domain.indexOf('.com') === -1) {
   Object.keys(API).forEach((key) => {
-    API[key] = "/dev" + API[key];
+    API[key] = '/dev' + API[key];
   });
 }
 
@@ -285,7 +288,7 @@ export default API;
 
 #### 4.7 登录逻辑
 
-我们已经在 router/index.js 中为你写好了登录、权限的控制逻辑。具体逻辑说明，可阅读 [此处](#51-%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90 "此处")。
+我们已经在 router/index.js 中为你写好了登录、权限的控制逻辑。具体逻辑说明，可阅读 [此处](#51-%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90 '此处')。
 
 <br>
 
@@ -298,7 +301,7 @@ export default API;
 ```javascript
 export default {
   403: {
-    3000: () => (location.href = "http://mp.weixin.qq.com"),
+    3000: () => (location.href = 'http://mp.weixin.qq.com'),
   },
 };
 ```
@@ -317,7 +320,7 @@ export default {
 
 #### 4.8 请求错误码字典（errorDict）配置
 
-除登录场景外，你还可以配置其他需要前端特殊处理的错误场景。具体配置方法，可阅读 [此处](#533-%E8%AF%B7%E6%B1%82%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86 "此处")。
+除登录场景外，你还可以配置其他需要前端特殊处理的错误场景。具体配置方法，可阅读 [此处](#533-%E8%AF%B7%E6%B1%82%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86 '此处')。
 
 <br>
 
@@ -360,7 +363,7 @@ mixin/badjs.js：
 
 ```javascript
 bjReport = badjs.init({
-  id: "xxx", // 上报 id, 不指定 id 将不上报
+  id: 'xxx', // 上报 id, 不指定 id 将不上报
 });
 ```
 
@@ -378,10 +381,10 @@ config.logReport = true // 日志全局开关
 （4）在需要监控的页面上调用：
 
 ```javascript
-this.$bjReport.report("badjs手动日志上报", value);
-this.$bjReport.logI("badjs普通日志上报", value);
-this.$bjReport.logD("badjs实时上报，跟踪问题; 不存入存储", value);
-this.$bjReport.offline("badjs离线日志记录", value);
+this.$bjReport.report('badjs手动日志上报', value);
+this.$bjReport.logI('badjs普通日志上报', value);
+this.$bjReport.logD('badjs实时上报，跟踪问题; 不存入存储', value);
+this.$bjReport.offline('badjs离线日志记录', value);
 ```
 
 <br>
@@ -414,24 +417,24 @@ yarn debug
 （1）cos 信息配置
 
 ```javascript
-const $urlJoin = require("url-join");
+const $urlJoin = require('url-join');
 // 使用 COS 的域名，以//开头，自动匹配站点协议
-config.cdnBase = "//cdn.xx.yy.com";
+config.cdnBase = '//cdn.xx.yy.com';
 // COS 上传的路径
-config.uploadUrl = "/2019/test-project";
+config.uploadUrl = '/2019/test-project';
 config.cdnRoot = $urlJoin(config.cdnBase, config.uploadUrl);
 // COS 上传配置模板
 config.uploadConfig = {
   // 在腾讯云申请的 AppId
-  AppId: "",
+  AppId: '',
   // 配置腾讯云 COS 服务所需的 SecretId
-  SecretId: "",
+  SecretId: '',
   // 配置腾讯云 COS 服务所需的 SecretKey
-  SecretKey: "",
+  SecretKey: '',
   // COS服务配置的存储桶名称
-  Bucket: "",
+  Bucket: '',
   // 地域名称
-  Region: "",
+  Region: '',
   // 上传cdn的路径。所有文件上传到这个路径下
   prefix: config.uploadUrl,
 };
@@ -495,54 +498,53 @@ export default {
 
 ```javascript
 // router/index.js
-import $Auth from "authority-filter";
-import $authDic from "../model/authDict";
-import $allMenus from "../model/menu";
+import $Auth from 'authority-filter';
+import $authDic from '../model/authDict';
+import $allMenus from '../model/menu';
 
 // 批量引入 @/router 下的所有文件
 const routerContext = require.context('@/router', false, /.js$/i);
 // 存放所有路由
 let routers = [];
-const importAllRouters = requireContext => requireContext.keys().forEach(
-  item => {
+const importAllRouters = (requireContext) =>
+  requireContext.keys().forEach((item) => {
     if (item.indexOf('index.js') > -1) {
       return;
     }
     // 收集所有路由
     routers = routers.concat(requireContext(item).default);
-  }
-);
+  });
 importAllRouters(routerContext);
 
 // $authDic 是需要开发者自行定义的权限字典。roleId 是从 userInfo 中获取的用户角色 id
 const auth = new $Auth($authDic, roleId);
 // 全局存储 auth 对象（我们建议这样做。如果有页面操作权限控制需求，那么必须这样做）
-$store.commit("user/setAuth", auth);
+$store.commit('user/setAuth', auth);
 // 进行路由过滤（传入项目定义的所有路由。详见 5.2）
 const routerList = auth.getRouterList(routers);
 // 生成当前用户有权访问的路由配置。其中，'/' '/home' '*' 为默认路由配置，所有用户皆有权限访问
 router.addRoutes([
   ...routerList,
   {
-    path: "/",
-    redirect: "/home",
+    path: '/',
+    redirect: '/home',
   },
   {
-    path: "/home",
+    path: '/home',
     component: $home,
   },
   {
-    path: "*",
+    path: '*',
     component: $notFound,
   },
 ]);
 // 进行菜单过滤（传入项目定义的所有菜单。详见 5.2）
 const menuList = auth.getMenuList($allMenus);
 // 全局存储 menuList（这里全局存储，在生成菜单时，就可以通过vuex访问到menuList数据）
-$store.commit("menu/setMenu", menuList);
+$store.commit('menu/setMenu', menuList);
 ```
 
-关于 authority-filter 的详细说明，请参照：[authority-filter](https://www.npmjs.com/package/authority-filter "authority-filter")
+关于 authority-filter 的详细说明，请参照：[authority-filter](https://www.npmjs.com/package/authority-filter 'authority-filter')
 
 <br>
 
@@ -581,16 +583,16 @@ $store.commit("menu/setMenu", menuList);
 
 ```javascript
 const menus = [
-	{
-		title: '页面示例',
-		icon: 'gear',
-		submenu: [
-			{
-				title: '列表页',
-				url: '/demo'
-			}
-		]
-	},
+  {
+    title: '页面示例',
+    icon: 'gear',
+    submenu: [
+      {
+        title: '列表页',
+        url: '/demo',
+      },
+    ],
+  },
   {
     title: '日志示例',
     icon: 'clock',
@@ -601,16 +603,16 @@ const menus = [
         submenu: [
           {
             title: '日志页',
-            url: '/log'
-          }
-        ]
-      }
-    ]
+            url: '/log',
+          },
+        ],
+      },
+    ],
   },
   {
     title: '操作过滤',
     icon: 'clock',
-    url: '/operation'
+    url: '/operation',
   },
 ];
 
@@ -637,24 +639,24 @@ router 下的每一个路由文件，**与菜单页一一对应**。也就是，
 有菜单页/demo，命名空间为 demo，则应有一个 router/demo.js，内容形如：
 
 ```javascript
-const pages_demo_detail = () => import("pages/demo/detail.vue");
-const pages_demo_edit = () => import("pages/demo/edit.vue");
-const pages_demo_index = () => import('pages/demo/index.vue')
+const pages_demo_detail = () => import('pages/demo/detail.vue');
+const pages_demo_edit = () => import('pages/demo/edit.vue');
+const pages_demo_index = () => import('pages/demo/index.vue');
 
 const routerList = [
-	{
-		path: '/demo/detail',
-		component: pages_demo_detail
-	},
-	{
-		path: '/demo/edit',
-		component: pages_demo_edit
-	},
-	{
-		path: '/demo',
-		component: pages_demo_index
-	}
-]
+  {
+    path: '/demo/detail',
+    component: pages_demo_detail,
+  },
+  {
+    path: '/demo/edit',
+    component: pages_demo_edit,
+  },
+  {
+    path: '/demo',
+    component: pages_demo_index,
+  },
+];
 
 export default routerList;
 ```
@@ -728,14 +730,14 @@ export default {
   /** key: httpCode
    *   value: 指定错误码，对应的前端响应。如果是方法，直接执行。如果是string，弹窗提示
    */
-  403: () => (location.href = "http://mp.weixin.qq.com"),
-  404: "啊哦，404了",
+  403: () => (location.href = 'http://mp.weixin.qq.com'),
+  404: '啊哦，404了',
   200: {
     // key: 服务器定义的code，value：同上
-    3000: "服务器返回了一个3000",
+    3000: '服务器返回了一个3000',
     3005: () =>
       (location.href =
-        "https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=APPID&agentid=AGENTID&redirect_uri=REDIRECT_URI&"),
+        'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=APPID&agentid=AGENTID&redirect_uri=REDIRECT_URI&'),
   },
 };
 ```
@@ -781,13 +783,13 @@ config.logReport = true;
 
 ```javascript
 const bjReport = badjs.init({
-  id: "xxx", // 上报 id, 不指定 id 将不上报
+  id: 'xxx', // 上报 id, 不指定 id 将不上报
   delay: 1000, // 延迟多少毫秒，合并缓冲区中的上报（默认）
-  url: "//{your server ip}/badjs", // 指定上报地址
+  url: '//{your server ip}/badjs', // 指定上报地址
   ignore: [/Script error/i], // 忽略某个错误
   random: 1, // 抽样上报，1~0 之间数值，1为100%上报（默认 1）
   repeat: 5, // 重复上报次数(对于同一个错误超过多少次不上报)
-  onReport: function(id, errObj) {
+  onReport: function (id, errObj) {
     console.log(id, errObj);
   }, // 当上报的时候回调。 id: 上报的 id, errObj: 错误的对象
   submit: null, // 覆盖原来的上报方式，可以自行修改为 post 上报等
@@ -804,7 +806,7 @@ const bjReport = badjs.init({
 ###### info 级别上报
 
 ```javascript
-this.$bjReport.logI("Badjs普通日志上报", report);
+this.$bjReport.logI('Badjs普通日志上报', report);
 ```
 
 上报 info 等级的日志，不会影响 Badjs 评分，也不会触发 Badjs 告警。非常适合上报关键路径信息，当问题发生时，可以配合快速定位复现路径。
@@ -812,7 +814,7 @@ this.$bjReport.logI("Badjs普通日志上报", report);
 ###### 日志实时上报
 
 ```javascript
-this.$bjReport.logD("Badjs实时日志上报", report);
+this.$bjReport.logD('Badjs实时日志上报', report);
 ```
 
 可以结合实时上报，跟踪问题; 不存入存储
@@ -820,7 +822,7 @@ this.$bjReport.logD("Badjs实时日志上报", report);
 ###### 上报错误日志
 
 ```javascript
-this.$bjReport.report("Badjs异常日志上报", report);
+this.$bjReport.report('Badjs异常日志上报', report);
 ```
 
 上报 error 等级的日志，往往意味着页面出现了错误，当上报的 error 日志达到阈值时，Badjs 将会进行告警，帮助开发者尽早发现问题。另外，Badjs 每天都会给所有项目打分，上报的 error 日志数量是一个关键指标。
@@ -828,12 +830,12 @@ this.$bjReport.report("Badjs异常日志上报", report);
 ###### 离线日志上报
 
 ```javascript
-this.$bjReport.offline("Badjs离线日志上报", report);
+this.$bjReport.offline('Badjs离线日志上报', report);
 ```
 
 记录离线日志
 
-更多信息，可阅读 Badjs 官网：[https://github.com/BetterJS/doc](https://github.com/BetterJS/doc "https://github.com/BetterJS/doc")
+更多信息，可阅读 Badjs 官网：[https://github.com/BetterJS/doc](https://github.com/BetterJS/doc 'https://github.com/BetterJS/doc')
 <br>
 
 #### 5.5 前后端分离 —— mock 支持
@@ -852,7 +854,7 @@ this.$bjReport.offline("Badjs离线日志上报", report);
 ```javascript
 // config.js
 config.mock =
-  "https://www.fastmock.site/mock/5804566cbf92cb32bf29b622fdfe6138/word";
+  'https://www.fastmock.site/mock/5804566cbf92cb32bf29b622fdfe6138/word';
 ```
 
 我们以使用 fastmock 为例，mock 了脚手架的 demo 数据。
@@ -866,7 +868,7 @@ fastmock 官网传送门：[https://www.fastmock.site](https://www.fastmock.site
 
 ```javascript
 // config.js
-config.mock = "http://127.0.0.1:3001";
+config.mock = 'http://127.0.0.1:3001';
 ```
 
 【说明】
@@ -902,9 +904,9 @@ config.mock = "http://127.0.0.1:3001";
 **step3：页面中使用真实的接口请求逻辑**
 
 ```javascript
-import $api from "@/model/api.js";
+import $api from '@/model/api.js';
 this.$get($api.list).then((res) => {
-  console.log("res:", res);
+  console.log('res:', res);
 });
 ```
 
@@ -963,22 +965,22 @@ yarn route
 // 版本库外部引入文件路径
 config.externals = [
   {
-    path: "/vue/2.6.10/vue.js",
-    packageName: "vue",
-    variableName: "Vue",
+    path: '/vue/2.6.10/vue.js',
+    packageName: 'vue',
+    variableName: 'Vue',
   },
   {
-    path: "/vuex/3.1.2/vuex.js",
-    packageName: "vuex",
-    variableName: "Vuex",
+    path: '/vuex/3.1.2/vuex.js',
+    packageName: 'vuex',
+    variableName: 'Vuex',
   },
   {
-    path: "/element-ui/2.12.0/theme-chalk/index.css",
+    path: '/element-ui/2.12.0/theme-chalk/index.css',
   },
 ];
 ```
 
-所用 cdn 资源，均来自 [https://lib.baomitu.com](https://lib.baomitu.com "https://lib.baomitu.com")
+所用 cdn 资源，均来自 [https://lib.baomitu.com](https://lib.baomitu.com 'https://lib.baomitu.com')
 
 方便起见，你需要的公共库，记得也去这里查找哦 😉
 
@@ -1013,24 +1015,24 @@ main.js 引入 assets/index.js，从而使通用样式全局生效、svg 图标�
 配置 config.js：
 
 ```javascript
-const $urlJoin = require("url-join");
+const $urlJoin = require('url-join');
 // 使用 COS 的域名，以//开头，自动匹配站点协议
-config.cdnBase = "//cdn.xx.yy.com";
+config.cdnBase = '//cdn.xx.yy.com';
 // COS 上传的路径
-config.uploadUrl = "/2019/test-project";
+config.uploadUrl = '/2019/test-project';
 config.cdnRoot = $urlJoin(config.cdnBase, config.uploadUrl);
 // COS 上传配置模板
 config.uploadConfig = {
   // 在腾讯云申请的 AppId
-  AppId: "",
+  AppId: '',
   // 配置腾讯云 COS 服务所需的 SecretId
-  SecretId: "",
+  SecretId: '',
   // 配置腾讯云 COS 服务所需的 SecretKey
-  SecretKey: "",
+  SecretKey: '',
   // COS服务配置的存储桶名称
-  Bucket: "",
+  Bucket: '',
   // 地域名称
-  Region: "",
+  Region: '',
   // 上传cdn的路径。所有文件上传到这个路径下
   prefix: config.uploadUrl,
 };
@@ -1040,7 +1042,7 @@ config.uploadConfig = {
 
 ```javascript
 // 使用cos存储的静态资源引用路径
-const publicPath = process.env.NODE_ENV === "production" ? $config.cdnRoot : "";
+const publicPath = process.env.NODE_ENV === 'production' ? $config.cdnRoot : '';
 ```
 
 yarn build 打包后，执行** yarn upload **上传。
@@ -1058,14 +1060,14 @@ yarn build 打包后，执行** yarn upload **上传。
 ```javascript
 // 统一的接口管理
 const API = {
-  getUserInfo: "/getUserInfo",
-  getList: "/list",
+  getUserInfo: '/getUserInfo',
+  getList: '/list',
 };
 
 // 如果是开发模式，为接口路径手动添加dev前缀，用于proxy代理匹配
-if (document.domain.indexOf(".com") === -1) {
+if (document.domain.indexOf('.com') === -1) {
   Object.keys(API).forEach((key) => {
-    API[key] = "/dev" + API[key];
+    API[key] = '/dev' + API[key];
   });
 }
 
@@ -1088,7 +1090,7 @@ export default API;
 // @param:domain 启动后切换环境后生成的域名
 const env = {};
 env.domain =
-  "https://www.fastmock.site/mock/cfbff5d79bd9ff49a81e04dde80521e3/admin";
+  'https://www.fastmock.site/mock/cfbff5d79bd9ff49a81e04dde80521e3/admin';
 module.exports = env;
 ```
 
@@ -1104,7 +1106,7 @@ mock 地址，请在 config.js 中自行配置：
 
 ```javascript
 config.mock =
-  "https://www.fastmock.site/mock/cfbff5d79bd9ff49a81e04dde80521e3/admin";
+  'https://www.fastmock.site/mock/cfbff5d79bd9ff49a81e04dde80521e3/admin';
 ```
 
 <br>
@@ -1118,7 +1120,7 @@ yarn debug
 联调服务器地址，mock 地址，请在 config.js 中自行配置：
 
 ```javascript
-config.debug = "http://10.12.13.1:8000";
+config.debug = 'http://10.12.13.1:8000';
 ```
 
 <br>

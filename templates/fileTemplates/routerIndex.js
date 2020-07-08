@@ -1,6 +1,5 @@
 module.exports = ({
   authImport,
-  notifyImport,
   loginPageImport,
   loginPageRoute,
   redirectHandler,
@@ -12,7 +11,7 @@ import $api from '../model/api';
 import $request from '../mixin/request';
 import $store from '../vuex/index';
 import $menus from '../model/menu';
-${notifyImport}
+import $notify from '../util/notify';
 
 ${loginPageImport}
 const $home = () => import(/* webpackChunkName: "home" */ 'pages/home');
