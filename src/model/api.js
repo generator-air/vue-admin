@@ -12,9 +12,10 @@ const API = {
   update: '/modify',
   batch: '/batch',
 };
+
 // 只有开发模式才会有APIMODE变量
-if (process.env.APIMODE) {
-  const prefix = process.env.APIMODE === 'mock' ? config.mock : '/dev';
+if (APIMODE) {
+  const prefix = APIMODE === 'mock' ? config.mock : '/dev';
   Object.keys(API).forEach((key) => {
     API[key] = prefix + API[key];
   });

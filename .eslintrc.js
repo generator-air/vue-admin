@@ -9,6 +9,7 @@ module.exports = {
   globals: {
     process: 'readonly',
     __dirname: 'readonly',
+    APIMODE: 'readonly',
   },
   extends: ['eslint:recommended', 'plugin:vue/essential', 'prettier'],
   parserOptions: {

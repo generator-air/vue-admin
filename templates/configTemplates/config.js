@@ -30,17 +30,17 @@ config.externals = [
     variableName: 'axios',
   },
   {
-    path: '/lodash.js/4.17.15/lodash.js',
-    packageName: 'lodash',
-    variableName: '_',
-  },
-  {
     path: '/element-ui/2.12.0/index.js',
     packageName: 'element-ui',
     variableName: 'ELEMENT',
   },
   {
     path: '/element-ui/2.12.0/theme-chalk/index.css',
+  },
+  {
+    path: '/lodash.js/4.17.15/lodash.js',
+    packageName: 'lodash',
+    variableName: '_',
   },
 ];
 
