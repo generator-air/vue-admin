@@ -3,7 +3,7 @@
     <!-- 已登录、有权限用户（如使用第三方登录，可删除 && !user.unLogin 判断） -->
     <div class="login" v-if="user && !user.unAuth && !user.unLogin">
       <div class="l-left">
-        <v-logo title="平台logo" />
+        <logo title="平台logo" />
         <v-side />
       </div>
       <div class="l-right">
@@ -37,7 +37,6 @@
 import { mapState } from 'vuex';
 import navHead from '@/components/nav/navHead';
 import navSide from '@/components/nav/navSide';
-import logo from '@/components/global/logo';
 
 export default {
   provide() {
@@ -48,7 +47,6 @@ export default {
   components: {
     'v-head': navHead,
     'v-side': navSide,
-    'v-logo': logo,
   },
   computed: {
     ...mapState('user', ['userInfo']),

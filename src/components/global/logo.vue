@@ -7,6 +7,7 @@
 
 <script>
 export default {
+  name: 'logo',
   props: ['title'],
 };
 </script>
