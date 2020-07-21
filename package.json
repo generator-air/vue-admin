@@ -43,7 +43,7 @@
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "lint-staged": "^7.2.2",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "pre-commit": "^1.2.2",
     "pug": "^2.0.4",
     "pug-plain-loader": "^1.0.0",
