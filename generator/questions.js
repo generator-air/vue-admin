@@ -35,6 +35,18 @@ const questions = [
       },
     ],
   },
+  {
+    type: 'confirm',
+    name: 'useAuth',
+    message: '请选择是否使用权限管理',
+    default: true,
+  },
+  {
+    type: 'confirm',
+    name: 'useLog',
+    message: '请选择是否使用日志监控',
+    default: true,
+  },
 ];
 
 module.exports = questions;
