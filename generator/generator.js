@@ -3,8 +3,7 @@ const shell = require('shelljs');
 const fs = require('fs');
 const path = require('path');
 const questions = require('./questions');
-//可以在terminal打印自定义样式的字
-require('colors');
+
 // 所有操作，均在用户执行 yo air 的目录下
 module.exports = class extends Generator {
   // 必需的 constructor
@@ -14,6 +13,7 @@ module.exports = class extends Generator {
     // 指定脚手架模板目录
     this.sourceRoot(path.resolve(__dirname, '../'));
   }
+
   /* 私有函数 */
   // 统一的脚手架模板复制入口
   _fileCopy() {
@@ -26,11 +26,11 @@ module.exports = class extends Generator {
     // package.json 动态生成
     this._packageJsonCopy();
   }
+
   // 脚手架模板，普通文件及文件夹复制
   _normalFileCopy() {
     // 复制模板文件夹下的内容，到目标文件夹（注：这里无法复制.开头的文件。如.eslintrc）
     this.fs.copyTpl(
-      // 以 `${this.sourceRoot}/${this.seedName}` 文件夹为模板
       this.templatePath(),
       // 将模板文件夹下的所有内容，复制到 `${this.destinationRoot}/${this.answers.projectName}` 文件夹
       this.destinationPath(this.answers.projectName),
@@ -38,13 +38,14 @@ module.exports = class extends Generator {
       this.answers
     );
   }
+
   // 根据模板项目包含的模板文件，生成使用者期望的代码
   _generateFiles() {
     const templatePath = this.templatePath('templates');
+
     const {
       mockServerTask,
       authImport,
-      notifyImport,
       loginPageImport,
       loginPageRoute,
       thirdLoginRedirectHandler,
@@ -55,12 +56,14 @@ module.exports = class extends Generator {
       operationMenu,
       logMenu,
     } = require(`${templatePath}/const/code.js`);
+
     const {
       LOCAL_MOCK_HOST,
       ONLINE_MOCK_HOST,
       MOCK_SERVER_NAME,
     } = require(`${templatePath}/const/constants.js`);
-    /* config.js + gulpfile.js 生成 */
+
+    /* config.js 生成 */
     const configFileTemplates = fs.readdirSync(
       this.templatePath('templates/configTemplates')
     );
@@ -73,9 +76,10 @@ module.exports = class extends Generator {
         mockServerTask: localMock ? mockServerTask : '',
       };
       const file = generateFile(mockConfig);
-      const filePath = this.templatePath(fileName);
+      const filePath = this.templatePath(`config/${fileName}`);
       fs.writeFileSync(filePath, file);
     });
+
     /* router/index.js + menu.js 生成 */
     const fileTemplates = fs.readdirSync(
       this.templatePath('templates/fileTemplates')
@@ -85,7 +89,6 @@ module.exports = class extends Generator {
       const { loginType, useAuth, useLog } = this.answers;
       const selfLogin = loginType === 'self';
       const fileConfig = {
-        notifyImport: selfLogin ? '' : notifyImport,
         loginPageImport: selfLogin ? loginPageImport : '',
         loginPageRoute: selfLogin ? loginPageRoute : '',
         redirectHandler: selfLogin
@@ -112,7 +115,8 @@ module.exports = class extends Generator {
       fs.writeFileSync(filePath, file);
     });
   }
-  // mock相关配置文件 + .开头的文件复制（模板脚手架中，对.开头文件进行特殊处理，以_开头，以确保可以成功复制）
+
+  // .开头的文件复制（模板脚手架中，对.开头文件进行特殊处理，以_开头，以确保可以成功复制）
   _configFileCopy() {
     const files = fs.readdirSync(this.templatePath('templates/configFiles'));
     // 将configs下以_开头的配置文件逐个格式化成以.开头
@@ -124,6 +128,7 @@ module.exports = class extends Generator {
       );
     });
   }
+
   // package.json 生成
   _packageJsonCopy() {
     const { projectName, mockType, useAuth, useLog } = this.answers;
@@ -146,11 +151,6 @@ module.exports = class extends Generator {
       name: projectName,
       dependencies,
       devDependencies,
-      'lint-staged': {
-        '*.js': ['vue-cli-service lint', 'git add'],
-        '*.vue': ['vue-cli-service lint', 'git add'],
-      },
-      'pre-commit': 'lint',
     };
     // this.destinationPath 指定要写入 pkgJson 的目标 package.json
     this.fs.extendJSON(
@@ -158,6 +158,7 @@ module.exports = class extends Generator {
       pkgJson
     );
   }
+
   _foldersDelete() {
     const projectPath = `${this.destinationRoot()}/${this.answers.projectName}`;
     const { mockType, loginType, useAuth, useLog } = this.answers;
@@ -180,6 +181,7 @@ module.exports = class extends Generator {
       shell.rm('-Rf', `${projectPath}/src/pages/log`);
     }
   }
+
   /* 生命周期函数 执行顺序，如下注释所示 */
   // No2
   async prompting() {
@@ -211,6 +213,7 @@ module.exports = class extends Generator {
       this._fileCopy();
     }
   }
+
   // No7
   async install() {
     const answer = await this.prompt([
@@ -234,6 +237,7 @@ module.exports = class extends Generator {
       }
     }
   }
+
   // No8
   end() {
     this._foldersDelete();
