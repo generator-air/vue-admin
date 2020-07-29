@@ -6,6 +6,7 @@ const cdn = {};
 cdn.cdnBase = '//cdn.xx.yy.com/';
 // 上传cdn的路径
 cdn.uploadUrl = '2020/test-project';
+// 这里不要改
 cdn.cdnRoot = cdn.cdnBase + cdn.uploadUrl;
 
 // cos上传配置

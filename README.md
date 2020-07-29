@@ -5,31 +5,31 @@
 ### 启动开发（调用 mock 接口）
 
 ```shell
-yarn dev
+fef dev
 ```
 
 ### 启动联调（调用测试机 or 后端本地接口）
 
 ```shell
-yarn debug
+fef debug
 ```
 
 ### 执行打包
 
 ```shell
-yarn build
+fef build
 ```
 
 ### 页面创建
 
 ```shell
-yarn page
+fef page
 ```
 
 ### 路由生成
 
 ```shell
-yarn route
+fef route
 ```
 
 ## 详细介绍
@@ -47,31 +47,27 @@ yarn route
 ### 3.目录结构：
 
 ```javascript
+├── README.md
 ├── babel.config.js
-├── config.js   // 项目构建相关配置文件。如cdn上传路径等
-├── gulpfile.js
+├── config
+|  ├── config.js  // mock地址、联调地址、需要external的公共库配置
+|  └── upload.js  // 上传相关配置文件
+├── package-lock.json
 ├── package.json
-├── public   // 页面模板
+├── public
 |  ├── favicon.ico
 |  └── index.html
-├── src   // 源代码
-|  ├── App.vue          // 根组件
-|  ├── assets             // 静态资源文件夹（图片、icon、css）
-|  ├── components    // 自定义组件
-|  |  ├── global         // 全局用组件（logo、svgIcon等）
-|  |  ├── list             // 列表页用组件（table、pagination、search、filter）
-|  |  └── nav           // 布局用组件（navHead、navSide）
-|  ├── main.js   // 主入口
-|  ├── mixin      // 自定义的一些插件，为Vue增加全局/原型方法
-|  ├── model     // 用于存放一些字典类的文件
+├── src
+|  ├── App.vue
+|  ├── assets
+|  ├── components // 项目级公共组件
+|  ├── main.js    // 主入口
+|  ├── mixin      // 一些插件，为Vue增加全局/原型方法
+|  ├── model      // 一些字典类的文件
 |  ├── pages      // 页面管理
 |  ├── router     // 路由配置
-|  ├── util         // 存放项目逻辑用的工具方法
-|  └── vuex      // vuex使用demo
-├── tools          // 用于项目创建的工具方法（命令行使用的方法。为提高开发者开发效率提供）
-|  ├── pageCreate.js   // 页面创建工具（yarn page）
-|  └── routeCreate.js   // 路由创建工具（yarn route）
-├── vue.config.js
+|  ├── util       // 项目级工具方法
+|  └── vuex       // vuex使用demo
 └── yarn.lock
 ```
 
@@ -82,7 +78,7 @@ yarn route
 #### 4.1 页面创建
 
 ```shell
-yarn page
+fef page
 ```
 
 按需选择：
@@ -123,7 +119,7 @@ demo1/edit、demo1/detail、demo2/edit、demo3/article/edit。
 #### 4.2 路由生成
 
 ```shell
-yarn route
+fef route
 ```
 
 ![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/route_create.png?sign=82c3859e25604b9feee9b10893abad9e&t=1592310772)
@@ -294,17 +290,7 @@ export default API;
 
 #### 4.7.1 第三方登录
 
-这里你需要做的，只是配置一下 model/errorDict.js，写明第三方登录的跳转地址即可。
-
-比如，httpCode 403，并且后台返回错误码 code: 3000 时，需要跳转到登录页。那么你需要这样配置：
-
-```javascript
-export default {
-  403: {
-    3000: () => (location.href = 'http://mp.weixin.qq.com'),
-  },
-};
-```
+这里你需要做的，只是配置一下 router/index.js，找到【自定义】处，更改第三方登录的跳转地址即可。
 
 <br>
 
@@ -397,16 +383,17 @@ this.$bjReport.offline('badjs离线日志记录', value);
 #### 4.10 启动开发
 
 ```shell
-yarn dev
+fef dev
 ```
 
 这里，读取 mock 接口。
+
 <br>
 
 #### 4.11 启动联调
 
 ```shell
-yarn debug
+fef debug
 ```
 
 这里，读取联调接口。
@@ -414,18 +401,20 @@ yarn debug
 
 #### 4.12 项目部署
 
-（1）cos 信息配置
+（1）cos 信息配置（config/upload.js）
 
 ```javascript
-const $urlJoin = require('url-join');
-// 使用 COS 的域名，以//开头，自动匹配站点协议
-config.cdnBase = '//cdn.xx.yy.com';
-// COS 上传的路径
-config.uploadUrl = '/2019/test-project';
-config.cdnRoot = $urlJoin(config.cdnBase, config.uploadUrl);
-// COS 上传配置模板
-config.uploadConfig = {
-  // 在腾讯云申请的 AppId
+// cdn 配置
+const cdn = {};
+// cdn域名
+cdn.cdnBase = '//cdn.xx.yy.com/';
+// 上传cdn的路径
+cdn.uploadUrl = '2020/test-project';
+cdn.cdnRoot = cdn.cdnBase + cdn.uploadUrl;
+
+// cos上传配置
+const cos = {
+  // 在腾讯云申请的 AppId（见：https://cloud.tencent.com/document/product/436/7751#.E6.9C.AF.E8.AF.AD.E4.BF.A1.E6.81.AF）
   AppId: '',
   // 配置腾讯云 COS 服务所需的 SecretId
   SecretId: '',
@@ -435,21 +424,23 @@ config.uploadConfig = {
   Bucket: '',
   // 地域名称
   Region: '',
-  // 上传cdn的路径。所有文件上传到这个路径下
-  prefix: config.uploadUrl,
+  // 上传cos的路径。所有文件上传到这个路径下
+  prefix: cdn.uploadUrl,
+  // 本地静态资源路径
+  localPath: path.resolve(__dirname, '../dist'),
 };
 ```
 
 （2）打包
 
 ```shell
-yarn build
+fef build
 ```
 
 （3）静态资源上传
 
 ```shell
-yarn upload
+fef upload
 ```
 
 （4）执行部署
@@ -670,7 +661,7 @@ export default routerList;
 
 **这里需要注意：菜单页对应的页面，我们规定命名为 index.vue / list.vue。**
 
-如果你的 pages 目录结构，遵从我们的规范，当你使用我们提供的 yarn route 命令，我们会为你全自动生成 router 文件夹下的所有路由文件。
+如果你的 pages 目录结构，遵从我们的规范，当你使用我们提供的 fef route 命令，我们会为你全自动生成 router 文件夹下的所有路由文件。
 
 当然，这里的规范要求，目前只有两点：
 （1）pages 下的每一个文件夹，要对应一个菜单页。这个文件夹的名字，会成为菜单页的路由，也就是命名空间。
@@ -852,7 +843,7 @@ this.$bjReport.offline('Badjs离线日志上报', report);
 【配置 Demo】
 
 ```javascript
-// config.js
+// config/config.js
 config.mock =
   'https://www.fastmock.site/mock/5804566cbf92cb32bf29b622fdfe6138/word';
 ```
@@ -867,7 +858,7 @@ fastmock 官网传送门：[https://www.fastmock.site](https://www.fastmock.site
 【配置 Demo】
 
 ```javascript
-// config.js
+// config/config.js
 config.mock = 'http://127.0.0.1:3001';
 ```
 
@@ -923,7 +914,7 @@ this.$get($api.list).then((res) => {
 【使用方式】
 
 ```shell
-yarn page
+fef page
 ```
 
 ![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/page_create_1.png?sign=707c92f07b206af44b37915619cb8fb5&t=1592310879)
@@ -941,7 +932,7 @@ yarn page
 【使用方式】
 
 ```shell
-yarn route
+fef route
 ```
 
 ![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/route_create.png?sign=53e2cd60e5d5baaf00b442f5bcdc02d0&t=1592310918)
@@ -957,7 +948,7 @@ yarn route
 我们对项目中使用到的公共库，进行了 webpack 的 externals 化。
 使用 cdn 资源引入这些库，可以有效减小项目打包后的代码体积。
 
-如果你添加了额外的公共库，并且也希望使用 cdn 资源引入，而不是将它们打包到项目代码中，那么你应该在 config.js 中进行相应的配置，修改 externals 属性。
+如果你添加了额外的公共库，并且也希望使用 cdn 资源引入，而不是将它们打包到项目代码中，那么你应该在 config/config.js 中进行相应的配置，修改 externals 属性。
 
 我们内置的 externals 看起来像这样：
 
@@ -992,15 +983,15 @@ png 图片、svg 图片、common less 文件，均存放于 assets 文件夹。
 
 ```javascript
 ├── assets
-|  ├── css                       // 公共 css 文件
-|  |  ├── color.less         // 当前项目各种设计颜色定义
+|  ├── css                // 公共 css 文件
+|  |  ├── color.less      // 当前项目各种设计颜色定义
 |  |  └── u-demo.less     // 业务相关的公共样式示例
-|  ├── icon                     // 存放所有 svg 文件
-|  |  ├── clock.svg          // svg 示例
-|  |  └── gear.svg          // svg 示例
-|  ├── image                  // 存放所有png、jpg等大图
-|  |  └── logo.png         // png 图片示例
-|  └── index.js              // 静态资源（svg+css）引用入口
+|  ├── icon               // 存放所有 svg 文件
+|  |  ├── clock.svg       // svg 示例
+|  |  └── gear.svg        // svg 示例
+|  ├── image              // 存放所有png、jpg等大图
+|  |  └── logo.png        // png 图片示例
+|  └── index.js           // 静态资源（svg+css）引用入口
 ```
 
 main.js 引入 assets/index.js，从而使通用样式全局生效、svg 图标全局可用。
@@ -1012,18 +1003,21 @@ main.js 引入 assets/index.js，从而使通用样式全局生效、svg 图标�
 我们默认支持腾讯云对象（cos）存储。
 
 【使用方式】
-配置 config.js：
+配置 config/upload.js：
 
 ```javascript
-const $urlJoin = require('url-join');
-// 使用 COS 的域名，以//开头，自动匹配站点协议
-config.cdnBase = '//cdn.xx.yy.com';
-// COS 上传的路径
-config.uploadUrl = '/2019/test-project';
-config.cdnRoot = $urlJoin(config.cdnBase, config.uploadUrl);
-// COS 上传配置模板
-config.uploadConfig = {
-  // 在腾讯云申请的 AppId
+// cdn 配置
+const cdn = {};
+// cdn域名
+cdn.cdnBase = '//cdn.xx.yy.com/';
+// 上传cdn的路径
+cdn.uploadUrl = '2020/test-project';
+// 这里不要改
+cdn.cdnRoot = cdn.cdnBase + cdn.uploadUrl;
+
+// cos上传配置
+const cos = {
+  // 在腾讯云申请的 AppId（见：https://cloud.tencent.com/document/product/436/7751#.E6.9C.AF.E8.AF.AD.E4.BF.A1.E6.81.AF）
   AppId: '',
   // 配置腾讯云 COS 服务所需的 SecretId
   SecretId: '',
@@ -1033,19 +1027,14 @@ config.uploadConfig = {
   Bucket: '',
   // 地域名称
   Region: '',
-  // 上传cdn的路径。所有文件上传到这个路径下
-  prefix: config.uploadUrl,
+  // 上传cos的路径。所有文件上传到这个路径下
+  prefix: cdn.uploadUrl,
+  // 本地静态资源路径
+  localPath: path.resolve(__dirname, '../dist'),
 };
 ```
 
-配置 vue.config.js（默认已配置）：
-
-```javascript
-// 使用cos存储的静态资源引用路径
-const publicPath = process.env.NODE_ENV === 'production' ? $config.cdnRoot : '';
-```
-
-yarn build 打包后，执行** yarn upload **上传。
+fef build 打包后，执行** fef upload **上传。
 
 <br>
 
@@ -1084,25 +1073,15 @@ export default API;
 
 我们提供了两种启动模式：**开发模式 / 联调模式**。
 
-每种模式启动，都会自动生成 model/env.js 文件，并写入当前模式下的接口调用域名，如：
-
-```javascript
-// @param:domain 启动后切换环境后生成的域名
-const env = {};
-env.domain =
-  'https://www.fastmock.site/mock/cfbff5d79bd9ff49a81e04dde80521e3/admin';
-module.exports = env;
-```
-
 <br>
 
 （1）开发模式启动，调用 mock 接口
 
 ```shell
-yarn dev
+fef dev
 ```
 
-mock 地址，请在 config.js 中自行配置：
+mock 地址，请在 config/config.js 中自行配置：
 
 ```javascript
 config.mock =
@@ -1114,10 +1093,10 @@ config.mock =
 （2）联调模式启动
 
 ```shell
-yarn debug
+fef debug
 ```
 
-联调服务器地址，mock 地址，请在 config.js 中自行配置：
+联调服务器地址，请在 config/config.js 中自行配置：
 
 ```javascript
 config.debug = 'http://10.12.13.1:8000';
@@ -1147,31 +1126,18 @@ devServer: {
 }
 ```
 
+**【注】**
+**vue.config.js 已内置于 @generator-air/feflow-devkit-vue 中，对开发者黑盒**
+
 <br>
 
 如果你使用的公司内网，访问外部网站需要走代理。那么，在这里，你可能还需要进行一个配置，才可以成功拿到如 fastmock 这样的外部网站，返回的数据。
 
-```javascript
-// vue.config.js
-const HttpsProxyAgent = require('https-proxy-agent')
-// 【注意】请在本地，设置环境变量 HTTP_PROXY = '你的公司内网访问外部的代理服务器地址'
-const proxyServer = process.env.HTTP_PROXY;
+config/config.js:
 
-devServer: {
-	port: $config.devServerPort,
-	proxy: {
-		'/dev': {                            // 匹配带有/dev 前缀的请求
-			target: $env.domain,    // 根据启动模式，动态设置代理到的目标域名
-			// 解决内网代理问题。（如不需要代理，请删除以下agent代码）
-			agent: new HttpsProxyAgent(proxyServer),
-			changeOrigin: true,
-			pathRewrite: {
-				'^/dev': ''
-			},
-			logLevel: 'debug'
-		}
-	}
-}
+```javascript
+// 解决内网代理问题。（如需要配置内网环境代理，请先配置本地环境变量，指明HTTP_PROXY，并将下方useProxyAgent置为true）
+config.useProxyAgent = true;
 ```
 
 <br>
