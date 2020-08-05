@@ -48,20 +48,7 @@ const VueBus = (Vue) => {
     bus[cacheItem.method](...cacheItem.args);
   }
 
-  let list = [
-    'notify',
-    'user-ready',
-    'user-signin',
-    'user-signout',
-    'require-signin',
-    'require-signout',
-    'progress-start',
-    'progress-end',
-    'progress-fail',
-    'list-update',
-    'list-changed',
-    'set-router',
-  ];
+  let list = ['notify', 'list-update', 'list-changed', 'set-router'];
   if (!whiteList) {
     whiteList = {};
   }
