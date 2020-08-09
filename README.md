@@ -1,5 +1,25 @@
 # vue-admin
 
+# 版本升级指引: v1.0.0/v2.0.0 => v3.0.0
+## 1.feflow 接入相关
+### 1.1 @generator-air/feflow-devkit-vue 安装
+### 1.2 .feflowrc.json 配置
+
+<br>
+
+## 2.规范配置增强相关
+### 2.1 feflow-plugin-lint 插件安装
+
+```shell
+fef install feflow-plugin-lint
+```
+### 2.2 规范配置生成
+
+项目根目录下执行：
+```shell
+fef lint
+``
+
 ## 基础命令
 
 ### 启动开发（调用 mock 接口）
