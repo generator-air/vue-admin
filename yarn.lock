@@ -863,7 +863,7 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@generator-air/feflow-devkit-vue@^1.0.0":
+"@generator-air/feflow-devkit-vue@^1.0.12":
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/@generator-air/feflow-devkit-vue/-/feflow-devkit-vue-1.0.12.tgz#4b6cb954607fd425ade0e355dd2fbd33bb8982ba"
   integrity sha512-nzqW6efZsKUrs3Vnu6BdOT1JBTUxBdNK4VDZmFvJtHlmPdAK1C7VGwoaS/ElHENcB6IttThhPc345Q+m/QSQbA==

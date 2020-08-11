@@ -31,5 +31,8 @@ config.useProxyAgent = false;
  */
 config.externals = [];
 
+// 在默认配置不满足需求时，开发者可以通过 vueConfig 对 vue.config.js 进行改写或扩展
+config.vueConfig = {};
+
 module.exports = config;
 `;

@@ -1,24 +1,60 @@
 # vue-admin
 
 # 版本升级指引: v1.0.0/v2.0.0 => v3.0.0
+
 ## 1.feflow 接入相关
-### 1.1 @generator-air/feflow-devkit-vue 安装
-### 1.2 .feflowrc.json 配置
+
+### 1.1 feflow 安装
+
+```shell
+npm install -g @feflow/cli
+```
+
+### 1.2 @generator-air/feflow-devkit-vue 安装
+
+```shell
+npm install @generator-air/feflow-devkit-vue
+```
+
+### 1.3 @generator-air/feflow-plugin-air 安装
+
+```shell
+fef install @generator-air/feflow-plugin-air
+```
+
+### 1.4 执行更新指令
+
+```shell
+fef air-update
+```
+
+选择您期望做的升级。
+<br>
+如果我们的列表中不包含您期望的升级情况，那么这类升级，我们暂时不支持。
+请联系 QQ: 996707719，备注: generator-air 升级反馈，进行沟通。
 
 <br>
 
 ## 2.规范配置增强相关
+
 ### 2.1 feflow-plugin-lint 插件安装
 
 ```shell
 fef install feflow-plugin-lint
 ```
+
 ### 2.2 规范配置生成
 
+**【注】**
+**请务必注意，如果您已经自定义了规范配置，请提前备份！否则，我们生成的规范，会覆盖掉您的配置**
+
 项目根目录下执行：
+
 ```shell
 fef lint
-``
+```
+
+# 开发指引
 
 ## 基础命令
 
@@ -72,7 +108,6 @@ fef route
 ├── config
 |  ├── config.js  // mock地址、联调地址、需要external的公共库配置
 |  └── upload.js  // 上传相关配置文件
-├── package-lock.json
 ├── package.json
 ├── public
 |  ├── favicon.ico
@@ -88,7 +123,6 @@ fef route
 |  ├── router     // 路由配置
 |  ├── util       // 项目级工具方法
 |  └── vuex       // vuex使用demo
-└── yarn.lock
 ```
 
 <br>
@@ -1134,7 +1168,7 @@ vue.config.js 配置如下：
 devServer: {
 	port: $config.devServerPort,
 	proxy: {
-		'/dev': {                            // 匹配带有/dev 前缀的请求
+		'/dev': {                 // 匹配带有/dev 前缀的请求
 			target: $env.domain,    // 根据启动模式，动态设置代理到的目标域名
 			changeOrigin: true,
 			pathRewrite: {
@@ -1176,3 +1210,4 @@ config.useProxyAgent = true;
 为了保证提交代码的规范性，我们在 package.json 中配置了 pre-commit 检查。在你执行 git commit 的时候，自动执行代码规范性检查，检查通过的代码，才可以成功提交，如此，进一步控制了代码的规范性。
 
 <br>
+````
