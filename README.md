@@ -1,6 +1,6 @@
 # vue-admin
 
-# 版本升级指引: v1.0.0/v2.0.0 => v3.0.0
+# 版本升级指引: v1.x.x/v2.x.x => v3.0.0
 
 ## 1.feflow 接入相关
 
@@ -13,13 +13,13 @@ npm install -g @feflow/cli
 ### 1.2 @generator-air/feflow-devkit-vue 安装
 
 ```shell
-npm install @generator-air/feflow-devkit-vue
+npm install @generator-air/feflow-devkit-vue@1.0.13
 ```
 
 ### 1.3 @generator-air/feflow-plugin-air 安装
 
 ```shell
-fef install @generator-air/feflow-plugin-air
+fef install @generator-air/feflow-plugin-air@1.1.0
 ```
 
 ### 1.4 执行更新指令
@@ -53,6 +53,8 @@ fef install feflow-plugin-lint
 ```shell
 fef lint
 ```
+
+选择 vue 项目类型，生成规范配置。
 
 # 开发指引
 
