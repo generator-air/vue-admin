@@ -19,7 +19,7 @@ npm install @generator-air/feflow-devkit-vue@1.0.13
 ### 1.3 @generator-air/feflow-plugin-air 安装
 
 ```shell
-fef install @generator-air/feflow-plugin-air@1.1.1
+fef install @generator-air/feflow-plugin-air
 ```
 
 ### 1.4 执行更新指令
