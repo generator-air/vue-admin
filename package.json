@@ -8,10 +8,11 @@
   },
   "dependencies": {
     "normalize.css": "^8.0.1",
-    "spore-kit-cookie": "^0.2.4"
+    "spore-kit-cookie": "^0.2.4",
+    "vue-template-compiler": "^2.6.11"
   },
   "devDependencies": {
-    "@generator-air/feflow-devkit-vue": "~1.0.14",
+    "@generator-air/feflow-devkit-vue": "~1.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.3.1",
     "eslint-config-prettier": "^6.11.0",
