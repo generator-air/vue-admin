@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 /dist
-/config/upload.js
+/config/_upload.js
 
 # local env files
 .env.local

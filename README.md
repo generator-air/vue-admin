@@ -91,6 +91,17 @@ fef debug
 fef build
 ```
 
+### 执行静态文件上传
+
+**由于 config/\_upload.js 中存在敏感信息，不可以上传 git**
+**非项目创建者，需要线下从项目创建者处拷贝 config/\_upload.js 文件**
+
+拷贝后，执行脚本，上传静态资源：
+
+```shell
+fef upload
+```
+
 ### 页面创建
 
 ```shell

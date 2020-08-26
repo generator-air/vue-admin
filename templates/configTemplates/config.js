@@ -21,35 +21,35 @@ config.useProxyAgent = false;
 // 需要外部引入的版本库路径配置
 config.externals = [
   {
-    path: '/vue/2.6.10/vue.js',
+    path: 'https://lib.baomitu.com/vue/2.6.10/vue.js',
     packageName: 'vue',
     variableName: 'Vue',
   },
   {
-    path: '/vuex/3.1.2/vuex.js',
+    path: 'https://lib.baomitu.com/vuex/3.1.2/vuex.js',
     packageName: 'vuex',
     variableName: 'Vuex',
   },
   {
-    path: '/vue-router/3.1.3/vue-router.js',
+    path: 'https://lib.baomitu.com/vue-router/3.1.3/vue-router.js',
     packageName: 'vue-router',
     variableName: 'VueRouter',
   },
   {
-    path: '/axios/0.19.0/axios.js',
+    path: 'https://lib.baomitu.com/axios/0.19.0/axios.js',
     packageName: 'axios',
     variableName: 'axios',
   },
   {
-    path: '/element-ui/2.12.0/index.js',
+    path: 'https://lib.baomitu.com/element-ui/2.12.0/index.js',
     packageName: 'element-ui',
     variableName: 'ELEMENT',
   },
   {
-    path: '/element-ui/2.12.0/theme-chalk/index.css',
+    path: 'https://lib.baomitu.com/element-ui/2.12.0/theme-chalk/index.css',
   },
   {
-    path: '/lodash.js/4.17.15/lodash.js',
+    path: 'https://lib.baomitu.com/lodash.js/4.17.15/lodash.js',
     packageName: 'lodash',
     variableName: '_',
   },

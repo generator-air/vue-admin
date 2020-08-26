@@ -1,3 +1,4 @@
+/* 私有文件，存在敏感信息，不可上传到git */
 const path = require('path');
 
 // cdn 配置
