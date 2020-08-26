@@ -15,7 +15,7 @@ npm install -g @feflow/cli
 ### 1.2 @generator-air/feflow-devkit-vue 安装
 
 ```shell
-npm install @generator-air/feflow-devkit-vue@1.0.14
+npm install @generator-air/feflow-devkit-vue@1.0.16
 ```
 
 <br>
