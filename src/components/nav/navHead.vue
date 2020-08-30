@@ -41,8 +41,8 @@ export default {
       if (rs) {
         // 删除全局的用户信息
         $store.commit('user/setUserInfo', null);
-        // 跳转去登录页
-        this.$router.push('/login');
+        // 刷新页面
+        this.$router.go(0);
       }
     },
   },
