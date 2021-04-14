@@ -5,9 +5,7 @@
         <div class="logo">
           <img src="../assets/image/logo.png" />
         </div>
-        <div class="title">
-          后台管理系统
-        </div>
+        <div class="title">后台管理系统</div>
       </div>
       <el-form
         class="login-form"

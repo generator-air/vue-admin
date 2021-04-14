@@ -24,7 +24,7 @@
               v-model="query.state"
               size="small"
               placeholder="请选择"
-              style="width: 120px;"
+              style="width: 120px"
               @change="change"
             >
               <el-option

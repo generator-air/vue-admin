@@ -24,7 +24,7 @@
             <el-input
               v-model="form.brief"
               size="small"
-              style="width: 480px;"
+              style="width: 480px"
               placeholder="请输入数据缩写"
             />
           </el-form-item>
@@ -34,7 +34,7 @@
             <el-input
               v-model="form.full"
               size="small"
-              style="width: 480px;"
+              style="width: 480px"
               placeholder="请输入数据全称"
             />
           </el-form-item>
@@ -44,7 +44,7 @@
             <el-input
               v-model="form.mean"
               size="small"
-              style="width: 480px;"
+              style="width: 480px"
               placeholder="请输入数据含义"
             />
           </el-form-item>
@@ -63,9 +63,7 @@
         <el-button type="primary" size="large" plain @click="check('form')">
           提交
         </el-button>
-        <el-button type="danger" plain @click="clear">
-          清空
-        </el-button>
+        <el-button type="danger" plain @click="clear"> 清空 </el-button>
       </el-form>
     </div>
   </div>

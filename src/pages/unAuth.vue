@@ -1,7 +1,5 @@
 <template>
-  <div class="p-unAuth">
-    unAuth 页面初始化
-  </div>
+  <div class="p-unAuth">unAuth 页面初始化</div>
 </template>
 
 <script>

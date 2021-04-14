@@ -4,7 +4,7 @@
       :data="list"
       :ref="withCheckbox ? 'multipleTable' : ''"
       :tooltip-effect="withCheckbox ? 'dark' : ''"
-      style="width: 100%;"
+      style="width: 100%"
       @data-format="dataFormat"
       @selection-change="onSelectionChange"
     >

@@ -418,7 +418,7 @@ docker pull caihuijigood/badjs-docker
 docker run -i -d -p 80:80 -p 8081:8081 docker.io/caihuijigood/badjs-docker bash badjs mysql=mysql://root@{your server ip}:3306/badjs mongodb=mongodb://{your server ip}:27017/test
 ```
 
-- 访问http://{your server ip}:8081/ ，进行项目管理
+- 访问 http://{your server ip}:8081/ ，进行项目管理
 - 安装完成后，使用默认的超级帐号 admin/admin 进入
 - 登录成功后，点击右上角的“我的业务”进入管理界面，点击"申请业务"
 - 申请成功后，点击"管理" -> "申请列表" 对自己的业务进行审核通过。
@@ -456,7 +456,7 @@ this.$bjReport.offline('badjs离线日志记录', value);
 <br>
 （5）查看监控结果
 
-访问http://{your server ip}:8081/
+访问 http://{your server ip}:8081/
 
 ![image](https://7368-shryzhang-test-13eb29-1258821855.tcb.qcloud.la/generator-air/air-vue-admin/log.png?sign=91eea87ecc188dfe361ff48ad45d1d48&t=1592310939)
 
@@ -761,9 +761,7 @@ export default routerList;
 
 ```html
 <!-- list.vue -->
-<template>
-  我是列表页
-</template>
+<template> 我是列表页 </template>
 
 <srcipt>
   export default { data() { return { list: '' } }, mounted() {
